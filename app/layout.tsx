@@ -75,6 +75,14 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
     },
   },
+  verification: {
+    // Verificación de dominio para Meta Business — desbloquea ads sin
+    // restricciones y permite controlar previews de OG cuando alguien
+    // comparte el link en Facebook/Instagram.
+    other: {
+      "facebook-domain-verification": "vt6scr14psvkcmckxxixz02eoqgshd",
+    },
+  },
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
     apple: [{ url: "/favicon.svg" }],

@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dentidad — Software dental con identidad propia</title>
+<link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          navy: { DEFAULT: '#063760', 50:'#E8EEF5',100:'#CAD7E8',200:'#94B0D2',500:'#185FA5',600:'#0F4D86',700:'#063760',800:'#03253F' },
+          mint: { DEFAULT: '#00C9A7', deep: '#00A085', soft: '#B7F2E5' },
+          bg: { DEFAULT: '#F4F6F8', card: '#FFFFFF', tint: '#E8F0FA' },
+          ink: { DEFAULT: '#111827', 2: '#475569', 3: '#9CA3AF' },
+          border: { DEFAULT: '#E5E7EB' },
+        },
+        fontFamily: { sans: ['"DM Sans"','system-ui','sans-serif'], mono:['"DM Mono"','monospace'] },
+        borderRadius: { DEFAULT:'12px', sm:'8px', md:'16px', lg:'24px' },
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'DM Sans', system-ui, sans-serif; background:#F4F6F8; color:#111827; -webkit-font-smoothing:antialiased; }
+  ::selection { background: rgba(0,201,167,.25); color:#063760; }
+  html { scroll-behavior: smooth; }
+  .gradient-hero {
+    background: radial-gradient(circle at 25% 15%, rgba(0,201,167,.15), transparent 55%),
+                radial-gradient(circle at 80% 70%, rgba(24,95,165,.18), transparent 55%),
+                linear-gradient(180deg, #063760 0%, #051F36 100%);
+  }
+  .container-x { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
+  @media (min-width: 1024px) { .container-x { padding: 0 2rem; } }
+  .btn-primary { background:#00C9A7; color:#063760; font-weight:700; padding:.75rem 1.5rem; border-radius:8px; display:inline-flex; align-items:center; gap:.5rem; transition: all .15s; cursor:pointer; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(6,55,96,.08); }
+  .btn-secondary { background:#063760; color:white; font-weight:600; padding:.75rem 1.5rem; border-radius:8px; display:inline-flex; align-items:center; gap:.5rem; }
+  .wm-dent { color:#063760; } .wm-idad { color:#00A085; }
+  .wm-dent-light { color:#fff; } .wm-idad-light { color:#00C9A7; }
+  .eyebrow { font-size:.75rem; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:#00A085; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] > summary .chevron { transform: rotate(180deg); }
+  .chevron { transition: transform .2s; }
+</style>
+</head>
+<body>
+
+<!-- ============== HEADER ============== -->
+<header class="fixed top-0 inset-x-0 z-50 bg-bg/85 backdrop-blur-md border-b border-border">
+  <div class="container-x flex items-center justify-between h-16">
+    <a href="#top" class="inline-flex items-center gap-2.5">
+      <svg width="28" height="28" viewBox="0 0 200 200"><rect width="200" height="200" rx="44" fill="#063760"/><text x="46" y="160" font-family="DM Sans" font-weight="900" font-size="170" letter-spacing="-8" fill="#fff">d</text><circle cx="158" cy="50" r="13" fill="#00C9A7"/></svg>
+      <span class="font-extrabold text-lg tracking-tight"><span class="wm-dent">Dent</span><span class="wm-idad">idad</span></span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a href="#features" class="text-sm font-medium text-ink-2 hover:text-navy">Funciones</a>
+      <a href="#differentiation" class="text-sm font-medium text-ink-2 hover:text-navy">Por qué Dentidad</a>
+      <a href="#pricing" class="text-sm font-medium text-ink-2 hover:text-navy">Precios</a>
+      <a href="#faq" class="text-sm font-medium text-ink-2 hover:text-navy">FAQ</a>
+    </nav>
+    <div class="hidden md:flex items-center gap-3">
+      <a href="https://dentidad.com" class="text-sm font-medium text-ink-2 hover:text-navy">Iniciar sesión</a>
+      <a href="#cta" class="btn-primary text-sm py-2 px-4">Probar gratis</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============== HERO ============== -->
+<section id="top" class="gradient-hero text-white relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32">
+  <div class="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full" style="background:radial-gradient(circle,rgba(0,201,167,.18),transparent 65%)"></div>
+  <div class="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full" style="background:radial-gradient(circle,rgba(24,95,165,.25),transparent 65%)"></div>
+  <div class="container-x relative z-10">
+    <div class="max-w-3xl">
+      <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 backdrop-blur-sm">
+        <span class="w-1.5 h-1.5 rounded-full bg-mint animate-pulse"></span>
+        <span class="text-sm font-medium text-white/90">Software dental con personalidad</span>
+      </div>
+      <h1 class="mt-7 text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
+        Tu clínica tiene <span class="relative inline-block"><span class="text-mint">identidad</span><svg class="absolute -bottom-2 left-0 w-full" height="10" viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M2 7 Q 50 2, 100 5 T 198 4" stroke="#00C9A7" stroke-width="3" stroke-linecap="round" fill="none"/></svg></span>.<br/>Tu software también debería.
+      </h1>
+      <p class="mt-7 text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
+        Reemplazá Excel, papel y software dental viejo. Turnos, historia clínica, odontograma y facturación en una plataforma diseñada para clínicas en Argentina y LatAm. En 15 minutos, tu clínica corre digital.
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row gap-3">
+        <a href="#cta" class="btn-primary text-base">Probar gratis 14 días <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#features" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold px-6 py-3 rounded-sm">Ver cómo funciona</a>
+      </div>
+      <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm text-white/70">
+        <div class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg> 14 días gratis sin tarjeta</div>
+        <div class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg> Setup en menos de 15 minutos</div>
+        <div class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg> Soporte en español</div>
+      </div>
+    </div>
+
+    <div class="hidden lg:block absolute right-8 top-32 w-72">
+      <div class="bg-white text-ink rounded-md shadow-lg p-5 transform rotate-2">
+        <div class="text-xs font-mono uppercase tracking-widest text-ink-3">Panel del día</div>
+        <div class="mt-3 grid grid-cols-2 gap-3">
+          <div class="bg-bg rounded-sm p-3 border-t-[3px] border-mint">
+            <div class="text-[10px] font-mono uppercase tracking-wider text-ink-3">Turnos</div>
+            <div class="text-2xl font-extrabold text-navy mt-1">12</div>
+          </div>
+          <div class="bg-bg rounded-sm p-3 border-t-[3px] border-navy-500">
+            <div class="text-[10px] font-mono uppercase tracking-wider text-ink-3">Pacientes</div>
+            <div class="text-2xl font-extrabold text-navy mt-1">637</div>
+          </div>
+        </div>
+        <div class="mt-3 text-xs text-ink-2 font-medium"><span class="text-mint-deep font-bold">+8</span> turnos confirmados esta semana</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PROBLEM ============== -->
+<section class="py-20 md:py-28 border-b border-border">
+  <div class="container-x">
+    <div class="max-w-3xl">
+      <div class="eyebrow">Hoy</div>
+      <h2 class="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-navy">Tu clínica funciona. Pero te roba 2 horas por día.</h2>
+      <p class="mt-4 text-lg text-ink-2 max-w-2xl">Las clínicas dentales en LatAm gastan más tiempo gestionando que atendiendo. Y casi siempre la culpa la tienen estas 4 cosas:</p>
+    </div>
+    <div class="mt-14 grid md:grid-cols-2 gap-5">
+      <div class="bg-white border border-border rounded-md p-7"><div class="flex items-start gap-4"><div class="w-10 h-10 rounded-sm bg-red-50 flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></div><div><h3 class="text-lg font-bold text-navy">Excel rotos</h3><p class="mt-1.5 text-ink-2 text-sm leading-relaxed">Planillas que se rompen cuando alguien edita mal una celda. Pacientes duplicados. Datos perdidos.</p></div></div></div>
+      <div class="bg-white border border-border rounded-md p-7"><div class="flex items-start gap-4"><div class="w-10 h-10 rounded-sm bg-red-50 flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></div><div><h3 class="text-lg font-bold text-navy">Agendas en papel</h3><p class="mt-1.5 text-ink-2 text-sm leading-relaxed">Turnos olvidados, pacientes que aparecen el día equivocado, recepción que no sabe quién atiende.</p></div></div></div>
+      <div class="bg-white border border-border rounded-md p-7"><div class="flex items-start gap-4"><div class="w-10 h-10 rounded-sm bg-red-50 flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></div><div><h3 class="text-lg font-bold text-navy">Software dental viejo</h3><p class="mt-1.5 text-ink-2 text-sm leading-relaxed">Interfaces de 2005, instalación local, sin app, sin portal de paciente. Y vienen en inglés.</p></div></div></div>
+      <div class="bg-white border border-border rounded-md p-7"><div class="flex items-start gap-4"><div class="w-10 h-10 rounded-sm bg-red-50 flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></div><div><h3 class="text-lg font-bold text-navy">Cobranza en la cabeza</h3><p class="mt-1.5 text-ink-2 text-sm leading-relaxed">No sabés cuánto te debe cada paciente. La obra social paga tarde. Facturás de memoria.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FEATURES ============== -->
+<section id="features" class="py-20 md:py-28 border-b border-border bg-gradient-to-b from-bg to-white">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="eyebrow">Todo en un lugar</div>
+      <h2 class="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-navy">Una sola plataforma, todo lo que tu clínica necesita</h2>
+      <p class="mt-4 text-lg text-ink-2 max-w-2xl mx-auto">Sin saltar entre Excel, agenda de papel, WhatsApp y un sistema de facturación separado. Dentidad integra todo en un flujo único.</p>
+    </div>
+    <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="group bg-white border border-border rounded-md p-7 hover:border-mint hover:-translate-y-1 transition-all">
+        <div class="w-12 h-12 rounded-sm bg-mint/10 text-mint-deep flex items-center justify-center group-hover:bg-mint group-hover:text-navy transition-colors"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <h3 class="mt-5 text-lg font-bold text-navy">Agenda y turnos</h3>
+        <p class="mt-2 text-ink-2 text-sm leading-relaxed">Calendario por profesional, multi-sede, recordatorios automáticos por WhatsApp y email. Confirmación con un click del paciente.</p>
+      </div>
+      <div class="group bg-white border border-border rounded-md p-7 hover:border-mint hover:-translate-y-1 transition-all">
+        <div class="w-12 h-12 rounded-sm bg-mint/10 text-mint-deep flex items-center justify-center group-hover:bg-mint group-hover:text-navy transition-colors"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div>
+        <h3 class="mt-5 text-lg font-bold text-navy">Historia clínica completa</h3>
+        <p class="mt-2 text-ink-2 text-sm leading-relaxed">Anamnesis, evolución, diagnósticos, plan de tratamiento, consentimientos firmados digitalmente.</p>
+      </div>
+      <div class="group bg-white border border-border rounded-md p-7 hover:border-mint hover:-translate-y-1 transition-all">
+        <div class="w-12 h-12 rounded-sm bg-mint/10 text-mint-deep flex items-center justify-center group-hover:bg-mint group-hover:text-navy transition-colors"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5.5C8 5.5 5 8 5 11c0 2.5 1 4 1.5 6 0.5 2 1 4.5 2.5 4.5s2-3 2.5-3 1 3 2.5 3 2-2.5 2.5-4.5c0.5-2 1.5-3.5 1.5-6 0-3-3-5.5-7-5.5z"/></svg></div>
+        <h3 class="mt-5 text-lg font-bold text-navy">Odontograma digital</h3>
+        <p class="mt-2 text-ink-2 text-sm leading-relaxed">Permanente y temporario, todas las caras, estados y tratamientos. Comparativa de evolución.</p>
+      </div>
+      <div class="group bg-white border border-border rounded-md p-7 hover:border-mint hover:-translate-y-1 transition-all">
+        <div class="w-12 h-12 rounded-sm bg-mint/10 text-mint-deep flex items-center justify-center group-hover:bg-mint group-hover:text-navy transition-colors"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+        <h3 class="mt-5 text-lg font-bold text-navy">Facturación + AFIP</h3>
+        <p class="mt-2 text-ink-2 text-sm leading-relaxed">Facturas A/B/C, integración directa con AFIP. Cobranza inteligente: sabés cuánto te debe cada paciente al instante.</p>
+      </div>
+      <div class="group bg-white border border-border rounded-md p-7 hover:border-mint hover:-translate-y-1 transition-all">
+        <div class="w-12 h-12 rounded-sm bg-mint/10 text-mint-deep flex items-center justify-center group-hover:bg-mint group-hover:text-navy transition-colors"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h10M7 11h10M7 15h6"/></svg></div>
+        <h3 class="mt-5 text-lg font-bold text-navy">Portal del paciente</h3>
+        <p class="mt-2 text-ink-2 text-sm leading-relaxed">Tus pacientes ven turnos, descargan facturas, completan anamnesis. Con tu marca, tus colores.</p>
+      </div>
+      <div class="group bg-white border border-border rounded-md p-7 hover:border-mint hover:-translate-y-1 transition-all">
+        <div class="w-12 h-12 rounded-sm bg-mint/10 text-mint-deep flex items-center justify-center group-hover:bg-mint group-hover:text-navy transition-colors"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18M7 14l4-4 4 4 6-6"/></svg></div>
+        <h3 class="mt-5 text-lg font-bold text-navy">Reportes y analytics</h3>
+        <p class="mt-2 text-ink-2 text-sm leading-relaxed">Cuántos pacientes nuevos, qué tratamientos rinden más. Decisiones basadas en datos, no intuición.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== DIFFERENTIATION ============== -->
+<section id="differentiation" class="py-20 md:py-28 border-b border-border bg-navy text-white relative overflow-hidden">
+  <div class="absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full" style="background:radial-gradient(circle,rgba(0,201,167,.18),transparent 65%)"></div>
+  <div class="container-x relative z-10">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div>
+        <div class="text-xs font-semibold tracking-[2px] uppercase text-mint">¿Por qué Dentidad?</div>
+        <h2 class="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">El único software que le da a tu clínica una identidad propia.</h2>
+        <p class="mt-6 text-lg text-white/75">Dentidad no es una plantilla. Es una plataforma donde tu logo, tus colores, tu portal del paciente — todo lleva tu marca, no la nuestra.</p>
+        <div class="mt-10 space-y-5">
+          <div class="flex gap-4"><div class="w-7 h-7 rounded-full bg-mint/20 flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div><div><h3 class="font-bold">Tu marca, no la nuestra</h3><p class="mt-1 text-sm text-white/70">Customizá portal del paciente, emails y recordatorios con tu logo y paleta.</p></div></div>
+          <div class="flex gap-4"><div class="w-7 h-7 rounded-full bg-mint/20 flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div><div><h3 class="font-bold">Hecho para LatAm</h3><p class="mt-1 text-sm text-white/70">ARS, AFIP, DNI, obras sociales argentinas, soporte en español.</p></div></div>
+          <div class="flex gap-4"><div class="w-7 h-7 rounded-full bg-mint/20 flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div><div><h3 class="font-bold">Setup en 15 minutos</h3><p class="mt-1 text-sm text-white/70">Importás tu Excel, ponés tus datos, y arrancás hoy.</p></div></div>
+          <div class="flex gap-4"><div class="w-7 h-7 rounded-full bg-mint/20 flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div><div><h3 class="font-bold">Tu equipo, tus reglas</h3><p class="mt-1 text-sm text-white/70">Permisos por profesional, agenda compartida o privada, multi-sede.</p></div></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="grid grid-cols-2 divide-x divide-border">
+          <div class="p-6 bg-red-50/40">
+            <div class="text-xs font-mono uppercase tracking-wider text-red-600 font-bold">Software dental tradicional</div>
+            <ul class="mt-4 space-y-3 text-sm text-ink-2 opacity-70">
+              <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg> Plantilla única igual para todos</li>
+              <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg> Setup de 3 a 6 meses</li>
+              <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg> Diseñado en USA</li>
+              <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg> Sin portal del paciente</li>
+              <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg> Soporte limitado</li>
+            </ul>
+          </div>
+          <div class="p-6 bg-mint/5">
+            <div class="text-xs font-mono uppercase tracking-wider text-mint-deep font-bold">Dentidad</div>
+            <ul class="mt-4 space-y-3 text-sm text-ink-2">
+              <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Branding propio por clínica</li>
+              <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Setup en 15 minutos</li>
+              <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Diseñado para LatAm</li>
+              <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Portal incluído</li>
+              <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Soporte en español</li>
+            </ul>
+          </div>
+        </div>
+        <div class="bg-bg p-5 border-t border-border flex items-center justify-between">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink-3">Tiempo a productivo</div>
+          <div class="flex items-center gap-3"><span class="text-sm text-ink-3 line-through">3-6 meses</span><span class="text-base font-extrabold text-mint-deep">15 min</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOW IT WORKS ============== -->
+<section class="py-20 md:py-28 border-b border-border">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="eyebrow">Cómo arrancás</div>
+      <h2 class="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-navy">De Excel a Dentidad en 15 minutos</h2>
+      <p class="mt-4 text-lg text-ink-2">No es marketing. Es un proceso real. Sin consultor, sin migración larga.</p>
+    </div>
+    <div class="mt-16 grid md:grid-cols-3 gap-6">
+      <div class="bg-white border border-border rounded-md p-7"><div class="w-12 h-12 rounded-sm bg-navy text-mint flex items-center justify-center font-mono text-sm font-bold">01</div><h3 class="mt-5 text-xl font-bold text-navy">Importás tus datos</h3><p class="mt-2 text-ink-2 text-sm leading-relaxed">Subís tu Excel de pacientes, agenda actual, servicios y precios. Dentidad mapea automáticamente. 5 minutos.</p></div>
+      <div class="bg-white border border-border rounded-md p-7"><div class="w-12 h-12 rounded-sm bg-navy text-mint flex items-center justify-center font-mono text-sm font-bold">02</div><h3 class="mt-5 text-xl font-bold text-navy">Personalizás tu marca</h3><p class="mt-2 text-ink-2 text-sm leading-relaxed">Logo, colores, dominio del portal (clinica.dentidad.com). Tu identidad, en vivo. 5 minutos.</p></div>
+      <div class="bg-white border border-border rounded-md p-7"><div class="w-12 h-12 rounded-sm bg-navy text-mint flex items-center justify-center font-mono text-sm font-bold">03</div><h3 class="mt-5 text-xl font-bold text-navy">Empezás a atender</h3><p class="mt-2 text-ink-2 text-sm leading-relaxed">Cargás los primeros turnos, mandás recordatorios, atendés y facturás. Desde el día 1. 5 minutos.</p></div>
+    </div>
+    <div class="mt-12 text-center">
+      <div class="inline-flex items-center gap-3 bg-mint/10 border border-mint/30 rounded-full px-5 py-2.5">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span class="text-sm font-semibold text-mint-deep">Tiempo total: 15 minutos · Sin tarjeta de crédito</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PRICING ============== -->
+<section id="pricing" class="py-20 md:py-28 border-b border-border bg-gradient-to-b from-white to-bg">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="eyebrow">Precios</div>
+      <h2 class="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-navy">Un plan para cada momento de tu clínica</h2>
+      <p class="mt-4 text-lg text-ink-2">Sin contratos, sin permanencia. 14 días gratis, decidís después.</p>
+    </div>
+    <div class="mt-14 grid md:grid-cols-3 gap-5 lg:gap-6">
+      <div class="bg-white border border-border rounded-md p-7">
+        <h3 class="text-2xl font-extrabold text-navy">Solo</h3>
+        <p class="mt-1 text-sm text-ink-2">Para 1 profesional</p>
+        <div class="mt-6 flex items-baseline gap-2"><span class="text-4xl font-extrabold tracking-tight text-navy">$24.900</span><span class="text-sm text-ink-3">/ mes</span></div>
+        <a href="#cta" class="mt-7 w-full btn-secondary">Probar gratis</a>
+        <ul class="mt-7 space-y-3 text-sm text-ink-2">
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> 1 profesional</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Pacientes ilimitados</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Agenda + turnos + recordatorios</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Historia clínica + odontograma</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Facturación AFIP</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Portal del paciente</li>
+        </ul>
+      </div>
+      <div class="relative bg-navy text-white border-2 border-mint rounded-md p-8 shadow-lg lg:-translate-y-2">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-mint text-navy text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Más elegido</div>
+        <h3 class="text-2xl font-extrabold">Clínica</h3>
+        <p class="mt-1 text-sm text-white/70">Para equipos en crecimiento</p>
+        <div class="mt-6 flex items-baseline gap-2"><span class="text-4xl font-extrabold tracking-tight text-mint">$49.900</span><span class="text-sm text-white/60">/ mes</span></div>
+        <a href="#cta" class="mt-7 w-full btn-primary">Probar gratis</a>
+        <ul class="mt-7 space-y-3 text-sm text-white/80">
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Hasta 5 profesionales</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Todo lo de Solo, +</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Multi-sede</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Branding completo</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Reportes avanzados</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> WhatsApp + Mercado Pago</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Soporte por chat</li>
+        </ul>
+      </div>
+      <div class="bg-white border border-border rounded-md p-7">
+        <h3 class="text-2xl font-extrabold text-navy">Red</h3>
+        <p class="mt-1 text-sm text-ink-2">Para clínicas grandes</p>
+        <div class="mt-6 flex items-baseline gap-2"><span class="text-4xl font-extrabold tracking-tight text-navy">Personalizado</span></div>
+        <a href="#cta" class="mt-7 w-full btn-secondary">Hablar con nosotros</a>
+        <ul class="mt-7 space-y-3 text-sm text-ink-2">
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Profesionales ilimitados</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Todo lo de Clínica, +</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Subdominio propio</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> API completa</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> SSO empresarial</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Capacitación in-situ</li>
+          <li class="flex gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00A085" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Soporte 24/7</li>
+        </ul>
+      </div>
+    </div>
+    <p class="mt-10 text-center text-sm text-ink-3">Precios en pesos argentinos. IVA incluido. 10% off pago anual.</p>
+  </div>
+</section>
+
+<!-- ============== TESTIMONIALS ============== -->
+<section class="py-20 md:py-28 border-b border-border">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="eyebrow">Quiénes ya confían</div>
+      <h2 class="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-navy">Clínicas que dejaron Excel y no volvieron</h2>
+    </div>
+    <div class="mt-14 grid md:grid-cols-3 gap-5">
+      <div class="bg-white border border-border rounded-md p-7"><svg width="28" height="28" viewBox="0 0 24 24" fill="#00C9A7" class="opacity-30"><path d="M14 17h3l2-4V7h-6v6h3zM6 17h3l2-4V7H5v6h3z"/></svg><p class="mt-3 text-ink leading-relaxed">"En 2 semanas pasamos de 3 cuadernos y 5 Excel a un solo lugar. La recepción ya no se vuelve loca cuando alguien pide un turno."</p><div class="mt-6 flex items-center gap-3 pt-5 border-t border-border"><div class="w-10 h-10 rounded-full bg-navy text-mint flex items-center justify-center font-bold text-sm">EP</div><div><div class="font-bold text-navy text-sm">Dra. Emiliana Pastori</div><div class="text-xs text-ink-3">Odontóloga · Buenos Aires</div></div></div></div>
+      <div class="bg-white border border-border rounded-md p-7"><svg width="28" height="28" viewBox="0 0 24 24" fill="#00C9A7" class="opacity-30"><path d="M14 17h3l2-4V7h-6v6h3zM6 17h3l2-4V7H5v6h3z"/></svg><p class="mt-3 text-ink leading-relaxed">"El portal con nuestro logo y colores le da un aire premium a la clínica. Los pacientes nos preguntan si abrimos otra sede."</p><div class="mt-6 flex items-center gap-3 pt-5 border-t border-border"><div class="w-10 h-10 rounded-full bg-navy text-mint flex items-center justify-center font-bold text-sm">MC</div><div><div class="font-bold text-navy text-sm">Dr. Martín Conti</div><div class="text-xs text-ink-3">Director · Clínica Sonríe (CABA)</div></div></div></div>
+      <div class="bg-white border border-border rounded-md p-7"><svg width="28" height="28" viewBox="0 0 24 24" fill="#00C9A7" class="opacity-30"><path d="M14 17h3l2-4V7h-6v6h3zM6 17h3l2-4V7H5v6h3z"/></svg><p class="mt-3 text-ink leading-relaxed">"Probé Dentrix, Dental Office y dos sistemas más. Dentidad es el primero que entiende cómo trabajamos en Argentina."</p><div class="mt-6 flex items-center gap-3 pt-5 border-t border-border"><div class="w-10 h-10 rounded-full bg-navy text-mint flex items-center justify-center font-bold text-sm">CG</div><div><div class="font-bold text-navy text-sm">Dra. Carolina Gómez</div><div class="text-xs text-ink-3">Ortodoncista · Rosario</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section id="faq" class="py-20 md:py-28 border-b border-border">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="eyebrow">FAQ</div>
+      <h2 class="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-navy">Preguntas frecuentes</h2>
+    </div>
+    <div class="mt-12 max-w-3xl mx-auto space-y-3">
+      <details open class="bg-white border border-border rounded-md overflow-hidden"><summary class="flex items-center justify-between gap-4 p-5"><span class="font-bold text-navy">¿Cuánto tiempo lleva migrar de mi sistema actual?</span><svg class="chevron text-ink-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></summary><div class="px-5 pb-5 text-ink-2 leading-relaxed border-t border-border pt-4">En promedio, 15 minutos. Importás tu Excel, Dentidad mapea los campos, y arrancás. Si querés migración asistida, está incluida en planes Clínica y Red.</div></details>
+      <details class="bg-white border border-border rounded-md overflow-hidden"><summary class="flex items-center justify-between gap-4 p-5"><span class="font-bold text-navy">¿Funciona con AFIP y obras sociales argentinas?</span><svg class="chevron text-ink-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></summary><div class="px-5 pb-5 text-ink-2 leading-relaxed border-t border-border pt-4">Sí. Facturación electrónica directa con AFIP, validación de obras sociales, débito automático con Mercado Pago.</div></details>
+      <details class="bg-white border border-border rounded-md overflow-hidden"><summary class="flex items-center justify-between gap-4 p-5"><span class="font-bold text-navy">¿Mis datos están seguros?</span><svg class="chevron text-ink-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></summary><div class="px-5 pb-5 text-ink-2 leading-relaxed border-t border-border pt-4">Encriptación AES-256, TLS 1.3, backups diarios, servidores en Argentina. Cumplimiento Ley 25.326.</div></details>
+      <details class="bg-white border border-border rounded-md overflow-hidden"><summary class="flex items-center justify-between gap-4 p-5"><span class="font-bold text-navy">¿Qué pasa si quiero cancelar?</span><svg class="chevron text-ink-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></summary><div class="px-5 pb-5 text-ink-2 leading-relaxed border-t border-border pt-4">Cancelás cuando quieras desde tu panel. Sin permanencia. Te exportamos toda tu data en CSV/JSON.</div></details>
+      <details class="bg-white border border-border rounded-md overflow-hidden"><summary class="flex items-center justify-between gap-4 p-5"><span class="font-bold text-navy">¿Hay app para celular?</span><svg class="chevron text-ink-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></summary><div class="px-5 pb-5 text-ink-2 leading-relaxed border-t border-border pt-4">Funciona en cualquier navegador. Es Progressive Web App: la instalás en el teléfono o tablet sin pasar por la App Store.</div></details>
+    </div>
+    <div class="mt-12 text-center"><p class="text-ink-2">¿Otra pregunta? <a href="mailto:hola@dentidad.com" class="text-mint-deep font-bold hover:underline">Escribinos a hola@dentidad.com</a></p></div>
+  </div>
+</section>
+
+<!-- ============== CTA ============== -->
+<section id="cta" class="py-20 md:py-28">
+  <div class="container-x">
+    <div class="relative bg-navy rounded-lg overflow-hidden">
+      <div class="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full" style="background:radial-gradient(circle,rgba(0,201,167,.25),transparent 65%)"></div>
+      <div class="absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full" style="background:radial-gradient(circle,rgba(24,95,165,.4),transparent 65%)"></div>
+      <div class="relative z-10 p-10 md:p-16 text-center">
+        <div class="text-xs font-semibold tracking-[3px] uppercase text-mint">Empezá hoy</div>
+        <h2 class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-white max-w-3xl mx-auto leading-tight">Tu clínica, tu Dentidad.<br class="hidden md:block"/> Sin tarjeta, sin compromiso.</h2>
+        <p class="mt-5 text-lg text-white/75 max-w-xl mx-auto">14 días gratis con todas las features. Si no te enamora, no pagás.</p>
+        <form class="mt-10 max-w-md mx-auto flex flex-col sm:flex-row gap-3" onsubmit="event.preventDefault();this.querySelector('button').textContent='✓ Listo'">
+          <input type="email" required placeholder="tu-email@clinica.com" class="flex-1 px-4 py-3 rounded-sm bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:border-mint focus:bg-white/15"/>
+          <button type="submit" class="btn-primary whitespace-nowrap">Probar gratis</button>
+        </form>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-white/60">
+          <span class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Sin tarjeta</span>
+          <span class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> 14 días gratis</span>
+          <span class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Cancelás cuando quieras</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="bg-navy text-white py-16">
+  <div class="container-x">
+    <div class="grid lg:grid-cols-5 gap-10">
+      <div class="lg:col-span-2">
+        <div class="inline-flex items-center gap-2.5">
+          <svg width="36" height="36" viewBox="0 0 200 200"><rect width="200" height="200" rx="44" fill="#063760"/><text x="46" y="160" font-family="DM Sans" font-weight="900" font-size="170" letter-spacing="-8" fill="#fff">d</text><circle cx="158" cy="50" r="13" fill="#00C9A7"/></svg>
+          <span class="font-extrabold text-2xl tracking-tight"><span class="wm-dent-light">Dent</span><span class="wm-idad-light">idad</span></span>
+        </div>
+        <p class="mt-5 text-white/70 max-w-sm">La identidad digital de tu clínica dental. Software de gestión todo-en-uno, hecho para Argentina y LatAm.</p>
+      </div>
+      <div><h3 class="text-xs font-mono uppercase tracking-[2px] text-mint">Producto</h3><ul class="mt-5 space-y-3 text-sm text-white/70"><li><a href="#features" class="hover:text-white">Funciones</a></li><li><a href="#pricing" class="hover:text-white">Precios</a></li><li><a href="#faq" class="hover:text-white">FAQ</a></li><li><a href="https://dentidad.com" class="hover:text-white">Iniciar sesión</a></li></ul></div>
+      <div><h3 class="text-xs font-mono uppercase tracking-[2px] text-mint">Empresa</h3><ul class="mt-5 space-y-3 text-sm text-white/70"><li><a href="#" class="hover:text-white">Sobre Dentidad</a></li><li><a href="mailto:hola@dentidad.com" class="hover:text-white">Contacto</a></li><li><a href="#" class="hover:text-white">Estado del servicio</a></li></ul></div>
+      <div><h3 class="text-xs font-mono uppercase tracking-[2px] text-mint">Legal</h3><ul class="mt-5 space-y-3 text-sm text-white/70"><li><a href="#" class="hover:text-white">Términos y condiciones</a></li><li><a href="#" class="hover:text-white">Privacidad</a></li></ul></div>
+    </div>
+    <div class="mt-14 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/50">
+      <p>© 2026 Dentidad. Todos los derechos reservados.</p>
+      <p>Hecho en Buenos Aires, para clínicas dentales en LatAm.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

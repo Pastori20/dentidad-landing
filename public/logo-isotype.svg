@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Dentidad isotype">
+  <style>
+    .iso-d {
+      font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-weight: 900;
+      font-size: 170px;
+      letter-spacing: -8px;
+      fill: #ffffff;
+    }
+  </style>
+  <!-- Rounded square badge in navy -->
+  <rect width="200" height="200" rx="44" fill="#063760"/>
+  <!-- Lowercase 'd' centered -->
+  <text x="46" y="160" class="iso-d">d</text>
+  <!-- Mint accent dot upper-right (echoes wordmark's i-dot) -->
+  <circle cx="158" cy="50" r="13" fill="#00C9A7"/>
+</svg>

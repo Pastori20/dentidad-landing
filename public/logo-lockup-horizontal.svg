@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 130" role="img" aria-label="Dentidad logo lockup horizontal">
+  <style>
+    .lk-iso-d {
+      font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-weight: 900;
+      font-size: 92px;
+      letter-spacing: -4px;
+      fill: #ffffff;
+    }
+    .lk-wm {
+      font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-size: 86px;
+      letter-spacing: -3px;
+    }
+    .lk-dent { fill: #063760; }
+    .lk-idad { fill: #00A085; }
+  </style>
+  <!-- Isotipo on the left -->
+  <g transform="translate(0,15)">
+    <rect width="100" height="100" rx="22" fill="#063760"/>
+    <text x="22" y="82" class="lk-iso-d">d</text>
+    <circle cx="79" cy="25" r="7" fill="#00C9A7"/>
+  </g>
+  <!-- Two-tone wordmark on the right -->
+  <text x="124" y="98" class="lk-wm lk-dent">Dent</text>
+  <text x="306" y="98" class=

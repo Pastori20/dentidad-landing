@@ -1,15 +1,5 @@
-import CropImage from "./CropImage";
 import ScreenTile from "./ScreenTile";
 import type { CSSProperties, ReactNode } from "react";
-
-type CropSpec = {
-  kind: "crop";
-  src: string;
-  alt: string;
-  aspect: string;
-  position: string;
-  zoom?: number;
-};
 
 type TileSpec = {
   // Pre-cropped screenshot rendered at its natural aspect ratio.
@@ -28,7 +18,7 @@ type PlaceholderSpec = {
 type StackSpec = {
   kind: "stack";
   // Vertical stack of tiles (one on top of the other)
-  tiles: Array<CropSpec | TileSpec | PlaceholderSpec>;
+  tiles: Array<TileSpec | PlaceholderSpec>;
   gap?: string;
   // Index of the tile to show on mobile (others are hidden via md:block).
   // Defaults to 0 (first tile).
@@ -38,8 +28,8 @@ type StackSpec = {
 type SideBySideSpec = {
   kind: "side";
   // Two tiles side by side (good for "two snippets" of the same screen)
-  left: CropSpec | TileSpec | PlaceholderSpec;
-  right: CropSpec | TileSpec | PlaceholderSpec;
+  left: TileSpec | PlaceholderSpec;
+  right: TileSpec | PlaceholderSpec;
 };
 
 type IllustrationSpec = {
@@ -52,7 +42,6 @@ type IllustrationSpec = {
 };
 
 type Visual =
-  | CropSpec
   | TileSpec
   | PlaceholderSpec
   | StackSpec
@@ -413,18 +402,6 @@ function FeatureVisual({ visual }: { visual: Visual }) {
     return null;
   }
 
-  if (visual.kind === "crop") {
-    return (
-      <CropImage
-        src={visual.src}
-        alt={visual.alt}
-        aspect={visual.aspect}
-        position={visual.position}
-        zoom={visual.zoom}
-      />
-    );
-  }
-
   if (visual.kind === "tile") {
     return <ScreenTile src={visual.src} alt={visual.alt} />;
   }
@@ -537,19 +514,8 @@ function MultiSedeIllustration({ alt }: { alt: string }) {
 function SingleTile({
   spec,
 }: {
-  spec: CropSpec | TileSpec | PlaceholderSpec;
+  spec: TileSpec | PlaceholderSpec;
 }) {
-  if (spec.kind === "crop") {
-    return (
-      <CropImage
-        src={spec.src}
-        alt={spec.alt}
-        aspect={spec.aspect}
-        position={spec.position}
-        zoom={spec.zoom}
-      />
-    );
-  }
   if (spec.kind === "tile") {
     return <ScreenTile src={spec.src} alt={spec.alt} />;
   }

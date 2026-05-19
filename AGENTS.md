@@ -78,13 +78,20 @@ public/screens/
 > Actualizar al cerrar cada sesión grande.
 
 ### Dominios
-- **Producción**: `dentidad.com` + `www.dentidad.com` (split: el sistema vive en `app.dentidad.com`)
-- URL técnica de Vercel: `dentidad-landing.vercel.app`
+- **Producción**: `dentidad.com` + `www.dentidad.com` (split: el sistema vive en `app.dentidad.com`).
+- URL técnica de Vercel: `dentidad-landing.vercel.app`.
+- **DNS**: gestionado por **Cloudflare** (proxy naranja activo en los 3 records: apex, www y app).
+- **Registrar**: DonWeb. Los nameservers en DonWeb apuntan a `cleo.ns.cloudflare.com` y `stevie.ns.cloudflare.com` — **no volver a apuntar a los de DonWeb** o se rompe todo.
 
 ### Estado del deploy
-- Deploy actual en Vercel desde CLI (`npx vercel --prod`).
-- **No tiene integración con GitHub todavía.** Cada cambio requiere `npx vercel --prod` manual.
-- _Mejora pendiente_: conectar GitHub para deploy automático por push.
+- Deploy automático en Vercel por cada push a `main` (GitHub integration activa).
+- Para forzar redeploy sin cambios: `git commit --allow-empty -m "chore: redeploy" && git push`.
+
+### Open Graph image (preview en redes sociales)
+- **Archivo en repo**: `public/og-image.png` (1200×630, generado una vez desde `app/opengraph-image.tsx` con sharp+next/og, después committeado).
+- **URL servida en `<meta og:image>`**: `https://raw.githubusercontent.com/Pastori20/dentidad-landing/main/public/og-image.png` (NO la URL del propio Vercel — ver "Lecciones aprendidas" abajo).
+- **Repo público** en GitHub para permitir el acceso via `raw.githubusercontent.com`.
+- Para iterar el diseño: regenerar la imagen con un script local de `sharp`+`@vercel/og`, sobrescribir `public/og-image.png`, push.
 
 ### Datos de contacto en código (hard-coded)
 - Email: `info.dentidad@gmail.com` (en `CTA.tsx` y `Footer.tsx`)
@@ -92,14 +99,33 @@ public/screens/
 - Dirección legal: "Río Tercero, Córdoba, Argentina"
 
 ### Pendientes técnicos
-- [ ] **Generar `og-image.png`** (1200×630) en `public/`. Sin esto, los previews en redes salen rotos.
-- [ ] Conectar con GitHub para deploys automáticos.
-- [ ] Limpiar el texto "ChatGPT Image 1..." de los nombres de archivo en `galeria.png` (editar la imagen o renombrar los assets en la app y volver a tomar la screen).
-- [ ] Borrar PNGs sin usar en `public/screens/`:
-  - `dashboard.png`, `odontograma.png`, `agenda.png`, `caja.png` (originales sin recortar)
-  - `hero-resumen.png` (descartado del hero)
-  - `ficha-completa.png` (usado solo para recortar con `sharp`)
-- [ ] Decidir si se conserva o se borra `CropImage.tsx` (legacy, ya no se usa en ninguna feature).
+- [ ] Limpiar el texto "ChatGPT Image 1..." de los nombres de archivo en `galeria.png` (renombrar los assets en la app y volver a tomar el recorte con `sharp`).
+- [ ] Después de validar que el preview de FB/WhatsApp funciona con Cloudflare, **considerar mover `og:image` a `/og-image.png`** (la URL local de Vercel) en lugar de raw.githubusercontent — más limpio y profesional, ahora que Cloudflare no bloquea bots.
+- [ ] (Opcional) Remover la Custom Rule "Allow Facebook crawler" del Firewall de Vercel — ya no es necesaria con Cloudflare delante. Dejarla no rompe nada pero conviene limpiar.
+
+---
+
+# 🚨 Lecciones aprendidas (no repetir)
+
+### Vercel Free + Hobby bloquea a Facebook por DDoS Mitigation
+- **Síntoma**: Facebook Sharing Debugger devuelve HTTP 403 para `dentidad.com`, aunque desde `curl` con user-agent de Facebook se obtiene 200.
+- **Causa raíz**: El plan Hobby de Vercel activa **DDoS Mitigation automático** que bloquea IPs con reputación de bot intensivo (incluye las IPs de scraping de Facebook). NO se puede desactivar en Hobby. NO se resuelve con Custom Rules tipo "Allow user-agent contains facebookexternalhit" (DDoS Mitigation se ejecuta ANTES de las Custom Rules).
+- **NO confundir con**: "Vercel Authentication" / "Deployment Protection" / "Bot Filter" — esos son otros features, también pueden estar activados, pero **no son el culpable principal**.
+- **Solución definitiva**: poner **Cloudflare como proxy** delante de Vercel (plan Free). Cloudflare sirve los requests, cachea contenido, y el bot de Facebook nunca toca Vercel directamente.
+
+### Setup Cloudflare → Vercel (referencia)
+1. Cuenta gratis en Cloudflare → Add Site → `dentidad.com` (plan Free).
+2. Cloudflare auto-detecta los DNS records del registrar y los importa. Verificar que los 3 estén con proxy naranja:
+   - `A     dentidad.com  →  76.76.21.21`        (Vercel apex IP)
+   - `CNAME app           →  cname.vercel-dns.com`
+   - `CNAME www           →  cname.vercel-dns.com`
+3. Cambiar nameservers en DonWeb a los de Cloudflare.
+4. Esperar propagación (15 min - 24hs típico).
+5. SSL/TLS → modo **"Full"** (no "Full strict" — Vercel a veces da problemas con cert chain).
+6. Si en el futuro Vercel cambia los CNAME values del proyecto, **actualizar también en Cloudflare** (NO solo en DonWeb).
+
+### OG image: por qué servimos desde raw.githubusercontent
+Mientras la migración a Cloudflare estaba propagando, Facebook seguía con caché 403 viejo. El workaround fue cambiar `og:image` a apuntar a GitHub raw (que nunca tuvo bot block). Esto funcionó al instante. **Una vez con Cloudflare estable y caché de FB limpio**, conviene volver `og:image` a `/og-image.png` local para no depender de un servicio externo.
 
 ---
 

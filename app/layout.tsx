@@ -52,7 +52,12 @@ export const metadata: Metadata = {
       "Agenda, ficha clínica, odontograma y cobros en una sola plataforma para odontólogos.",
     images: [
       {
-        url: "/og-image.png",
+        // Servimos el OG image desde raw.githubusercontent.com porque Vercel
+        // tiene Bot Protection activado que bloquea a facebookexternalhit
+        // con 403 incluso para archivos estáticos en /public. La URL raw de
+        // GitHub no tiene ese filtro y es accesible para cualquier crawler.
+        // El archivo vive en este mismo repo: public/og-image.png
+        url: "https://raw.githubusercontent.com/Pastori20/dentidad-landing/main/public/og-image.png",
         width: 1200,
         height: 630,
         alt: "Dentidad — Software dental para Argentina",
@@ -64,7 +69,9 @@ export const metadata: Metadata = {
     title: "Dentidad — Software dental para Argentina",
     description:
       "Agenda, ficha clínica, odontograma y cobros en una sola plataforma para odontólogos.",
-    images: ["/og-image.png"],
+    images: [
+      "https://raw.githubusercontent.com/Pastori20/dentidad-landing/main/public/og-image.png",
+    ],
   },
   robots: {
     index: true,

@@ -50,15 +50,21 @@ export const metadata: Metadata = {
     title: "Dentidad — Software dental para Argentina",
     description:
       "Agenda, ficha clínica, odontograma y cobros en una sola plataforma para odontólogos.",
-    // images: omitido a propósito — Next.js descubre y usa automáticamente
-    // app/opengraph-image.tsx para la meta tag og:image.
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Dentidad — Software dental para Argentina",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Dentidad — Software dental para Argentina",
     description:
       "Agenda, ficha clínica, odontograma y cobros en una sola plataforma para odontólogos.",
-    // images: omitido — fallback automático al og:image generado.
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,

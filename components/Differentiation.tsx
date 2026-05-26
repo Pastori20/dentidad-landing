@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import MobileCarousel from "./MobileCarousel";
 import FadeInSection from "./FadeInSection";
 
@@ -5,62 +8,130 @@ type Row = {
   topic: string;
   before: string;
   after: string;
+  emoji: string;
 };
 
 const rows: Row[] = [
   {
     topic: "Agenda del día",
-    before:
-      "Cuaderno o planilla. Reprogramar es borrar y volver a anotar.",
+    emoji: "📅",
+    before: "Cuaderno o planilla. Reprogramar es borrar y volver a anotar.",
     after: "Vista de día y semana con estados de turno claros.",
   },
   {
     topic: "Recordatorios",
+    emoji: "💬",
     before: "Llamar paciente por paciente la tarde anterior.",
     after: "WhatsApp y email automáticos.",
   },
   {
     topic: "Ficha del paciente",
+    emoji: "📋",
     before:
       "Carpetas físicas o planillas separadas que nunca están todas juntas.",
-    after:
-      "Datos, obra social, antecedentes y anamnesis en una pantalla.",
+    after: "Datos, obra social, antecedentes y anamnesis en una pantalla.",
   },
   {
     topic: "Odontograma",
+    emoji: "🦷",
     before: "Dibujado a mano en un formulario que se pierde.",
-    after:
-      "Digital, doble vista inicial y actual, exportable a PDF.",
+    after: "Digital, doble vista inicial y actual, exportable a PDF.",
   },
   {
     topic: "Evoluciones",
-    before:
-      "Anotaciones sueltas que con el tiempo no se entienden.",
+    emoji: "📝",
+    before: "Anotaciones sueltas que con el tiempo no se entienden.",
     after: "Cada prestación queda anclada a la pieza y la cara.",
   },
   {
     topic: "Estudios y fotos",
-    before:
-      "Mezcladas con tus fotos personales en el celular.",
+    emoji: "📸",
+    before: "Mezcladas con tus fotos personales en el celular.",
     after: "Organizadas por paciente: fotos, Rx e informes.",
   },
   {
     topic: "Cobros y saldos",
-    before:
-      "Cuentas en la cabeza o en otra planilla aparte.",
+    emoji: "💰",
+    before: "Cuentas en la cabeza o en otra planilla aparte.",
     after: "Caja diaria con desglose por medio de pago.",
   },
   {
     topic: "Acceso",
+    emoji: "📱",
     before: "Solo desde la computadora del consultorio.",
     after: "Desde computadora, tablet o celular.",
   },
   {
     topic: "Backup",
+    emoji: "🛡️",
     before: "Si pasa algo, perdés todo.",
     after: "Backup automático, datos protegidos.",
   },
 ];
+
+function FlipCard({ row, index }: { row: Row; index: number }) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.01 }}
+      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      className="relative h-full rounded-3xl overflow-hidden bg-white border border-border/40 shadow-lg"
+    >
+      {/* Topic header with emoji */}
+      <div className="px-5 pt-5 pb-3 flex items-center gap-3 border-b border-border/40">
+        <span className="text-2xl" aria-hidden="true">{row.emoji}</span>
+        <div className="flex-1">
+          <p className="text-[10px] font-mono uppercase tracking-[1.5px] text-ink-3">
+            Tema {String(index + 1).padStart(2, "0")}
+          </p>
+          <h3 className="text-base font-bold text-navy leading-tight">{row.topic}</h3>
+        </div>
+      </div>
+
+      {/* Hoy panel */}
+      <div className="px-5 py-4 bg-gradient-to-br from-[#FFF1EE] to-[#FFE3DC] border-b border-border/40 relative">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 mt-1 w-7 h-7 rounded-full bg-[#DC2626]/15 text-[#DC2626] flex items-center justify-center">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" aria-hidden="true">
+              <path d="M6 6l12 12M6 18L18 6" />
+            </svg>
+          </div>
+          <div className="flex-1">
+            <p className="text-[10px] font-mono uppercase tracking-[1.5px] text-[#DC2626] font-bold">
+              Hoy
+            </p>
+            <p className="mt-1 text-[13.5px] text-ink-2 leading-snug">{row.before}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Arrow transition */}
+      <div className="flex justify-center -mt-3.5 relative z-10">
+        <div className="w-7 h-7 rounded-full bg-navy text-mint-soft flex items-center justify-center shadow-md">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" aria-hidden="true">
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Con Dentidad panel */}
+      <div className="px-5 pt-5 pb-5 bg-gradient-to-br from-mint-soft/40 to-mint/10">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 mt-1 w-7 h-7 rounded-full bg-mint/20 text-mint-deep flex items-center justify-center">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <div className="flex-1">
+            <p className="text-[10px] font-mono uppercase tracking-[1.5px] text-mint-deep font-bold">
+              Con Dentidad
+            </p>
+            <p className="mt-1 text-[13.5px] text-ink leading-snug font-medium">{row.after}</p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function Differentiation() {
   return (
@@ -145,38 +216,11 @@ export default function Differentiation() {
         {/* Mobile: carousel — swipe through 9 comparisons one at a time */}
         <div className="mt-8 md:hidden">
           <MobileCarousel slideClassName="min-w-[86%] pl-4 first:pl-0">
-            {rows.map((r) => (
-              <div
-                key={r.topic}
-                className="rounded-md border border-border bg-bg-card overflow-hidden h-full"
-              >
-                <p className="px-4 pt-3 pb-2 text-base font-bold text-navy">
-                  {r.topic}
-                </p>
-                <div className="grid grid-cols-2 border-t border-border/70">
-                  <div className="px-3 py-4 bg-bg/40 border-r border-border/70">
-                    <p className="text-[10px] font-mono uppercase tracking-[1.2px] text-ink-3">
-                      Hoy
-                    </p>
-                    <p className="mt-1.5 flex items-start gap-1.5 text-ink-2 text-[13px] leading-snug">
-                      <XMark />
-                      <span>{r.before}</span>
-                    </p>
-                  </div>
-                  <div className="px-3 py-4 bg-mint-soft/20">
-                    <p className="text-[10px] font-mono uppercase tracking-[1.2px] text-mint-deep">
-                      Con Dentidad
-                    </p>
-                    <p className="mt-1.5 flex items-start gap-1.5 text-ink text-[13px] leading-snug">
-                      <Check />
-                      <span>{r.after}</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
+            {rows.map((r, i) => (
+              <FlipCard key={r.topic} row={r} index={i} />
             ))}
           </MobileCarousel>
-          <p className="mt-3 text-center text-xs text-ink-3">
+          <p className="mt-4 text-center text-xs text-ink-3">
             Deslizá para ver las {rows.length} diferencias
           </p>
         </div>

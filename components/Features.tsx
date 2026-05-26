@@ -1,4 +1,6 @@
 import ScreenTile from "./ScreenTile";
+import MobileCarousel from "./MobileCarousel";
+import FadeInSection from "./FadeInSection";
 import type { CSSProperties, ReactNode } from "react";
 
 type TileSpec = {
@@ -310,85 +312,132 @@ export default function Features() {
       className="py-14 md:py-28 border-b border-border bg-bg"
     >
       <div className="container-x">
-        <div className="max-w-3xl">
-          <p className="eyebrow">Funcionalidades</p>
-          <h2 id="features-title" className="section-title mt-3 text-balance">
-            Todo lo que necesita tu consultorio, sin software accesorio.
-          </h2>
-          <p className="section-lead">
-            Una sola plataforma para agenda, ficha clínica, odontograma y cobros.
-            Pensada para el día a día del consultorio.
+        <FadeInSection>
+          <div className="max-w-3xl">
+            <p className="eyebrow">Funcionalidades</p>
+            <h2 id="features-title" className="section-title mt-3 text-balance">
+              Todo lo que necesita tu consultorio, sin software accesorio.
+            </h2>
+            <p className="section-lead">
+              Una sola plataforma para agenda, ficha clínica, odontograma y cobros.
+              Pensada para el día a día del consultorio.
+            </p>
+          </div>
+        </FadeInSection>
+
+        {/* MOBILE: carousel — one feature per slide, swipeable */}
+        <div className="mt-8 md:hidden">
+          <MobileCarousel slideClassName="min-w-[90%] pl-4 first:pl-0">
+            {features.map((f) => (
+              <article
+                key={f.id}
+                id={`${f.id}-mobile`}
+                aria-labelledby={`${f.id}-title-mobile`}
+                className="bg-bg-card border border-border rounded-lg p-5 h-full flex flex-col"
+              >
+                <div className="mb-4">
+                  <FeatureVisual visual={f.visual} />
+                </div>
+                <h3
+                  id={`${f.id}-title-mobile`}
+                  className="text-xl font-extrabold text-navy tracking-tight text-balance"
+                >
+                  {f.title}
+                </h3>
+                <p className="mt-2 text-ink-2 text-[15px] leading-relaxed">
+                  {f.body}
+                </p>
+                <ul className="mt-3 space-y-2">
+                  {f.bullets.map((b) => (
+                    <li
+                      key={b}
+                      className="flex items-start gap-2.5 text-ink leading-relaxed text-[14px]"
+                    >
+                      <CheckMark />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </MobileCarousel>
+          <p className="mt-3 text-center text-xs text-ink-3">
+            Deslizá para ver todas las funcionalidades
           </p>
         </div>
 
-        <div className="mt-10 md:mt-20 space-y-12 md:space-y-28">
+        {/* DESKTOP: original alternating layout */}
+        <div className="hidden md:block mt-20 space-y-28">
           {features.map((f, i) => {
             const reverse = i % 2 === 1;
             return (
-              <article
-                key={f.id}
-                id={f.id}
-                aria-labelledby={`${f.id}-title`}
-                className={`grid gap-6 md:gap-10 lg:gap-14 lg:grid-cols-2 items-center ${
-                  reverse ? "lg:[&>*:first-child]:order-2" : ""
-                }`}
-              >
-                <div>
-                  <FeatureVisual visual={f.visual} />
-                </div>
-                <div className="max-w-xl">
-                  <h3
-                    id={`${f.id}-title`}
-                    className="text-xl md:text-3xl font-extrabold text-navy tracking-tight text-balance"
-                  >
-                    {f.title}
-                  </h3>
-                  <p className="mt-3 md:mt-4 text-ink-2 text-[15px] md:text-[17px] leading-relaxed">
-                    {f.body}
-                  </p>
-                  <ul className="mt-4 md:mt-6 space-y-2 md:space-y-2.5">
-                    {f.bullets.map((b) => (
-                      <li
-                        key={b}
-                        className="flex items-start gap-2.5 text-ink leading-relaxed"
-                      >
-                        <CheckMark />
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
+              <FadeInSection key={f.id} delay={0}>
+                <article
+                  id={f.id}
+                  aria-labelledby={`${f.id}-title`}
+                  className={`grid gap-10 lg:gap-14 lg:grid-cols-2 items-center ${
+                    reverse ? "lg:[&>*:first-child]:order-2" : ""
+                  }`}
+                >
+                  <div>
+                    <FeatureVisual visual={f.visual} />
+                  </div>
+                  <div className="max-w-xl">
+                    <h3
+                      id={`${f.id}-title`}
+                      className="text-3xl font-extrabold text-navy tracking-tight text-balance"
+                    >
+                      {f.title}
+                    </h3>
+                    <p className="mt-4 text-ink-2 text-[17px] leading-relaxed">
+                      {f.body}
+                    </p>
+                    <ul className="mt-6 space-y-2.5">
+                      {f.bullets.map((b) => (
+                        <li
+                          key={b}
+                          className="flex items-start gap-2.5 text-ink leading-relaxed"
+                        >
+                          <CheckMark />
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </FadeInSection>
             );
           })}
         </div>
 
-        <div className="mt-16 md:mt-32">
-          <div className="max-w-3xl">
-            <h3 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight">
-              Todo lo que incluye
-            </h3>
-          </div>
+        <FadeInSection>
+          <div className="mt-16 md:mt-32">
+            <div className="max-w-3xl">
+              <h3 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight">
+                Todo lo que incluye
+              </h3>
+            </div>
 
-          <ul className="mt-6 md:mt-10 grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {inclusos.map((item) => (
-              <li
-                key={item.title}
-                className="flex items-start gap-3 md:gap-4 rounded-md bg-bg-card border border-border/70 p-4 md:p-5 hover:border-mint hover:shadow-sm transition-all"
-              >
-                <span
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-sm bg-mint/10 text-mint-deep flex items-center justify-center"
+            <ul className="mt-6 md:mt-10 grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {inclusos.map((item) => (
+                <li
+                  key={item.title}
+                  className="flex items-start gap-3 md:gap-4 rounded-md bg-bg-card border border-border/70 p-4 md:p-5 hover:border-mint hover:shadow-sm transition-all"
                 >
-                  {item.icon}
-                </span>
-                <span className="text-navy font-semibold leading-snug pt-1 md:pt-1.5 text-[15px] md:text-base">
-                  {item.title}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+                  <span
+                    aria-hidden="true"
+                    className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-sm bg-mint/10 text-mint-deep flex items-center justify-center"
+                  >
+                    {item.icon}
+                  </span>
+                  <span className="text-navy font-semibold leading-snug pt-1 md:pt-1.5 text-[15px] md:text-base">
+                    {item.title}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </FadeInSection>
       </div>
     </section>
   );

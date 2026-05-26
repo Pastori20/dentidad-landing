@@ -148,8 +148,8 @@ export default function Hero() {
                   Hidden on desktop where we show the larger desktop tiles. */}
               <div className="md:hidden flex justify-center">
                 <img
-                  src="/screens/mobile/agenda-mobile.png"
-                  alt="Agenda mobile de Dentidad mostrando los turnos del día con estado y profesional."
+                  src="/screens/mobile-dashboard.png"
+                  alt="Dashboard mobile de Dentidad: bienvenida, turnos del día, pacientes, pendiente de cobro y pagado este mes."
                   className="w-full max-w-[280px] h-auto drop-shadow-2xl"
                   loading="eager"
                 />

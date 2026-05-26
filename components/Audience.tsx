@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import MobileCarousel from "./MobileCarousel";
+import FadeInSection from "./FadeInSection";
 
 type Card = {
   icon: ReactNode;
@@ -72,6 +74,25 @@ const cards: Card[] = [
   },
 ];
 
+function AudienceCard({ card }: { card: Card }) {
+  return (
+    <div className="flex flex-col gap-3 md:gap-5 rounded-md bg-bg-card border border-border/70 p-5 md:p-7 hover:border-mint transition-colors h-full">
+      <div
+        aria-hidden="true"
+        className="w-12 h-12 md:w-14 md:h-14 rounded-sm bg-mint/10 text-mint-deep flex items-center justify-center"
+      >
+        {card.icon}
+      </div>
+      <h3 className="text-lg md:text-xl font-bold text-navy text-balance leading-snug">
+        {card.title}
+      </h3>
+      <p className="text-ink-2 leading-relaxed text-sm md:text-[15px]">
+        {card.description}
+      </p>
+    </div>
+  );
+}
+
 export default function Audience() {
   return (
     <section
@@ -80,37 +101,34 @@ export default function Audience() {
       className="py-14 md:py-28 border-b border-border bg-bg"
     >
       <div className="container-x">
-        <div className="max-w-3xl">
-          <p className="eyebrow">¿Para quién es Dentidad?</p>
-          <h2
-            id="audience-title"
-            className="section-title mt-3 text-balance"
-          >
-            Pensado para el odontólogo, no para la cadena.
-          </h2>
+        <FadeInSection>
+          <div className="max-w-3xl">
+            <p className="eyebrow">¿Para quién es Dentidad?</p>
+            <h2
+              id="audience-title"
+              className="section-title mt-3 text-balance"
+            >
+              Pensado para el odontólogo, no para la cadena.
+            </h2>
+          </div>
+        </FadeInSection>
+
+        {/* MOBILE: swipeable carousel */}
+        <div className="mt-8 md:hidden">
+          <MobileCarousel slideClassName="min-w-[88%] pl-4 first:pl-0">
+            {cards.map((card) => (
+              <AudienceCard key={card.title} card={card} />
+            ))}
+          </MobileCarousel>
         </div>
 
-        <ul
-          role="list"
-          className="mt-8 md:mt-14 grid gap-4 md:gap-5 md:grid-cols-3"
-        >
+        {/* DESKTOP: 3-col grid */}
+        <ul role="list" className="hidden md:grid mt-14 gap-5 md:grid-cols-3">
           {cards.map((card) => (
-            <li
-              key={card.title}
-              className="flex flex-col gap-3 md:gap-5 rounded-md bg-bg-card border border-border/70 p-5 md:p-7 hover:border-mint transition-colors"
-            >
-              <div
-                aria-hidden="true"
-                className="w-12 h-12 md:w-14 md:h-14 rounded-sm bg-mint/10 text-mint-deep flex items-center justify-center"
-              >
-                {card.icon}
-              </div>
-              <h3 className="text-lg md:text-xl font-bold text-navy text-balance leading-snug">
-                {card.title}
-              </h3>
-              <p className="text-ink-2 leading-relaxed text-sm md:text-[15px]">
-                {card.description}
-              </p>
+            <li key={card.title}>
+              <FadeInSection>
+                <AudienceCard card={card} />
+              </FadeInSection>
             </li>
           ))}
         </ul>

@@ -1,3 +1,5 @@
+import FadeInSection from "./FadeInSection";
+
 const painPoints = [
   {
     title: "La agenda vive en un cuaderno o en WhatsApp.",
@@ -71,31 +73,32 @@ export default function Problem() {
       className="bg-bg-tint py-14 md:py-28 border-b border-border"
     >
       <div className="container-x">
-        <div className="max-w-3xl">
-          <h2
-            id="problema-title"
-            className="section-title text-balance"
-          >
-            El día a día del consultorio se va en lo que no es atender pacientes.
-          </h2>
-        </div>
+        <FadeInSection>
+          <div className="max-w-3xl">
+            <h2
+              id="problema-title"
+              className="section-title text-balance"
+            >
+              El día a día del consultorio se va en lo que no es atender pacientes.
+            </h2>
+          </div>
+        </FadeInSection>
 
         <div className="mt-8 md:mt-16 grid gap-4 md:gap-6 md:grid-cols-3">
-          {painPoints.map((p) => (
-            <div
-              key={p.title}
-              className="flex flex-col gap-3 md:gap-4 rounded-md bg-bg-card border border-border/70 p-5 md:p-7 hover:border-navy-200 transition-colors"
-            >
-              <div className="w-10 h-10 md:w-11 md:h-11 rounded-sm bg-navy/5 text-navy flex items-center justify-center">
-                {p.icon}
+          {painPoints.map((p, i) => (
+            <FadeInSection key={p.title} delay={i * 0.1}>
+              <div className="flex flex-col gap-3 md:gap-4 rounded-md bg-bg-card border border-border/70 p-5 md:p-7 hover:border-navy-200 transition-colors h-full">
+                <div className="w-10 h-10 md:w-11 md:h-11 rounded-sm bg-navy/5 text-navy flex items-center justify-center">
+                  {p.icon}
+                </div>
+                <h3 className="text-base md:text-lg font-bold text-navy leading-snug text-balance">
+                  {p.title}
+                </h3>
+                <p className="text-ink-2 leading-relaxed text-sm md:text-[15px]">
+                  {p.description}
+                </p>
               </div>
-              <h3 className="text-base md:text-lg font-bold text-navy leading-snug text-balance">
-                {p.title}
-              </h3>
-              <p className="text-ink-2 leading-relaxed text-sm md:text-[15px]">
-                {p.description}
-              </p>
-            </div>
+            </FadeInSection>
           ))}
         </div>
       </div>

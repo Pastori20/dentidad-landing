@@ -1,3 +1,6 @@
+import MobileCarousel from "./MobileCarousel";
+import FadeInSection from "./FadeInSection";
+
 type Row = {
   topic: string;
   before: string;
@@ -67,16 +70,18 @@ export default function Differentiation() {
       className="py-14 md:py-28 border-b border-border bg-bg-card"
     >
       <div className="container-x">
-        <div className="max-w-3xl">
-          <p className="eyebrow">Por qué Dentidad</p>
-          <h2 id="diff-title" className="section-title mt-3 text-balance">
-            De Excel y cuaderno a un solo lugar.
-          </h2>
-          <p className="section-lead">
-            Si hoy tu consultorio funciona con planillas, cuadernos y fotos
-            sueltas en el celular, este es el cambio.
-          </p>
-        </div>
+        <FadeInSection>
+          <div className="max-w-3xl">
+            <p className="eyebrow">Por qué Dentidad</p>
+            <h2 id="diff-title" className="section-title mt-3 text-balance">
+              De Excel y cuaderno a un solo lugar.
+            </h2>
+            <p className="section-lead">
+              Si hoy tu consultorio funciona con planillas, cuadernos y fotos
+              sueltas en el celular, este es el cambio.
+            </p>
+          </div>
+        </FadeInSection>
 
         {/* Desktop: real table with headers visible from row 1 */}
         <div className="mt-12 md:mt-14 overflow-hidden rounded-lg border border-border bg-bg-card hidden md:block">
@@ -137,41 +142,44 @@ export default function Differentiation() {
           </table>
         </div>
 
-        {/* Mobile: compact rows. Each row is one topic with two side-by-side
-            mini-columns (Hoy | Con Dentidad), so 9 comparisons fit in ~3-4
-            screens instead of 9. */}
-        <ul role="list" className="mt-8 space-y-3 md:hidden">
-          {rows.map((r) => (
-            <li
-              key={r.topic}
-              className="rounded-md border border-border bg-bg-card overflow-hidden"
-            >
-              <p className="px-4 pt-3 pb-2 text-sm font-bold text-navy">
-                {r.topic}
-              </p>
-              <div className="grid grid-cols-2 border-t border-border/70">
-                <div className="px-3 py-3 bg-bg/40 border-r border-border/70">
-                  <p className="text-[10px] font-mono uppercase tracking-[1.2px] text-ink-3">
-                    Hoy
-                  </p>
-                  <p className="mt-1 flex items-start gap-1.5 text-ink-2 text-[12.5px] leading-snug">
-                    <XMark />
-                    <span>{r.before}</span>
-                  </p>
-                </div>
-                <div className="px-3 py-3 bg-mint-soft/20">
-                  <p className="text-[10px] font-mono uppercase tracking-[1.2px] text-mint-deep">
-                    Con Dentidad
-                  </p>
-                  <p className="mt-1 flex items-start gap-1.5 text-ink text-[12.5px] leading-snug">
-                    <Check />
-                    <span>{r.after}</span>
-                  </p>
+        {/* Mobile: carousel — swipe through 9 comparisons one at a time */}
+        <div className="mt-8 md:hidden">
+          <MobileCarousel slideClassName="min-w-[86%] pl-4 first:pl-0">
+            {rows.map((r) => (
+              <div
+                key={r.topic}
+                className="rounded-md border border-border bg-bg-card overflow-hidden h-full"
+              >
+                <p className="px-4 pt-3 pb-2 text-base font-bold text-navy">
+                  {r.topic}
+                </p>
+                <div className="grid grid-cols-2 border-t border-border/70">
+                  <div className="px-3 py-4 bg-bg/40 border-r border-border/70">
+                    <p className="text-[10px] font-mono uppercase tracking-[1.2px] text-ink-3">
+                      Hoy
+                    </p>
+                    <p className="mt-1.5 flex items-start gap-1.5 text-ink-2 text-[13px] leading-snug">
+                      <XMark />
+                      <span>{r.before}</span>
+                    </p>
+                  </div>
+                  <div className="px-3 py-4 bg-mint-soft/20">
+                    <p className="text-[10px] font-mono uppercase tracking-[1.2px] text-mint-deep">
+                      Con Dentidad
+                    </p>
+                    <p className="mt-1.5 flex items-start gap-1.5 text-ink text-[13px] leading-snug">
+                      <Check />
+                      <span>{r.after}</span>
+                    </p>
+                  </div>
                 </div>
               </div>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </MobileCarousel>
+          <p className="mt-3 text-center text-xs text-ink-3">
+            Deslizá para ver las {rows.length} diferencias
+          </p>
+        </div>
 
         <div className="mt-10 md:mt-14 text-center">
           <p className="text-ink-2">

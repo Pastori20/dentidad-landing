@@ -15,6 +15,8 @@ type PainPoint = {
     iconColor: string;
     glow: string; // hover glow color
     badge: string;
+    titleColor: string;
+    descColor: string;
   };
 };
 
@@ -24,11 +26,13 @@ const painPoints: PainPoint[] = [
     description:
       "Reprogramar un turno significa borrar, llamar, anotar en otro lado.",
     accent: {
-      tint: "from-[#FFF3EA] to-[#FFE6D2]",
-      iconBg: "bg-[#FFA552]/15",
-      iconColor: "text-[#D97706]",
-      glow: "shadow-[0_20px_50px_-15px_rgba(217,119,6,.35)]",
-      badge: "bg-[#D97706] text-white",
+      tint: "from-[#E8F0FA] to-[#D4E4FB]",
+      iconBg: "bg-white/70",
+      iconColor: "text-[#1D4ED8]",
+      glow: "shadow-[0_20px_50px_-15px_rgba(29,78,216,.25)]",
+      badge: "bg-[#1D4ED8] text-white",
+      titleColor: "text-navy",
+      descColor: "text-ink-2",
     },
     icon: (
       <svg
@@ -52,11 +56,13 @@ const painPoints: PainPoint[] = [
     title: "Cada paciente está repartido entre planillas, fotos y papeles.",
     description: "Cuando lo necesitás, no aparece.",
     accent: {
-      tint: "from-[#EAF2FE] to-[#D4E4FB]",
-      iconBg: "bg-[#3B82F6]/15",
-      iconColor: "text-[#1D4ED8]",
-      glow: "shadow-[0_20px_50px_-15px_rgba(29,78,216,.35)]",
-      badge: "bg-[#1D4ED8] text-white",
+      tint: "from-navy via-[#0a4978] to-[#0f5e95]",
+      iconBg: "bg-white/15",
+      iconColor: "text-mint-soft",
+      glow: "shadow-[0_20px_50px_-15px_rgba(6,55,96,.5)]",
+      badge: "bg-mint text-navy",
+      titleColor: "text-white",
+      descColor: "text-mint-soft/85",
     },
     icon: (
       <svg
@@ -80,11 +86,13 @@ const painPoints: PainPoint[] = [
     description:
       "¿Quién debe? ¿Cuánto se cobró? ¿En qué medio? Las cuentas se hacen en la cabeza.",
     accent: {
-      tint: "from-[#E6FAF3] to-[#C2F0DD]",
-      iconBg: "bg-[#10B981]/15",
-      iconColor: "text-[#047857]",
-      glow: "shadow-[0_20px_50px_-15px_rgba(4,120,87,.35)]",
-      badge: "bg-[#047857] text-white",
+      tint: "from-[#B7F2E5] via-[#D2F7EB] to-[#E8FBF4]",
+      iconBg: "bg-white/70",
+      iconColor: "text-mint-deep",
+      glow: "shadow-[0_20px_50px_-15px_rgba(0,201,167,.35)]",
+      badge: "bg-mint text-navy",
+      titleColor: "text-navy",
+      descColor: "text-ink-2",
     },
     icon: (
       <svg
@@ -127,10 +135,10 @@ function PainCard({ p, index }: { p: PainPoint; index: number }) {
         >
           {p.icon}
         </div>
-        <h3 className="text-lg md:text-xl font-bold text-navy leading-snug text-balance pr-12">
+        <h3 className={`text-lg md:text-xl font-bold leading-snug text-balance pr-12 ${p.accent.titleColor}`}>
           {p.title}
         </h3>
-        <p className="text-ink-2 leading-relaxed text-sm md:text-[15px]">
+        <p className={`leading-relaxed text-sm md:text-[15px] ${p.accent.descColor}`}>
           {p.description}
         </p>
       </div>

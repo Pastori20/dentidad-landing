@@ -236,15 +236,16 @@ type IncluyeItem = {
   title: string;
   blurb?: string;
   icon: ReactNode;
-  size: "small" | "wide" | "tall";
-  theme: "mint" | "navy" | "amber" | "sky" | "coral";
+  size: "small" | "spotlight";
+  theme: "mint" | "navy" | "sky";
+  /** Only used when size === "spotlight" */
+  spotlight?: boolean;
 };
 
 const inclusos: IncluyeItem[] = [
   {
     title: "Evoluciones vinculadas al odontograma",
-    blurb: "Cada prestación queda anclada a la pieza y la cara.",
-    size: "wide",
+    size: "small",
     theme: "mint",
     icon: (
       <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -254,7 +255,7 @@ const inclusos: IncluyeItem[] = [
     ),
   },
   {
-    title: "Fotos, Rx e informes",
+    title: "Fotos, Rx e informes por paciente",
     size: "small",
     theme: "sky",
     icon: (
@@ -266,9 +267,9 @@ const inclusos: IncluyeItem[] = [
     ),
   },
   {
-    title: "Alertas del día",
+    title: "Alertas del día en el dashboard",
     size: "small",
-    theme: "coral",
+    theme: "navy",
     icon: (
       <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M6 8a6 6 0 0112 0c0 5 2 6 2 6H4s2-1 2-6z" />
@@ -280,7 +281,7 @@ const inclusos: IncluyeItem[] = [
     title: "Sumá tu equipo",
     blurb: "Secretaria, asistente, asociados.",
     size: "small",
-    theme: "navy",
+    theme: "mint",
     icon: (
       <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
@@ -292,9 +293,9 @@ const inclusos: IncluyeItem[] = [
   },
   {
     title: "Celular, tablet y PC",
-    blurb: "Mismo sistema, sincronizado en vivo.",
-    size: "wide",
-    theme: "navy",
+    blurb: "Sincronizado en vivo.",
+    size: "small",
+    theme: "sky",
     icon: (
       <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="3" y="4" width="14" height="12" rx="2" />
@@ -304,9 +305,9 @@ const inclusos: IncluyeItem[] = [
     ),
   },
   {
-    title: "Backup automático",
+    title: "Backup automático de tus datos",
     size: "small",
-    theme: "amber",
+    theme: "navy",
     icon: (
       <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <ellipse cx="12" cy="6" rx="8" ry="3" />
@@ -316,10 +317,11 @@ const inclusos: IncluyeItem[] = [
     ),
   },
   {
-    title: "Obras sociales argentinas",
-    blurb: "Federada, OSDE, Swiss, IOMA y más, precargadas.",
-    size: "small",
+    title: "Obras sociales argentinas precargadas",
+    blurb: "Federada, OSDE, Swiss Medical, IOMA, PAMI y más — ya cargadas en el sistema, listas para asignar a cada paciente.",
+    size: "spotlight",
     theme: "mint",
+    spotlight: true,
     icon: (
       <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M4 21V8l8-5 8 5v13" />
@@ -330,12 +332,13 @@ const inclusos: IncluyeItem[] = [
   },
 ];
 
-const themeStyles: Record<IncluyeItem["theme"], { bg: string; iconBg: string; iconColor: string; titleColor: string; blob: string }> = {
+const themeStyles: Record<IncluyeItem["theme"], { bg: string; iconBg: string; iconColor: string; titleColor: string; blurbColor: string; blob: string }> = {
   mint: {
     bg: "bg-gradient-to-br from-[#B7F2E5] via-[#D2F7EB] to-[#E8FBF4]",
     iconBg: "bg-white/70",
     iconColor: "text-mint-deep",
     titleColor: "text-navy",
+    blurbColor: "text-ink-2",
     blob: "bg-mint/30",
   },
   navy: {
@@ -343,28 +346,16 @@ const themeStyles: Record<IncluyeItem["theme"], { bg: string; iconBg: string; ic
     iconBg: "bg-white/15",
     iconColor: "text-mint-soft",
     titleColor: "text-white",
+    blurbColor: "text-mint-soft/85",
     blob: "bg-mint/20",
-  },
-  amber: {
-    bg: "bg-gradient-to-br from-[#FFF3D6] via-[#FFE9B8] to-[#FFDF9A]",
-    iconBg: "bg-white/70",
-    iconColor: "text-[#B45309]",
-    titleColor: "text-[#7C2D12]",
-    blob: "bg-[#F59E0B]/30",
   },
   sky: {
     bg: "bg-gradient-to-br from-[#DCEEFF] via-[#C5E1FA] to-[#A8D3F5]",
     iconBg: "bg-white/70",
     iconColor: "text-[#1D4ED8]",
-    titleColor: "text-[#0F2A5C]",
+    titleColor: "text-navy",
+    blurbColor: "text-ink-2",
     blob: "bg-[#3B82F6]/30",
-  },
-  coral: {
-    bg: "bg-gradient-to-br from-[#FFE1D6] via-[#FFCFBE] to-[#FFB59C]",
-    iconBg: "bg-white/70",
-    iconColor: "text-[#C2410C]",
-    titleColor: "text-[#7C2D12]",
-    blob: "bg-[#F97316]/30",
   },
 };
 
@@ -714,55 +705,104 @@ function CheckMark() {
 }
 
 function BentoIncluye({ items }: { items: IncluyeItem[] }) {
-  // Mobile: 2-col grid with auto-row sizing. Desktop: 4-col bento with mixed widths.
+  const normalItems = items.filter((i) => i.size !== "spotlight");
+  const spotlightItems = items.filter((i) => i.size === "spotlight");
+
   return (
-    <ul
-      role="list"
-      className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 auto-rows-[min-content]"
-    >
-      {items.map((item, i) => {
+    <div className="mt-8 md:mt-12 space-y-4 md:space-y-5">
+      {/* Top grid: 6 small cards in 2 rows of 3 (desktop) / 3 rows of 2 (mobile) */}
+      <ul
+        role="list"
+        className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5"
+      >
+        {normalItems.map((item) => {
+          const t = themeStyles[item.theme];
+          return (
+            <li
+              key={item.title}
+              className={`group relative overflow-hidden rounded-2xl ${t.bg} p-5 md:p-6 transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl`}
+            >
+              <div
+                aria-hidden="true"
+                className={`absolute -right-6 -bottom-6 w-24 h-24 md:w-32 md:h-32 rounded-full blur-2xl ${t.blob} group-hover:scale-110 transition-transform duration-500`}
+              />
+              <div className="relative z-10 flex flex-col h-full gap-3 md:gap-4">
+                <span
+                  aria-hidden="true"
+                  className={`flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-xl ${t.iconBg} ${t.iconColor}`}
+                >
+                  {item.icon}
+                </span>
+                <h4
+                  className={`text-[15px] md:text-base font-bold leading-snug ${t.titleColor}`}
+                >
+                  {item.title}
+                </h4>
+                {item.blurb && (
+                  <p
+                    className={`text-[13px] md:text-sm leading-relaxed ${t.blurbColor}`}
+                  >
+                    {item.blurb}
+                  </p>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      {/* Spotlight banner row: Obras sociales argentinas — full width */}
+      {spotlightItems.map((item) => {
         const t = themeStyles[item.theme];
-        const sizeClass =
-          item.size === "wide"
-            ? "col-span-2 md:col-span-2"
-            : "col-span-1";
         return (
-          <li
+          <div
             key={item.title}
-            className={`${sizeClass} group relative overflow-hidden rounded-2xl ${t.bg} p-5 md:p-6 transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl`}
+            className={`group relative overflow-hidden rounded-2xl ${t.bg} p-6 md:p-8 transition-transform duration-300 hover:scale-[1.005] hover:shadow-xl`}
           >
-            {/* Decorative blob */}
             <div
               aria-hidden="true"
-              className={`absolute -right-6 -bottom-6 w-24 h-24 md:w-32 md:h-32 rounded-full blur-2xl ${t.blob} group-hover:scale-110 transition-transform duration-500`}
+              className={`absolute -right-10 -top-10 w-48 h-48 rounded-full blur-3xl ${t.blob} group-hover:scale-110 transition-transform duration-500`}
             />
-            <div className="relative z-10 flex flex-col h-full gap-3 md:gap-4">
+            <div
+              aria-hidden="true"
+              className={`absolute -left-8 -bottom-8 w-32 h-32 rounded-full blur-2xl ${t.blob} group-hover:scale-110 transition-transform duration-500`}
+            />
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
               <span
                 aria-hidden="true"
-                className={`flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-xl ${t.iconBg} ${t.iconColor}`}
+                className={`flex-shrink-0 flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl ${t.iconBg} ${t.iconColor}`}
               >
                 {item.icon}
               </span>
-              <h4
-                className={`text-[15px] md:text-base font-bold leading-snug ${t.titleColor}`}
-              >
-                {item.title}
-              </h4>
-              {item.blurb && (
-                <p
-                  className={`text-[13px] md:text-sm leading-relaxed ${
-                    item.theme === "navy"
-                      ? "text-mint-soft/80"
-                      : "text-ink-2"
-                  }`}
+              <div className="flex-1">
+                <h4
+                  className={`text-xl md:text-2xl font-extrabold leading-tight ${t.titleColor}`}
                 >
-                  {item.blurb}
-                </p>
-              )}
+                  {item.title}
+                </h4>
+                {item.blurb && (
+                  <p
+                    className={`mt-2 text-[14px] md:text-base leading-relaxed ${t.blurbColor}`}
+                  >
+                    {item.blurb}
+                  </p>
+                )}
+              </div>
+              {/* Pills mostrando algunas obras sociales para llenar el espacio */}
+              <div className="hidden md:flex flex-wrap gap-2 max-w-[280px]">
+                {["OSDE", "Swiss Medical", "Federada", "IOMA", "PAMI"].map((os) => (
+                  <span
+                    key={os}
+                    className="bg-white/70 text-navy text-xs font-semibold px-3 py-1.5 rounded-full"
+                  >
+                    {os}
+                  </span>
+                ))}
+              </div>
             </div>
-          </li>
+          </div>
         );
       })}
-    </ul>
+    </div>
   );
 }

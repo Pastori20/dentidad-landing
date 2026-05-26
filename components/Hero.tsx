@@ -144,21 +144,26 @@ export default function Hero() {
                 tile uses the full column width so names, times and statuses
                 are readable. */}
             <div className="relative space-y-4">
-              {/* Tile 1 — KPIs row (Turnos / Pacientes / Pendiente / Pagado).
-                  Wide horizontal crop. */}
-              <ScreenTile
-                src="/screens/hero-kpis.png"
-                alt="Panel del día de Dentidad: turnos de hoy, pacientes, pendiente de cobro y pagado este mes."
-                hint="Recorte: fila de KPIs del dashboard"
-                priority
-                sizes="(min-width: 1024px) 560px, 100vw"
-              />
+              {/* MOBILE: iPhone screenshot showing the real mobile experience.
+                  Hidden on desktop where we show the larger desktop tiles. */}
+              <div className="md:hidden flex justify-center">
+                <img
+                  src="/screens/mobile/agenda-mobile.png"
+                  alt="Agenda mobile de Dentidad mostrando los turnos del día con estado y profesional."
+                  className="w-full max-w-[280px] h-auto drop-shadow-2xl"
+                  loading="eager"
+                />
+              </div>
 
-              {/* Tile 2 — Agenda de hoy, full column width so details are
-                  legible (names, times, status pills).
-                  Hidden on mobile to reduce scroll length — KPIs already
-                  carry the visual punch above. */}
-              <div className="hidden md:block">
+              {/* DESKTOP only: KPIs + Agenda tiles stacked */}
+              <div className="hidden md:block space-y-4">
+                <ScreenTile
+                  src="/screens/hero-kpis.png"
+                  alt="Panel del día de Dentidad: turnos de hoy, pacientes, pendiente de cobro y pagado este mes."
+                  hint="Recorte: fila de KPIs del dashboard"
+                  priority
+                  sizes="(min-width: 1024px) 560px, 100vw"
+                />
                 <ScreenTile
                   src="/screens/hero-agenda.png"
                   alt="Agenda de hoy con los próximos turnos: nombre del paciente, horario y estado del turno."

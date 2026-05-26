@@ -232,20 +232,33 @@ const features: FeatureBlock[] = [
   },
 ];
 
-const inclusos: Array<{ icon: ReactNode; title: string }> = [
+type IncluyeItem = {
+  title: string;
+  blurb?: string;
+  icon: ReactNode;
+  size: "small" | "wide" | "tall";
+  theme: "mint" | "navy" | "amber" | "sky" | "coral";
+};
+
+const inclusos: IncluyeItem[] = [
   {
     title: "Evoluciones vinculadas al odontograma",
+    blurb: "Cada prestación queda anclada a la pieza y la cara.",
+    size: "wide",
+    theme: "mint",
     icon: (
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M4 6h16M4 12h16M4 18h10" />
         <circle cx="20" cy="18" r="2" />
       </svg>
     ),
   },
   {
-    title: "Fotos, radiografías e informes por paciente",
+    title: "Fotos, Rx e informes",
+    size: "small",
+    theme: "sky",
     icon: (
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="3" y="5" width="18" height="14" rx="2" />
         <path d="M3 16l5-5 4 4 3-3 6 6" />
         <circle cx="9" cy="10" r="1.5" />
@@ -253,18 +266,23 @@ const inclusos: Array<{ icon: ReactNode; title: string }> = [
     ),
   },
   {
-    title: "Alertas del día en el dashboard",
+    title: "Alertas del día",
+    size: "small",
+    theme: "coral",
     icon: (
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M6 8a6 6 0 0112 0c0 5 2 6 2 6H4s2-1 2-6z" />
         <path d="M10 18a2 2 0 004 0" />
       </svg>
     ),
   },
   {
-    title: "Sumá a tu secretaria o asistente",
+    title: "Sumá tu equipo",
+    blurb: "Secretaria, asistente, asociados.",
+    size: "small",
+    theme: "navy",
     icon: (
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
         <circle cx="9" cy="7" r="4" />
         <path d="M22 21v-2a4 4 0 00-3-3.87" />
@@ -273,9 +291,12 @@ const inclusos: Array<{ icon: ReactNode; title: string }> = [
     ),
   },
   {
-    title: "Funciona desde celular, tablet y PC",
+    title: "Celular, tablet y PC",
+    blurb: "Mismo sistema, sincronizado en vivo.",
+    size: "wide",
+    theme: "navy",
     icon: (
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="3" y="4" width="14" height="12" rx="2" />
         <rect x="14" y="10" width="7" height="11" rx="1.5" />
         <path d="M3 16l4 4" />
@@ -283,9 +304,11 @@ const inclusos: Array<{ icon: ReactNode; title: string }> = [
     ),
   },
   {
-    title: "Backup automático de tus datos",
+    title: "Backup automático",
+    size: "small",
+    theme: "amber",
     icon: (
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <ellipse cx="12" cy="6" rx="8" ry="3" />
         <path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6" />
         <path d="M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" />
@@ -293,9 +316,12 @@ const inclusos: Array<{ icon: ReactNode; title: string }> = [
     ),
   },
   {
-    title: "Obras sociales argentinas precargadas",
+    title: "Obras sociales argentinas",
+    blurb: "Federada, OSDE, Swiss, IOMA y más, precargadas.",
+    size: "small",
+    theme: "mint",
     icon: (
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M4 21V8l8-5 8 5v13" />
         <path d="M9 21v-6h6v6" />
         <path d="M12 11h.01" />
@@ -303,6 +329,44 @@ const inclusos: Array<{ icon: ReactNode; title: string }> = [
     ),
   },
 ];
+
+const themeStyles: Record<IncluyeItem["theme"], { bg: string; iconBg: string; iconColor: string; titleColor: string; blob: string }> = {
+  mint: {
+    bg: "bg-gradient-to-br from-[#B7F2E5] via-[#D2F7EB] to-[#E8FBF4]",
+    iconBg: "bg-white/70",
+    iconColor: "text-mint-deep",
+    titleColor: "text-navy",
+    blob: "bg-mint/30",
+  },
+  navy: {
+    bg: "bg-gradient-to-br from-navy via-[#0a4978] to-[#0f5e95]",
+    iconBg: "bg-white/15",
+    iconColor: "text-mint-soft",
+    titleColor: "text-white",
+    blob: "bg-mint/20",
+  },
+  amber: {
+    bg: "bg-gradient-to-br from-[#FFF3D6] via-[#FFE9B8] to-[#FFDF9A]",
+    iconBg: "bg-white/70",
+    iconColor: "text-[#B45309]",
+    titleColor: "text-[#7C2D12]",
+    blob: "bg-[#F59E0B]/30",
+  },
+  sky: {
+    bg: "bg-gradient-to-br from-[#DCEEFF] via-[#C5E1FA] to-[#A8D3F5]",
+    iconBg: "bg-white/70",
+    iconColor: "text-[#1D4ED8]",
+    titleColor: "text-[#0F2A5C]",
+    blob: "bg-[#3B82F6]/30",
+  },
+  coral: {
+    bg: "bg-gradient-to-br from-[#FFE1D6] via-[#FFCFBE] to-[#FFB59C]",
+    iconBg: "bg-white/70",
+    iconColor: "text-[#C2410C]",
+    titleColor: "text-[#7C2D12]",
+    blob: "bg-[#F97316]/30",
+  },
+};
 
 export default function Features() {
   return (
@@ -325,33 +389,31 @@ export default function Features() {
           </div>
         </FadeInSection>
 
-        {/* MOBILE: carousel — one feature per slide, swipeable */}
+        {/* MOBILE: carousel — one feature per slide, compact card */}
         <div className="mt-8 md:hidden">
-          <MobileCarousel slideClassName="min-w-[90%] pl-4 first:pl-0">
+          <MobileCarousel slideClassName="min-w-[88%] pl-4 first:pl-0">
             {features.map((f) => (
               <article
                 key={f.id}
                 id={`${f.id}-mobile`}
                 aria-labelledby={`${f.id}-title-mobile`}
-                className="bg-bg-card border border-border rounded-lg p-5 h-full flex flex-col"
+                className="bg-gradient-to-br from-white to-mint-soft/20 border border-border rounded-2xl p-5 h-full flex flex-col shadow-sm"
               >
-                <div className="mb-4">
-                  <FeatureVisual visual={f.visual} />
+                {/* Compact visual area — fixed height so cards align */}
+                <div className="mb-4 flex items-center justify-center min-h-[180px] max-h-[220px] overflow-hidden">
+                  <FeatureMobileVisual feature={f} />
                 </div>
                 <h3
                   id={`${f.id}-title-mobile`}
-                  className="text-xl font-extrabold text-navy tracking-tight text-balance"
+                  className="text-lg font-extrabold text-navy tracking-tight text-balance leading-tight"
                 >
                   {f.title}
                 </h3>
-                <p className="mt-2 text-ink-2 text-[15px] leading-relaxed">
-                  {f.body}
-                </p>
-                <ul className="mt-3 space-y-2">
-                  {f.bullets.map((b) => (
+                <ul className="mt-3 space-y-1.5">
+                  {f.bullets.slice(0, 3).map((b) => (
                     <li
                       key={b}
-                      className="flex items-start gap-2.5 text-ink leading-relaxed text-[14px]"
+                      className="flex items-start gap-2 text-ink leading-snug text-[13px]"
                     >
                       <CheckMark />
                       <span>{b}</span>
@@ -413,29 +475,13 @@ export default function Features() {
         <FadeInSection>
           <div className="mt-16 md:mt-32">
             <div className="max-w-3xl">
-              <h3 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight">
+              <p className="eyebrow">El paquete completo</p>
+              <h3 className="text-2xl md:text-3xl font-extrabold text-navy tracking-tight mt-3">
                 Todo lo que incluye
               </h3>
             </div>
 
-            <ul className="mt-6 md:mt-10 grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {inclusos.map((item) => (
-                <li
-                  key={item.title}
-                  className="flex items-start gap-3 md:gap-4 rounded-md bg-bg-card border border-border/70 p-4 md:p-5 hover:border-mint hover:shadow-sm transition-all"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-sm bg-mint/10 text-mint-deep flex items-center justify-center"
-                  >
-                    {item.icon}
-                  </span>
-                  <span className="text-navy font-semibold leading-snug pt-1 md:pt-1.5 text-[15px] md:text-base">
-                    {item.title}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <BentoIncluye items={inclusos} />
           </div>
         </FadeInSection>
       </div>
@@ -613,6 +659,41 @@ function PlaceholderTile({
   );
 }
 
+// Mapping of feature id → mobile iPhone screenshot. For features without a
+// dedicated mobile screen we fall back to the desktop visual (scaled down).
+const MOBILE_SCREENSHOTS: Record<string, string> = {
+  "feature-agenda": "/screens/mobile/agenda-mobile.png",
+  "feature-ficha": "/screens/mobile/ficha-mobile.png",
+  "feature-odontograma": "/screens/mobile/odontograma-mobile.png",
+  "feature-caja": "/screens/mobile/caja-mobile.png",
+};
+
+function FeatureMobileVisual({ feature }: { feature: FeatureBlock }) {
+  const mobileSrc = MOBILE_SCREENSHOTS[feature.id];
+  if (mobileSrc) {
+    // Horizontal iPhone (odontograma in landscape) — render wider, less tall
+    const isHorizontal = feature.id === "feature-odontograma";
+    return (
+      <img
+        src={mobileSrc}
+        alt={feature.title}
+        className={
+          isHorizontal
+            ? "w-full max-w-[280px] h-auto drop-shadow-md"
+            : "w-auto max-h-[200px] drop-shadow-md"
+        }
+        loading="lazy"
+      />
+    );
+  }
+  // Fallback: scale down desktop visual
+  return (
+    <div className="w-full max-w-[260px]">
+      <FeatureVisual visual={feature.visual} />
+    </div>
+  );
+}
+
 function CheckMark() {
   return (
     <svg
@@ -629,5 +710,59 @@ function CheckMark() {
     >
       <path d="M5 13l4 4L19 7" />
     </svg>
+  );
+}
+
+function BentoIncluye({ items }: { items: IncluyeItem[] }) {
+  // Mobile: 2-col grid with auto-row sizing. Desktop: 4-col bento with mixed widths.
+  return (
+    <ul
+      role="list"
+      className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 auto-rows-[min-content]"
+    >
+      {items.map((item, i) => {
+        const t = themeStyles[item.theme];
+        const sizeClass =
+          item.size === "wide"
+            ? "col-span-2 md:col-span-2"
+            : "col-span-1";
+        return (
+          <li
+            key={item.title}
+            className={`${sizeClass} group relative overflow-hidden rounded-2xl ${t.bg} p-5 md:p-6 transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl`}
+          >
+            {/* Decorative blob */}
+            <div
+              aria-hidden="true"
+              className={`absolute -right-6 -bottom-6 w-24 h-24 md:w-32 md:h-32 rounded-full blur-2xl ${t.blob} group-hover:scale-110 transition-transform duration-500`}
+            />
+            <div className="relative z-10 flex flex-col h-full gap-3 md:gap-4">
+              <span
+                aria-hidden="true"
+                className={`flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-xl ${t.iconBg} ${t.iconColor}`}
+              >
+                {item.icon}
+              </span>
+              <h4
+                className={`text-[15px] md:text-base font-bold leading-snug ${t.titleColor}`}
+              >
+                {item.title}
+              </h4>
+              {item.blurb && (
+                <p
+                  className={`text-[13px] md:text-sm leading-relaxed ${
+                    item.theme === "navy"
+                      ? "text-mint-soft/80"
+                      : "text-ink-2"
+                  }`}
+                >
+                  {item.blurb}
+                </p>
+              )}
+            </div>
+          </li>
+        );
+      })}
+    </ul>
   );
 }

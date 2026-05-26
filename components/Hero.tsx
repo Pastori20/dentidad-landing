@@ -144,12 +144,13 @@ export default function Hero() {
                 tile uses the full column width so names, times and statuses
                 are readable. */}
             <div className="relative space-y-4">
-              {/* MOBILE: iPhone screenshot showing the real mobile experience.
-                  Hidden on desktop where we show the larger desktop tiles. */}
+              {/* MOBILE: iPhone screenshot showing the real mobile experience
+                  on app.dentidad.com. Hidden on desktop where we show the
+                  larger desktop tiles. */}
               <div className="md:hidden flex justify-center">
                 <img
-                  src="/screens/mobile-dashboard.png"
-                  alt="Dashboard mobile de Dentidad: bienvenida, turnos del día, pacientes, pendiente de cobro y pagado este mes."
+                  src="/screens/mobile-hero.png"
+                  alt="Dentidad en mobile: agenda del día con turnos, profesional seleccionado y estados de recordatorio."
                   className="w-full max-w-[280px] h-auto drop-shadow-2xl"
                   loading="eager"
                 />

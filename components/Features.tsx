@@ -39,7 +39,7 @@ type IllustrationSpec = {
   // (e.g. multi-sede, where the visual idea is a relationship diagram
   // rather than a screen).
   kind: "illustration";
-  name: "multisede";
+  name: "multisede" | "reportes";
   alt: string;
 };
 
@@ -87,12 +87,13 @@ const features: FeatureBlock[] = [
   },
   {
     id: "feature-agenda",
-    title: "Agenda con recordatorios automáticos",
-    body: "Vista de día y semana, con bloqueos de horario y cinco estados de turno claros. Mandá recordatorios por WhatsApp y email sin salir de la plataforma.",
+    title: "Agenda con recordatorios inteligentes por WhatsApp",
+    body: "Mandá recordatorios por WhatsApp con un link interactivo: el paciente confirma asistencia o avisa ausencia desde el mensaje, y el estado del turno se actualiza solo en tu agenda. Cero llamadas perdidas, cero idas y vueltas.",
     bullets: [
+      "Link de confirmación / ausencia en cada WhatsApp",
+      "Estado del turno se actualiza automáticamente cuando el paciente responde",
       "Día y semana, con bloqueos por franja horaria",
-      "Cinco estados: confirmado, con recordatorio, pendiente, ausente con o sin aviso",
-      "Recordatorios por WhatsApp y email",
+      "Cinco estados claros: confirmado, con recordatorio, pendiente, ausente con o sin aviso",
     ],
     visual: {
       kind: "stack",
@@ -212,6 +213,22 @@ const features: FeatureBlock[] = [
       kind: "tile",
       src: "/screens/galeria.png",
       alt: "Galería de estudios por paciente en Dentidad con tabs por tipo de archivo y tarjetas para una foto intraoral y una radiografía panorámica.",
+    },
+  },
+  {
+    id: "feature-reportes",
+    title: "Reportes clínicos y financieros",
+    body: "Toda la información de tu consultorio en tablas y gráficos sin armar nada en Excel. Cobros, turnos, pacientes y performance — actualizados en vivo y exportables a PDF.",
+    bullets: [
+      "Cobros por período, paciente y medio de pago",
+      "Turnos del mes: confirmados, cancelados, ausentes",
+      "Performance por profesional (clínicas con asociados)",
+      "Todo exportable a PDF para imprimir o compartir",
+    ],
+    visual: {
+      kind: "illustration",
+      name: "reportes",
+      alt: "Vista de reportes en Dentidad: barras mostrando cobros mensuales, métricas de turnos y línea de tendencia.",
     },
   },
   {
@@ -485,6 +502,9 @@ function FeatureVisual({ visual }: { visual: Visual }) {
     if (visual.name === "multisede") {
       return <MultiSedeIllustration alt={visual.alt} />;
     }
+    if (visual.name === "reportes") {
+      return <ReportesIllustration alt={visual.alt} />;
+    }
     return null;
   }
 
@@ -592,6 +612,89 @@ function MultiSedeIllustration({ alt }: { alt: string }) {
         <text x="485" y="344" fontFamily="DM Sans, system-ui, sans-serif" fontSize="11" fill="#475569" textAnchor="middle">Caja propia</text>
         <rect x="418" y="362" width="134" height="28" rx="6" fill="#F4F6F8" />
         <text x="485" y="380" fontFamily="DM Sans, system-ui, sans-serif" fontSize="11" fill="#475569" textAnchor="middle">4 profesionales</text>
+      </svg>
+    </div>
+  );
+}
+
+function ReportesIllustration({ alt }: { alt: string }) {
+  return (
+    <div className="rounded-md overflow-hidden border border-border bg-bg-card shadow-sm">
+      <svg
+        viewBox="0 0 600 460"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label={alt}
+        className="w-full h-auto block"
+      >
+        {/* Background */}
+        <rect width="600" height="460" fill="#E8F0FA" />
+
+        {/* Window chrome */}
+        <rect x="30" y="30" width="540" height="400" rx="14" fill="#FFFFFF" stroke="#E5E7EB" strokeWidth="1.5" />
+        <rect x="30" y="30" width="540" height="34" rx="14" fill="#063760" />
+        <circle cx="50" cy="47" r="4" fill="#FF5F57" />
+        <circle cx="66" cy="47" r="4" fill="#FEBC2E" />
+        <circle cx="82" cy="47" r="4" fill="#28C840" />
+        <text x="290" y="52" fontFamily="DM Sans, system-ui, sans-serif" fontWeight="600" fontSize="13" fill="#B7F2E5" textAnchor="middle">Reportes — Mayo 2026</text>
+
+        {/* Top KPI row */}
+        <rect x="50" y="84" width="115" height="68" rx="10" fill="#F4F6F8" />
+        <text x="64" y="106" fontFamily="DM Sans, system-ui, sans-serif" fontSize="10" fill="#6B7280" letterSpacing="1">COBRADO</text>
+        <text x="64" y="135" fontFamily="DM Sans, system-ui, sans-serif" fontWeight="800" fontSize="20" fill="#063760">$ 387.250</text>
+
+        <rect x="175" y="84" width="115" height="68" rx="10" fill="#F4F6F8" />
+        <text x="189" y="106" fontFamily="DM Sans, system-ui, sans-serif" fontSize="10" fill="#6B7280" letterSpacing="1">TURNOS</text>
+        <text x="189" y="135" fontFamily="DM Sans, system-ui, sans-serif" fontWeight="800" fontSize="20" fill="#063760">142</text>
+
+        <rect x="300" y="84" width="115" height="68" rx="10" fill="#F4F6F8" />
+        <text x="314" y="106" fontFamily="DM Sans, system-ui, sans-serif" fontSize="10" fill="#6B7280" letterSpacing="1">PACIENTES</text>
+        <text x="314" y="135" fontFamily="DM Sans, system-ui, sans-serif" fontWeight="800" fontSize="20" fill="#063760">68</text>
+
+        <rect x="425" y="84" width="115" height="68" rx="10" fill="#B7F2E5" />
+        <text x="439" y="106" fontFamily="DM Sans, system-ui, sans-serif" fontSize="10" fill="#00A085" letterSpacing="1" fontWeight="700">CONFIRMADOS</text>
+        <text x="439" y="135" fontFamily="DM Sans, system-ui, sans-serif" fontWeight="800" fontSize="20" fill="#063760">86%</text>
+
+        {/* Bar chart */}
+        <text x="50" y="190" fontFamily="DM Sans, system-ui, sans-serif" fontWeight="700" fontSize="13" fill="#063760">Cobros por mes</text>
+        <text x="50" y="206" fontFamily="DM Sans, system-ui, sans-serif" fontSize="10" fill="#9CA3AF">Últimos 6 meses</text>
+
+        {/* Bars */}
+        <rect x="58" y="320" width="36" height="55" rx="4" fill="#E5E7EB" />
+        <rect x="106" y="295" width="36" height="80" rx="4" fill="#E5E7EB" />
+        <rect x="154" y="270" width="36" height="105" rx="4" fill="#E5E7EB" />
+        <rect x="202" y="285" width="36" height="90" rx="4" fill="#E5E7EB" />
+        <rect x="250" y="248" width="36" height="127" rx="4" fill="#063760" />
+        <rect x="298" y="220" width="36" height="155" rx="4" fill="#00C9A7" />
+
+        {/* Month labels */}
+        <text x="76" y="395" fontFamily="DM Sans, system-ui, sans-serif" fontSize="9" fill="#9CA3AF" textAnchor="middle">Dic</text>
+        <text x="124" y="395" fontFamily="DM Sans, system-ui, sans-serif" fontSize="9" fill="#9CA3AF" textAnchor="middle">Ene</text>
+        <text x="172" y="395" fontFamily="DM Sans, system-ui, sans-serif" fontSize="9" fill="#9CA3AF" textAnchor="middle">Feb</text>
+        <text x="220" y="395" fontFamily="DM Sans, system-ui, sans-serif" fontSize="9" fill="#9CA3AF" textAnchor="middle">Mar</text>
+        <text x="268" y="395" fontFamily="DM Sans, system-ui, sans-serif" fontSize="9" fill="#9CA3AF" textAnchor="middle">Abr</text>
+        <text x="316" y="395" fontFamily="DM Sans, system-ui, sans-serif" fontSize="9" fontWeight="700" fill="#00A085" textAnchor="middle">May</text>
+
+        {/* Right side - donut + legend */}
+        <text x="370" y="190" fontFamily="DM Sans, system-ui, sans-serif" fontWeight="700" fontSize="13" fill="#063760">Estado de turnos</text>
+
+        {/* Donut */}
+        <circle cx="430" cy="280" r="50" fill="none" stroke="#E5E7EB" strokeWidth="16" />
+        <circle cx="430" cy="280" r="50" fill="none" stroke="#00C9A7" strokeWidth="16" strokeDasharray="270 50" strokeDashoffset="0" transform="rotate(-90 430 280)" />
+        <text x="430" y="277" fontFamily="DM Sans, system-ui, sans-serif" fontWeight="800" fontSize="22" fill="#063760" textAnchor="middle">86%</text>
+        <text x="430" y="293" fontFamily="DM Sans, system-ui, sans-serif" fontSize="9" fill="#6B7280" textAnchor="middle">asistencia</text>
+
+        {/* Legend */}
+        <circle cx="496" cy="218" r="4" fill="#00C9A7" />
+        <text x="506" y="222" fontFamily="DM Sans, system-ui, sans-serif" fontSize="11" fill="#063760">Confirmados</text>
+        <circle cx="496" cy="240" r="4" fill="#185FA5" />
+        <text x="506" y="244" fontFamily="DM Sans, system-ui, sans-serif" fontSize="11" fill="#063760">Pendientes</text>
+        <circle cx="496" cy="262" r="4" fill="#FBBF24" />
+        <text x="506" y="266" fontFamily="DM Sans, system-ui, sans-serif" fontSize="11" fill="#063760">Ausentes</text>
+
+        {/* Export button */}
+        <rect x="486" y="346" width="64" height="26" rx="13" fill="#063760" />
+        <text x="518" y="363" fontFamily="DM Sans, system-ui, sans-serif" fontWeight="700" fontSize="10" fill="#B7F2E5" textAnchor="middle">↓ PDF</text>
       </svg>
     </div>
   );

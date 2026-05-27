@@ -232,6 +232,22 @@ const features: FeatureBlock[] = [
     },
   },
   {
+    id: "feature-multidispositivos",
+    title: "Funciona en cualquier dispositivo",
+    body: "Computadora, tablet o celular. Mismo Dentidad, misma información, sincronizado en vivo desde el navegador.",
+    bullets: [
+      "Sin instalar nada — corre desde el navegador",
+      "Mismo login en compu, tablet y celular",
+      "Sincronización en vivo — empezás un turno en la PC, terminás en el celu",
+      "Diseñado mobile-first para usar entre pacientes",
+    ],
+    visual: {
+      kind: "tile",
+      src: "/screens/multidispositivos.png",
+      alt: "Dentidad funcionando en computadora, tablet y celular simultáneamente con la misma información sincronizada.",
+    },
+  },
+  {
     id: "feature-multisede",
     title: "Multi-sede en una sola cuenta",
     body: "Si tu clínica tiene más de un consultorio, gestionalos todos desde la misma cuenta. Cada sede con su agenda, sus profesionales y su caja — sin pagar usuarios extra ni cambiar de sistema cuando abras una nueva.",
@@ -309,15 +325,14 @@ const inclusos: IncluyeItem[] = [
     ),
   },
   {
-    title: "Celular, tablet y PC",
-    blurb: "Sincronizado en vivo.",
+    title: "Roles y permisos",
+    blurb: "Administrador, profesional, recepción — cada uno ve lo que tiene que ver.",
     size: "small",
     theme: "sky",
     icon: (
       <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <rect x="3" y="4" width="14" height="12" rx="2" />
-        <rect x="14" y="10" width="7" height="11" rx="1.5" />
-        <path d="M3 16l4 4" />
+        <rect x="4" y="11" width="16" height="10" rx="2" />
+        <path d="M8 11V7a4 4 0 018 0v4" />
       </svg>
     ),
   },

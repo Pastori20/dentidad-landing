@@ -74,7 +74,7 @@ export default function Header() {
             href="#cta"
             className="btn-primary text-sm py-2.5 px-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
           >
-            Solicitar acceso
+            Probar 14 días gratis
           </a>
         </div>
 
@@ -126,7 +126,7 @@ export default function Header() {
                 onClick={() => setMobileOpen(false)}
                 className="btn-primary w-full"
               >
-                Solicitar acceso
+                Probar 14 días gratis
               </a>
             </div>
           </div>

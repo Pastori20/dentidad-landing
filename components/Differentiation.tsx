@@ -180,7 +180,7 @@ export default function Differentiation() {
             ¿Te suena familiar la columna de la izquierda?
           </p>
           <a href="#cta" className="btn-primary mt-5 inline-flex">
-            Solicitar acceso
+            Probar 14 días gratis
             <svg
               width="16"
               height="16"

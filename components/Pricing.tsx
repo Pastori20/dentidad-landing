@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import FadeInSection from "./FadeInSection";
 import MobileCarousel from "./MobileCarousel";
 
+type PlanTheme = "sky" | "mint" | "navy";
+
 type Plan = {
   id: string;
   name: string;
@@ -12,10 +14,35 @@ type Plan = {
   priceUsd: number;
   highlight: boolean;
   cta: string;
+  /** Color theme — each card has its own gradient bg for visual variety */
+  theme: PlanTheme;
   /** What makes THIS plan different (assume common features are listed above) */
   highlights: string[];
   /** Features futuras INCLUIDAS en este tier cuando se lancen (sin upgrade) */
   upcoming: string[];
+};
+
+// Gradient + border styles per theme. Each plan visually represents its weight:
+// sky (entry, light), mint (recommended, brand), navy (premium, deep).
+const planThemeStyles: Record<PlanTheme, { bg: string; border: string; ring: string; cta: string }> = {
+  sky: {
+    bg: "bg-gradient-to-br from-[#EAF2FE] via-white to-[#DCEEFF]/60",
+    border: "border border-[#3B82F6]/25",
+    ring: "",
+    cta: "bg-navy text-white hover:bg-navy/90",
+  },
+  mint: {
+    bg: "bg-gradient-to-br from-mint-soft/50 via-white to-mint-soft/30",
+    border: "border-2 border-mint",
+    ring: "ring-4 ring-mint/15 shadow-xl shadow-mint/30",
+    cta: "bg-mint text-navy hover:bg-mint-deep hover:text-white",
+  },
+  navy: {
+    bg: "bg-gradient-to-br from-navy via-[#0a4978] to-[#0f5e95] text-white",
+    border: "border border-mint/30",
+    ring: "shadow-xl shadow-navy/40",
+    cta: "bg-mint text-navy hover:bg-mint-deep hover:text-white",
+  },
 };
 
 const formatArs = (n: number) =>
@@ -40,7 +67,8 @@ const plans: Plan[] = [
     priceArs: 50000,
     priceUsd: 40,
     highlight: false,
-    cta: "Empezar prueba gratis",
+    theme: "sky",
+    cta: "Probar 14 días gratis",
     highlights: [
       "1 dentista",
       "Galería hasta 500 archivos",
@@ -55,7 +83,8 @@ const plans: Plan[] = [
     priceArs: 85000,
     priceUsd: 65,
     highlight: true,
-    cta: "Empezar prueba gratis",
+    theme: "mint",
+    cta: "Probar 14 días gratis",
     highlights: [
       "Hasta 3 dentistas + recepción",
       "Reportes financieros y clínicos",
@@ -72,7 +101,8 @@ const plans: Plan[] = [
     priceArs: 300000,
     priceUsd: 230,
     highlight: false,
-    cta: "Hablar con el fundador",
+    theme: "navy",
+    cta: "Probar 14 días gratis",
     highlights: [
       "Sedes ilimitadas",
       "Hasta 10 dentistas",
@@ -254,13 +284,18 @@ export default function Pricing() {
 
 function PricingCard({ plan }: { plan: Plan }) {
   const isHighlight = plan.highlight;
+  const t = planThemeStyles[plan.theme];
+  // Para tier navy (Multi-sede) usamos texto blanco/mint en lugar de navy
+  const isNavyTheme = plan.theme === "navy";
+  const titleColor = isNavyTheme ? "text-white" : "text-navy";
+  const taglineColor = isNavyTheme ? "text-mint-soft/80" : "text-ink-2";
+  const eyebrowColor = isNavyTheme ? "text-mint-soft" : "text-ink-3";
+  const ftrColor = isNavyTheme ? "text-mint-soft/90" : "text-ink";
+  const dashedBorderColor = isNavyTheme ? "border-mint-soft/30" : "border-border/80";
+
   return (
     <div
-      className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${
-        isHighlight
-          ? "bg-gradient-to-br from-mint-soft/40 to-white border-2 border-mint shadow-xl shadow-mint/30 ring-4 ring-mint/15"
-          : "bg-bg-card border border-border/70 hover:border-mint/60"
-      }`}
+      className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${t.bg} ${t.border} ${t.ring}`}
     >
       {/* Ribbon "Más elegido" — INSIDE the card, no overflow + pulse subtle */}
       {isHighlight && (
@@ -271,7 +306,6 @@ function PricingCard({ plan }: { plan: Plan }) {
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           className="text-navy text-[11px] font-bold tracking-wider uppercase text-center py-2 shadow-sm relative overflow-hidden"
         >
-          {/* Shine cruzando el ribbon */}
           <motion.div
             aria-hidden="true"
             animate={{ x: ["-100%", "200%"] }}
@@ -282,84 +316,78 @@ function PricingCard({ plan }: { plan: Plan }) {
         </motion.div>
       )}
 
-      <div className="p-5 md:p-7 flex flex-col h-full">
+      <div className="p-5 md:p-6 flex flex-col h-full">
         {/* Plan name + tagline */}
         <div>
-          <h3 className="text-2xl font-extrabold text-navy">{plan.name}</h3>
-          <p className="mt-1 text-sm text-ink-2 leading-snug">{plan.tagline}</p>
-        </div>
-
-      {/* Price */}
-      <div className="mt-5">
-        <div className="flex items-baseline gap-2">
-          <span className="text-xs font-semibold text-ink-3">ARS</span>
-          <span className="text-3xl md:text-4xl font-extrabold text-navy">
-            ${formatArs(plan.priceArs)}
-          </span>
-        </div>
-        <p className="text-xs text-ink-3 mt-1">
-          por mes · ≈ USD ${plan.priceUsd}
-        </p>
-        <div className="mt-3 rounded-lg bg-mint-soft/40 px-3 py-2">
-          <p className="text-[11px] font-mono uppercase tracking-[1.5px] text-mint-deep">
-            Con promo
-          </p>
-          <p className="text-sm font-bold text-navy">
-            14 días gratis · luego ${formatArs(plan.priceArs / 2)}/mes (3 meses)
+          <h3 className={`text-xl md:text-2xl font-extrabold ${titleColor}`}>
+            {plan.name}
+          </h3>
+          <p className={`mt-1 text-[13px] md:text-sm leading-snug ${taglineColor}`}>
+            {plan.tagline}
           </p>
         </div>
-      </div>
 
-      {/* Differentiator features only */}
-      <div className="mt-5">
-        <p className="text-[10px] font-mono uppercase tracking-[1.5px] text-ink-3">
-          Incluido en este plan
-        </p>
-        <ul className="mt-3 space-y-2.5">
+        {/* Price block COMPACT — promo price big, regular strikethrough inline */}
+        <div className="mt-4">
+          {/* Big promo price */}
+          <div className="flex items-baseline gap-2">
+            <span className={`text-3xl md:text-4xl font-extrabold ${titleColor}`}>
+              ${formatArs(plan.priceArs / 2)}
+            </span>
+            <span className={`text-sm ${taglineColor}`}>/mes</span>
+          </div>
+          {/* Strikethrough + promo context */}
+          <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span className={`text-sm line-through ${isNavyTheme ? "text-mint-soft/55" : "text-ink-3"}`}>
+              ${formatArs(plan.priceArs)}
+            </span>
+            <span className={`text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${isNavyTheme ? "bg-mint/20 text-mint" : "bg-mint/15 text-mint-deep"}`}>
+              50% OFF · 3 meses
+            </span>
+          </div>
+          <p className={`mt-2 text-[12px] ${taglineColor}`}>
+            14 días gratis para arrancar · sin tarjeta
+          </p>
+        </div>
+
+        {/* Differentiator features — sin eyebrow, más compacto */}
+        <ul className="mt-4 space-y-2">
           {plan.highlights.map((feat) => (
             <li
               key={feat}
-              className="flex items-start gap-2.5 text-[14px] leading-snug text-ink"
+              className={`flex items-start gap-2 text-[13.5px] leading-snug ${ftrColor}`}
             >
-              <Check />
+              <Check navy={isNavyTheme} />
               <span>{feat}</span>
             </li>
           ))}
         </ul>
-      </div>
 
-      {/* Upcoming features */}
-      {plan.upcoming.length > 0 && (
-        <div className="mt-5 pt-4 border-t border-dashed border-border/80 flex-1">
-          <p className="text-[10px] font-mono uppercase tracking-[1.5px] text-mint-deep flex items-center gap-1.5">
-            <ClockIcon />
-            Próximamente en este plan
-          </p>
-          <ul className="mt-2.5 space-y-1.5">
-            {plan.upcoming.map((feat) => (
-              <li
-                key={feat}
-                className="flex items-start gap-2 text-[13px] leading-snug text-ink-2"
-              >
-                <SoonDot />
-                <span>{feat}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-2 text-[11px] text-ink-3 italic">
-            Sin pagar de nuevo cuando se lance.
-          </p>
-        </div>
-      )}
+        {/* Upcoming features */}
+        {plan.upcoming.length > 0 && (
+          <div className={`mt-4 pt-3 border-t border-dashed ${dashedBorderColor} flex-1`}>
+            <p className={`text-[10px] font-mono uppercase tracking-[1.5px] flex items-center gap-1.5 ${isNavyTheme ? "text-mint" : "text-mint-deep"}`}>
+              <ClockIcon />
+              Próximamente en este plan
+            </p>
+            <ul className="mt-2 space-y-1.5">
+              {plan.upcoming.map((feat) => (
+                <li
+                  key={feat}
+                  className={`flex items-start gap-2 text-[12.5px] leading-snug ${isNavyTheme ? "text-mint-soft/85" : "text-ink-2"}`}
+                >
+                  <SoonDot />
+                  <span>{feat}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* CTA */}
         <a
           href="#cta"
-          className={`mt-6 inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-bold text-[15px] transition-colors ${
-            isHighlight
-              ? "bg-mint text-navy hover:bg-mint-deep hover:text-white"
-              : "bg-navy text-white hover:bg-navy/90"
-          }`}
+          className={`mt-5 inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 font-bold text-[14px] md:text-[15px] transition-colors ${t.cta}`}
         >
           {plan.cta}
         </a>
@@ -368,15 +396,15 @@ function PricingCard({ plan }: { plan: Plan }) {
   );
 }
 
-function Check() {
+function Check({ navy = false }: { navy?: boolean }) {
   return (
     <svg
-      width="18"
-      height="18"
+      width="16"
+      height="16"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#00A085"
-      strokeWidth="2.5"
+      stroke={navy ? "#00C9A7" : "#00A085"}
+      strokeWidth="3"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"

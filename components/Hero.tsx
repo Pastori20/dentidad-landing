@@ -63,7 +63,7 @@ export default function Hero() {
 
             <div className="mt-7 md:mt-9 flex flex-col sm:flex-row gap-3">
               <a href="#cta" className="btn-primary text-base">
-                Solicitar acceso
+                Probar 14 días gratis
                 <svg
                   width="16"
                   height="16"

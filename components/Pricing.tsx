@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import FadeInSection from "./FadeInSection";
 import MobileCarousel from "./MobileCarousel";
 
@@ -89,31 +92,82 @@ export default function Pricing() {
     <section
       id="planes"
       aria-labelledby="pricing-title"
-      className="py-14 md:py-28 border-b border-border bg-bg"
+      className="relative py-16 md:py-32 border-b border-border bg-gradient-to-b from-mint-soft/20 via-bg to-mint-soft/30 overflow-hidden"
     >
-      <div className="container-x">
+      {/* Decoración de fondo — blobs animados */}
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          animate={{
+            x: [0, 30, 0],
+            y: [0, -20, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-mint/20 blur-3xl"
+        />
+        <motion.div
+          animate={{
+            x: [0, -25, 0],
+            y: [0, 25, 0],
+          }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-40 -left-32 w-[450px] h-[450px] rounded-full bg-[#1D4ED8]/10 blur-3xl"
+        />
+      </div>
+
+      <div className="container-x relative z-10">
         <FadeInSection>
-          <div className="max-w-3xl">
-            <p className="eyebrow">Planes</p>
-            <h2 id="pricing-title" className="section-title mt-3 text-balance">
+          <div className="max-w-3xl mx-auto text-center">
+            {/* Badge animado flotante */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-mint to-mint-deep text-navy px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-mint/30 mb-6"
+            >
+              <motion.span
+                animate={{ rotate: [0, 15, -15, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                🔥
+              </motion.span>
+              <span>PROMO DE LANZAMIENTO ACTIVA</span>
+              <motion.span
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                className="inline-block w-2 h-2 rounded-full bg-red-500"
+              />
+            </motion.div>
+
+            <h2 id="pricing-title" className="section-title text-balance">
               Precios claros. Sin sorpresas.
             </h2>
-            <p className="section-lead">
+            <p className="section-lead mx-auto">
               Elegí el plan que se adapta a tu consultorio. Cambialo cuando
               quieras. Sin permanencia, sin contratos eternos.
             </p>
           </div>
         </FadeInSection>
 
-        {/* Promo banner */}
+        {/* Promo banner — con shimmer animation que cruza el banner */}
         <FadeInSection>
-          <div className="mt-8 md:mt-10 rounded-2xl bg-gradient-to-r from-navy via-[#0a4978] to-[#0f5e95] p-5 md:p-8 text-white flex flex-col md:flex-row md:items-center gap-4 md:gap-8 shadow-lg">
-            <div className="flex-shrink-0 flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-mint/20">
+          <div className="mt-8 md:mt-10 relative rounded-2xl bg-gradient-to-r from-navy via-[#0a4978] to-[#0f5e95] p-5 md:p-8 text-white flex flex-col md:flex-row md:items-center gap-4 md:gap-8 shadow-2xl shadow-navy/30 overflow-hidden border border-mint/20">
+            {/* Shimmer effect — barra de luz que cruza diagonal cada 4s */}
+            <motion.div
+              aria-hidden="true"
+              animate={{ x: ["-100%", "200%"] }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 1.5, ease: "easeInOut" }}
+              className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-12 pointer-events-none"
+            />
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              className="flex-shrink-0 flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-mint/20 relative z-10"
+            >
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
               </svg>
-            </div>
-            <div className="flex-1">
+            </motion.div>
+            <div className="flex-1 relative z-10">
               <p className="text-xs md:text-sm font-mono uppercase tracking-[2px] text-mint-soft">
                 Promo de lanzamiento
               </p>
@@ -202,17 +256,30 @@ function PricingCard({ plan }: { plan: Plan }) {
   const isHighlight = plan.highlight;
   return (
     <div
-      className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
+      className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${
         isHighlight
-          ? "bg-gradient-to-br from-mint-soft/40 to-white border-2 border-mint shadow-lg"
+          ? "bg-gradient-to-br from-mint-soft/40 to-white border-2 border-mint shadow-xl shadow-mint/30 ring-4 ring-mint/15"
           : "bg-bg-card border border-border/70 hover:border-mint/60"
       }`}
     >
-      {/* Ribbon "Más elegido" — INSIDE the card, no overflow */}
+      {/* Ribbon "Más elegido" — INSIDE the card, no overflow + pulse subtle */}
       {isHighlight && (
-        <div className="bg-mint text-navy text-[11px] font-bold tracking-wider uppercase text-center py-1.5 shadow-sm">
-          ⭐ Más elegido
-        </div>
+        <motion.div
+          animate={{
+            backgroundColor: ["#00C9A7", "#00A085", "#00C9A7"],
+          }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          className="text-navy text-[11px] font-bold tracking-wider uppercase text-center py-2 shadow-sm relative overflow-hidden"
+        >
+          {/* Shine cruzando el ribbon */}
+          <motion.div
+            aria-hidden="true"
+            animate={{ x: ["-100%", "200%"] }}
+            transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 1, ease: "easeInOut" }}
+            className="absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 pointer-events-none"
+          />
+          <span className="relative z-10">⭐ Más elegido</span>
+        </motion.div>
       )}
 
       <div className="p-5 md:p-7 flex flex-col h-full">

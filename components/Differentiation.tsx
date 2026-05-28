@@ -154,63 +154,13 @@ export default function Differentiation() {
           </div>
         </FadeInSection>
 
-        {/* Desktop: real table with headers visible from row 1 */}
-        <div className="mt-12 md:mt-14 overflow-hidden rounded-lg border border-border bg-bg-card hidden md:block">
-          <table className="w-full border-collapse">
-            <caption className="sr-only">
-              Comparación entre el flujo con Excel, cuaderno y WhatsApp y el
-              flujo con Dentidad.
-            </caption>
-            <thead>
-              <tr>
-                <th
-                  scope="col"
-                  className="w-[22%] px-6 py-5 text-left text-xs font-mono uppercase tracking-[2px] text-ink-3 bg-bg/60 border-b border-border"
-                >
-                  Tema
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-5 text-left text-sm font-bold text-ink-2 bg-bg border-b border-border"
-                >
-                  Excel, cuaderno y WhatsApp
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-5 text-left text-sm font-bold text-navy bg-mint-soft/40 border-b border-border"
-                >
-                  Con Dentidad
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r, idx) => (
-                <tr
-                  key={r.topic}
-                  className={idx % 2 === 0 ? "" : "bg-bg/30"}
-                >
-                  <th
-                    scope="row"
-                    className="px-6 py-5 align-top text-left font-bold text-navy border-t border-border/70"
-                  >
-                    {r.topic}
-                  </th>
-                  <td className="px-6 py-5 align-top text-ink-2 leading-relaxed border-t border-border/70">
-                    <span className="flex items-start gap-2">
-                      <XMark />
-                      <span>{r.before}</span>
-                    </span>
-                  </td>
-                  <td className="px-6 py-5 align-top text-ink leading-relaxed bg-mint-soft/20 border-t border-border/70">
-                    <span className="flex items-start gap-2">
-                      <Check />
-                      <span>{r.after}</span>
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        {/* Desktop: mismo FlipCard que mobile, ahora en grid 3x3 */}
+        <div className="hidden md:grid mt-14 grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          {rows.map((r, i) => (
+            <FadeInSection key={r.topic} delay={i * 0.05}>
+              <FlipCard row={r} index={i} />
+            </FadeInSection>
+          ))}
         </div>
 
         {/* Mobile: carousel — swipe through 9 comparisons one at a time */}
@@ -253,40 +203,3 @@ export default function Differentiation() {
   );
 }
 
-function Check() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="#00A085"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="flex-shrink-0 mt-0.5"
-    >
-      <path d="M5 13l4 4L19 7" />
-    </svg>
-  );
-}
-
-function XMark() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="flex-shrink-0 mt-0.5 text-ink-3"
-    >
-      <path d="M6 6l12 12M6 18L18 6" />
-    </svg>
-  );
-}

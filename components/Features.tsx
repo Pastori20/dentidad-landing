@@ -1,10 +1,7 @@
-"use client";
-
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import ScreenTile from "./ScreenTile";
 import MobileCarousel from "./MobileCarousel";
 import FadeInSection from "./FadeInSection";
+import FeaturesTabsClient from "./FeaturesTabsClient";
 import type { CSSProperties, ReactNode } from "react";
 
 type FeatureCategory = "diaadia" | "clinica" | "escalar";
@@ -423,105 +420,52 @@ const themeStyles: Record<IncluyeItem["theme"], { bg: string; iconBg: string; ic
   },
 };
 
-// Tabs interface for desktop — agrupa los 9 features en 3 categorías navegables
-function FeaturesTabs({ features }: { features: FeatureBlock[] }) {
-  const [active, setActive] = useState<FeatureCategory>("diaadia");
-  const categories: FeatureCategory[] = ["diaadia", "clinica", "escalar"];
-  const visible = features.filter((f) => f.category === active);
-
+// Helper para renderizar un panel completo de una categoría (server-side)
+// Esto pre-renderiza todas las features de una categoría incluyendo los visuals,
+// y se pasa al FeaturesTabsClient como ReactNode para que el cliente solo maneje
+// el toggle entre los 3 paneles ya renderizados.
+function renderCategoryPanel(catFeatures: FeatureBlock[]): ReactNode {
   return (
-    <div>
-      {/* Tab buttons */}
-      <div className="flex justify-center mb-4">
-        <div
-          role="tablist"
-          aria-label="Categorías de features"
-          className="inline-flex bg-bg-card border border-border rounded-full p-1.5 shadow-sm"
-        >
-          {categories.map((cat) => {
-            const isActive = cat === active;
-            return (
-              <button
-                key={cat}
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setActive(cat)}
-                className={`px-5 py-2.5 text-[15px] font-bold rounded-full transition-all duration-200 ${
-                  isActive
-                    ? "bg-navy text-white shadow-md"
-                    : "text-ink-2 hover:text-navy hover:bg-mint-soft/40"
-                }`}
+    <div className="space-y-20 lg:space-y-24">
+      {catFeatures.map((f, i) => {
+        const reverse = i % 2 === 1;
+        return (
+          <article
+            key={f.id}
+            id={f.id}
+            aria-labelledby={`${f.id}-title`}
+            className={`grid gap-10 lg:gap-14 lg:grid-cols-2 items-center ${
+              reverse ? "lg:[&>*:first-child]:order-2" : ""
+            }`}
+          >
+            <div>
+              <FeatureVisual visual={f.visual} />
+            </div>
+            <div className="max-w-xl">
+              <h3
+                id={`${f.id}-title`}
+                className="text-3xl font-extrabold text-navy tracking-tight text-balance"
               >
-                {categoryMeta[cat].label}
-                <span
-                  className={`ml-2 inline-flex items-center justify-center min-w-[20px] h-[20px] text-[11px] rounded-full ${
-                    isActive ? "bg-mint text-navy" : "bg-border text-ink-3"
-                  }`}
-                >
-                  {features.filter((f) => f.category === cat).length}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Description under tabs */}
-      <p className="text-center text-ink-2 text-[15px] mb-12 max-w-2xl mx-auto">
-        {categoryMeta[active].description}
-      </p>
-
-      {/* Animated feature stack — solo las features de la categoría activa */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={active}
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="space-y-20 lg:space-y-24"
-        >
-          {visible.map((f, i) => {
-            const reverse = i % 2 === 1;
-            return (
-              <article
-                key={f.id}
-                id={f.id}
-                aria-labelledby={`${f.id}-title`}
-                className={`grid gap-10 lg:gap-14 lg:grid-cols-2 items-center ${
-                  reverse ? "lg:[&>*:first-child]:order-2" : ""
-                }`}
-              >
-                <div>
-                  <FeatureVisual visual={f.visual} />
-                </div>
-                <div className="max-w-xl">
-                  <h3
-                    id={`${f.id}-title`}
-                    className="text-3xl font-extrabold text-navy tracking-tight text-balance"
+                {f.title}
+              </h3>
+              <p className="mt-4 text-ink-2 text-[17px] leading-relaxed">
+                {f.body}
+              </p>
+              <ul className="mt-6 space-y-2.5">
+                {f.bullets.map((b) => (
+                  <li
+                    key={b}
+                    className="flex items-start gap-2.5 text-ink leading-relaxed"
                   >
-                    {f.title}
-                  </h3>
-                  <p className="mt-4 text-ink-2 text-[17px] leading-relaxed">
-                    {f.body}
-                  </p>
-                  <ul className="mt-6 space-y-2.5">
-                    {f.bullets.map((b) => (
-                      <li
-                        key={b}
-                        className="flex items-start gap-2.5 text-ink leading-relaxed"
-                      >
-                        <CheckMark />
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            );
-          })}
-        </motion.div>
-      </AnimatePresence>
+                    <CheckMark />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        );
+      })}
     </div>
   );
 }
@@ -586,9 +530,26 @@ export default function Features() {
           </p>
         </div>
 
-        {/* DESKTOP: tabs por categoría — 3 grupos en lugar de 9 features apilados */}
+        {/* DESKTOP: tabs por categoría — 3 paneles pre-renderizados, cliente solo
+            maneja el toggle entre ellos. Esto deja a ScreenTile (server) intacto. */}
         <div className="hidden md:block mt-16">
-          <FeaturesTabs features={features} />
+          <FeaturesTabsClient
+            categoryMeta={categoryMeta}
+            counts={{
+              diaadia: features.filter((f) => f.category === "diaadia").length,
+              clinica: features.filter((f) => f.category === "clinica").length,
+              escalar: features.filter((f) => f.category === "escalar").length,
+            }}
+            panelDiaadia={renderCategoryPanel(
+              features.filter((f) => f.category === "diaadia")
+            )}
+            panelClinica={renderCategoryPanel(
+              features.filter((f) => f.category === "clinica")
+            )}
+            panelEscalar={renderCategoryPanel(
+              features.filter((f) => f.category === "escalar")
+            )}
+          />
         </div>
 
         <FadeInSection>

@@ -130,28 +130,48 @@ export async function POST(request: NextRequest) {
   `;
 
   try {
-    // Envío de los dos mails en paralelo
-    const [notifyRes, userRes] = await Promise.all([
-      resend.emails.send({
-        from: `Dentidad <${FROM_EMAIL}>`,
-        to: NOTIFY_EMAIL,
-        subject: `🎉 Nuevo signup: ${nombre} — ${consultorio}`,
-        replyTo: email,
-        html: notifyHtml,
-      }),
-      resend.emails.send({
+    // 1) NOTIFY EMAIL es lo crítico — si esto falla, fallamos la request entera.
+    // Es el lead capture: si no llega a Bauti, perdemos al cliente.
+    const notifyRes = await resend.emails.send({
+      from: `Dentidad <${FROM_EMAIL}>`,
+      to: NOTIFY_EMAIL,
+      subject: `🎉 Nuevo signup: ${nombre} — ${consultorio}`,
+      replyTo: email,
+      html: notifyHtml,
+    });
+
+    if (notifyRes.error) {
+      console.error("Resend notify error:", notifyRes.error);
+      return NextResponse.json(
+        {
+          error:
+            "Hubo un problema. Escribinos directamente a info.dentidad@gmail.com.",
+        },
+        { status: 500 }
+      );
+    }
+
+    // 2) USER EMAIL es nice-to-have — si el dominio no está verificado en Resend
+    // o si el email del user rebota, NO fallamos la request. El lead ya está
+    // capturado y Bauti puede contactar manualmente.
+    try {
+      const userRes = await resend.emails.send({
         from: `Dentidad <${FROM_EMAIL}>`,
         to: email,
         subject: `¡Bienvenido a Dentidad! Te creamos la cuenta en <24h`,
         html: userHtml,
-      }),
-    ]);
-
-    if (notifyRes.error || userRes.error) {
-      console.error("Resend error:", notifyRes.error || userRes.error);
-      return NextResponse.json(
-        { error: "Hubo un problema enviando el mail. Intentalo de nuevo o escribinos." },
-        { status: 500 }
+      });
+      if (userRes.error) {
+        // Log pero no fallar — el lead ya está
+        console.warn(
+          "User confirmation email failed (lead captured OK):",
+          userRes.error
+        );
+      }
+    } catch (userErr) {
+      console.warn(
+        "User confirmation email threw (lead captured OK):",
+        userErr
       );
     }
 

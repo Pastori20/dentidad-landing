@@ -378,11 +378,10 @@ const inclusos: IncluyeItem[] = [
     ),
   },
   {
-    title: "Obras sociales argentinas precargadas",
-    blurb: "Federada, OSDE, Swiss Medical, IOMA, PAMI y más — ya cargadas en el sistema, listas para asignar a cada paciente.",
-    size: "spotlight",
+    title: "Obras sociales argentinas",
+    blurb: "OSDE, Swiss, Federada, IOMA, PAMI y más, precargadas.",
+    size: "small",
     theme: "mint",
-    spotlight: true,
     icon: (
       <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M4 21V8l8-5 8 5v13" />
@@ -880,104 +879,66 @@ function CheckMark() {
 }
 
 function BentoIncluye({ items }: { items: IncluyeItem[] }) {
-  const normalItems = items.filter((i) => i.size !== "spotlight");
-  const spotlightItems = items.filter((i) => i.size === "spotlight");
+  // Unificamos todos los items (sin distinción spotlight/normal) — ahora todos
+  // son cards iguales y compactos para que entren parejo en el carousel.
+  const allItems = items;
 
   return (
-    <div className="mt-8 md:mt-12 space-y-4 md:space-y-5">
-      {/* Top grid: 6 small cards in 2 rows of 3 (desktop) / 3 rows of 2 (mobile) */}
+    <div className="mt-8 md:mt-12">
+      {/* MOBILE: carousel compacto con dots */}
+      <div className="md:hidden">
+        <MobileCarousel slideClassName="min-w-[78%] pl-3 first:pl-3 last:pr-3">
+          {allItems.map((item) => (
+            <CompactIncluyeCard key={item.title} item={item} />
+          ))}
+        </MobileCarousel>
+      </div>
+
+      {/* DESKTOP: grid 3 columnas con cards compactos */}
       <ul
         role="list"
-        className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5"
+        className="hidden md:grid grid-cols-3 gap-4 auto-rows-fr"
       >
-        {normalItems.map((item) => {
-          const t = themeStyles[item.theme];
-          return (
-            <li
-              key={item.title}
-              className={`group relative overflow-hidden rounded-2xl ${t.bg} p-5 md:p-6 transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl`}
-            >
-              <div
-                aria-hidden="true"
-                className={`absolute -right-6 -bottom-6 w-24 h-24 md:w-32 md:h-32 rounded-full blur-2xl ${t.blob} group-hover:scale-110 transition-transform duration-500`}
-              />
-              <div className="relative z-10 flex flex-col h-full gap-3 md:gap-4">
-                <span
-                  aria-hidden="true"
-                  className={`flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-xl ${t.iconBg} ${t.iconColor}`}
-                >
-                  {item.icon}
-                </span>
-                <h4
-                  className={`text-[15px] md:text-base font-bold leading-snug ${t.titleColor}`}
-                >
-                  {item.title}
-                </h4>
-                {item.blurb && (
-                  <p
-                    className={`text-[13px] md:text-sm leading-relaxed ${t.blurbColor}`}
-                  >
-                    {item.blurb}
-                  </p>
-                )}
-              </div>
-            </li>
-          );
-        })}
+        {allItems.map((item) => (
+          <li key={item.title}>
+            <CompactIncluyeCard item={item} />
+          </li>
+        ))}
       </ul>
+    </div>
+  );
+}
 
-      {/* Spotlight banner row: Obras sociales argentinas — full width */}
-      {spotlightItems.map((item) => {
-        const t = themeStyles[item.theme];
-        return (
-          <div
-            key={item.title}
-            className={`group relative overflow-hidden rounded-2xl ${t.bg} p-6 md:p-8 transition-transform duration-300 hover:scale-[1.005] hover:shadow-xl`}
+function CompactIncluyeCard({ item }: { item: IncluyeItem }) {
+  const t = themeStyles[item.theme];
+  return (
+    <div
+      className={`group relative h-full overflow-hidden rounded-2xl ${t.bg} p-4 md:p-5 transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl`}
+    >
+      <div
+        aria-hidden="true"
+        className={`absolute -right-4 -bottom-4 w-20 h-20 rounded-full blur-2xl ${t.blob} group-hover:scale-110 transition-transform duration-500`}
+      />
+      <div className="relative z-10 flex flex-col h-full gap-2.5">
+        <span
+          aria-hidden="true"
+          className={`flex h-10 w-10 items-center justify-center rounded-lg ${t.iconBg} ${t.iconColor}`}
+        >
+          {item.icon}
+        </span>
+        <h4
+          className={`text-[14px] md:text-[15px] font-bold leading-tight ${t.titleColor}`}
+        >
+          {item.title}
+        </h4>
+        {item.blurb && (
+          <p
+            className={`text-[12px] md:text-[13px] leading-snug ${t.blurbColor}`}
           >
-            <div
-              aria-hidden="true"
-              className={`absolute -right-10 -top-10 w-48 h-48 rounded-full blur-3xl ${t.blob} group-hover:scale-110 transition-transform duration-500`}
-            />
-            <div
-              aria-hidden="true"
-              className={`absolute -left-8 -bottom-8 w-32 h-32 rounded-full blur-2xl ${t.blob} group-hover:scale-110 transition-transform duration-500`}
-            />
-            <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
-              <span
-                aria-hidden="true"
-                className={`flex-shrink-0 flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl ${t.iconBg} ${t.iconColor}`}
-              >
-                {item.icon}
-              </span>
-              <div className="flex-1">
-                <h4
-                  className={`text-xl md:text-2xl font-extrabold leading-tight ${t.titleColor}`}
-                >
-                  {item.title}
-                </h4>
-                {item.blurb && (
-                  <p
-                    className={`mt-2 text-[14px] md:text-base leading-relaxed ${t.blurbColor}`}
-                  >
-                    {item.blurb}
-                  </p>
-                )}
-              </div>
-              {/* Pills mostrando algunas obras sociales para llenar el espacio */}
-              <div className="hidden md:flex flex-wrap gap-2 max-w-[280px]">
-                {["OSDE", "Swiss Medical", "Federada", "IOMA", "PAMI"].map((os) => (
-                  <span
-                    key={os}
-                    className="bg-white/70 text-navy text-xs font-semibold px-3 py-1.5 rounded-full"
-                  >
-                    {os}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-      })}
+            {item.blurb}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

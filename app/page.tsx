@@ -18,11 +18,14 @@ export default function HomePage() {
         <Hero />
         <Problem />
         <Features />
-        <Roadmap />
-        <Differentiation />
+        {/* Pricing arriba — después de ver features, mostrar precio.
+            Promo de 14 días gratis bien visible sin scroll eterno. */}
+        <Pricing />
         <Audience />
         <FAQ />
-        <Pricing />
+        {/* Differentiation + Roadmap más abajo como refuerzo antes del CTA final */}
+        <Differentiation />
+        <Roadmap />
         <CTA />
       </main>
       <Footer />

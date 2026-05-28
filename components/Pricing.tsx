@@ -54,21 +54,18 @@ const plans: Plan[] = [
     highlight: true,
     cta: "Empezar prueba gratis",
     highlights: [
-      "Hasta 3 dentistas + 1 recepción",
-      "Multi-usuario simultáneo",
-      "Roles y permisos",
+      "Hasta 3 dentistas + recepción",
       "Reportes financieros y clínicos",
       "Caja diaria + recibos PDF",
-      "Galería hasta 5.000 archivos",
+      "Roles y permisos del equipo",
       "Soporte WhatsApp Business",
-      "Onboarding + 1 capacitación",
     ],
-    upcoming: ["Portal del paciente", "Firma digital de consentimientos"],
+    upcoming: ["Portal del paciente", "Firma de consentimientos"],
   },
   {
     id: "multisede",
     name: "Multi-sede",
-    tagline: "Para cadenas y multi-sucursal.",
+    tagline: "Para cadenas multi-sucursal.",
     priceArs: 300000,
     priceUsd: 230,
     highlight: false,
@@ -76,15 +73,12 @@ const plans: Plan[] = [
     highlights: [
       "Sedes ilimitadas",
       "Hasta 10 dentistas",
-      "Reportería por sede",
-      "Galería ilimitada",
-      "Soporte directo del fundador (WhatsApp)",
-      "Onboarding + 3 capacitaciones",
-      "Acceso anticipado a nuevas features",
+      "Reportes por sede",
+      "Soporte directo del fundador",
     ],
     upcoming: [
       "Portal del paciente",
-      "Firma digital de consentimientos",
+      "Firma de consentimientos",
       "Facturación electrónica ARCA",
     ],
   },
@@ -157,7 +151,7 @@ export default function Pricing() {
         {/* MOBILE: pricing carousel — Clínica centered with side arrows */}
         <div className="mt-10 md:hidden">
           <MobileCarousel
-            slideClassName="min-w-[88%] pl-3 first:pl-3 last:pr-3"
+            slideClassName="min-w-[82%] px-2"
             startIndex={1}
             align="center"
             showArrows
@@ -167,7 +161,7 @@ export default function Pricing() {
             ))}
           </MobileCarousel>
           <p className="mt-4 text-center text-xs text-ink-3">
-            Deslizá o usá las flechas para comparar
+            ← Deslizá para comparar planes →
           </p>
         </div>
 
@@ -206,25 +200,25 @@ function PricingCard({ plan }: { plan: Plan }) {
   const isHighlight = plan.highlight;
   return (
     <div
-      className={`relative h-full rounded-2xl p-6 md:p-7 flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
+      className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
         isHighlight
           ? "bg-gradient-to-br from-mint-soft/40 to-white border-2 border-mint shadow-lg"
           : "bg-bg-card border border-border/70 hover:border-mint/60"
       }`}
     >
+      {/* Ribbon "Más elegido" — INSIDE the card, no overflow */}
       {isHighlight && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-mint text-navy text-[11px] font-bold tracking-wide uppercase px-3 py-1 shadow-md whitespace-nowrap">
-            ⭐ Más elegido
-          </span>
+        <div className="bg-mint text-navy text-[11px] font-bold tracking-wider uppercase text-center py-1.5 shadow-sm">
+          ⭐ Más elegido
         </div>
       )}
 
-      {/* Plan name + tagline */}
-      <div>
-        <h3 className="text-2xl font-extrabold text-navy">{plan.name}</h3>
-        <p className="mt-1 text-sm text-ink-2 leading-snug">{plan.tagline}</p>
-      </div>
+      <div className="p-5 md:p-7 flex flex-col h-full">
+        {/* Plan name + tagline */}
+        <div>
+          <h3 className="text-2xl font-extrabold text-navy">{plan.name}</h3>
+          <p className="mt-1 text-sm text-ink-2 leading-snug">{plan.tagline}</p>
+        </div>
 
       {/* Price */}
       <div className="mt-5">
@@ -289,17 +283,18 @@ function PricingCard({ plan }: { plan: Plan }) {
         </div>
       )}
 
-      {/* CTA */}
-      <a
-        href="#cta"
-        className={`mt-6 inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-bold text-[15px] transition-colors ${
-          isHighlight
-            ? "bg-mint text-navy hover:bg-mint-deep hover:text-white"
-            : "bg-navy text-white hover:bg-navy/90"
-        }`}
-      >
-        {plan.cta}
-      </a>
+        {/* CTA */}
+        <a
+          href="#cta"
+          className={`mt-6 inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-bold text-[15px] transition-colors ${
+            isHighlight
+              ? "bg-mint text-navy hover:bg-mint-deep hover:text-white"
+              : "bg-navy text-white hover:bg-navy/90"
+          }`}
+        >
+          {plan.cta}
+        </a>
+      </div>
     </div>
   );
 }

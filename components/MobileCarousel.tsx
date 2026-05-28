@@ -39,7 +39,9 @@ export default function MobileCarousel({
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align,
     loop: false,
-    containScroll: "trimSnaps",
+    // Solo trimSnaps si align="start" — con "center" lo desactivamos para que
+    // el slide focused se centre de verdad incluso siendo el primero/último.
+    containScroll: align === "center" ? false : "trimSnaps",
     startIndex,
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -72,20 +74,27 @@ export default function MobileCarousel({
       </div>
 
       {showDots && scrollSnaps.length > 1 && (
-        <div className="mt-6 flex justify-center gap-2">
-          {scrollSnaps.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              aria-label={`Ir a slide ${i + 1}`}
-              onClick={() => scrollTo(i)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                i === selectedIndex
-                  ? "w-8 bg-[#00C9A7]"
-                  : "w-2 bg-[#063760]/20 hover:bg-[#063760]/40"
-              }`}
-            />
-          ))}
+        <div className="mt-5 flex flex-col items-center gap-3">
+          {/* Pagination dots — más prominentes (h-2.5 vs h-2 antes) */}
+          <div className="flex justify-center gap-2.5">
+            {scrollSnaps.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Ir a slide ${i + 1}`}
+                onClick={() => scrollTo(i)}
+                className={`h-2.5 rounded-full transition-all duration-300 ${
+                  i === selectedIndex
+                    ? "w-10 bg-[#00C9A7] shadow-sm"
+                    : "w-2.5 bg-[#063760]/25 hover:bg-[#063760]/50"
+                }`}
+              />
+            ))}
+          </div>
+          {/* Numeric position indicator — "3 de 8" */}
+          <p className="text-[11px] font-mono uppercase tracking-[1.5px] text-ink-3">
+            {selectedIndex + 1} de {scrollSnaps.length}
+          </p>
         </div>
       )}
 

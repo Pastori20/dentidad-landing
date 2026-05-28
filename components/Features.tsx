@@ -477,7 +477,8 @@ function DesktopFeatureVisual({ feature }: { feature: FeatureBlock }) {
 const MOBILE_SCREENSHOTS_DESKTOP: Record<string, string> = {
   "feature-agenda": "/screens/mobile/agenda-mobile.png",
   "feature-ficha": "/screens/mobile/ficha-mobile.png",
-  "feature-odontograma": "/screens/mobile/odontograma-mobile.png",
+  // Odontograma usa la visual stack original (odo-completo + odo-procedimientos)
+  // — la versión mobile iPhone horizontal no convencía visualmente
   "feature-caja": "/screens/mobile/caja-mobile.png",
 };
 
@@ -836,7 +837,7 @@ function PlaceholderTile({
 const MOBILE_SCREENSHOTS: Record<string, string> = {
   "feature-agenda": "/screens/mobile/agenda-mobile.png",
   "feature-ficha": "/screens/mobile/ficha-mobile.png",
-  "feature-odontograma": "/screens/mobile/odontograma-mobile.png",
+  // Odontograma usa el stack original (odo-completo + odo-procedimientos)
   "feature-caja": "/screens/mobile/caja-mobile.png",
 };
 

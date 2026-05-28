@@ -1,7 +1,28 @@
+"use client";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import ScreenTile from "./ScreenTile";
 import MobileCarousel from "./MobileCarousel";
 import FadeInSection from "./FadeInSection";
 import type { CSSProperties, ReactNode } from "react";
+
+type FeatureCategory = "diaadia" | "clinica" | "escalar";
+
+const categoryMeta: Record<FeatureCategory, { label: string; description: string }> = {
+  diaadia: {
+    label: "Día a día",
+    description: "Lo que hacés todos los días: agenda, recordatorios y cobros.",
+  },
+  clinica: {
+    label: "Clínica",
+    description: "Tu trabajo profesional: ficha, odontograma, anamnesis y galería.",
+  },
+  escalar: {
+    label: "Escalar",
+    description: "Cuando tu clínica crece: reportes, multi-sede y multi-dispositivo.",
+  },
+};
 
 type TileSpec = {
   // Pre-cropped screenshot rendered at its natural aspect ratio.
@@ -52,6 +73,7 @@ type Visual =
 
 type FeatureBlock = {
   id: string;
+  category: FeatureCategory;
   title: string;
   body: string;
   bullets: string[];
@@ -61,6 +83,7 @@ type FeatureBlock = {
 const features: FeatureBlock[] = [
   {
     id: "feature-odontograma",
+    category: "clinica",
     title: "Odontograma profesional",
     body: "Vista doble inicial y actual, permanente y temporario. Cinco caras por pieza, ocho procedimientos clínicos. Cada evolución queda anclada a la pieza y la cara específica, así no perdés trazabilidad.",
     bullets: [
@@ -87,6 +110,7 @@ const features: FeatureBlock[] = [
   },
   {
     id: "feature-agenda",
+    category: "diaadia",
     title: "Agenda con recordatorios inteligentes por WhatsApp",
     body: "Mandá recordatorios por WhatsApp con un link interactivo: el paciente confirma asistencia o avisa ausencia desde el mensaje, y el estado del turno se actualiza solo en tu agenda. Cero llamadas perdidas, cero idas y vueltas.",
     bullets: [
@@ -115,6 +139,7 @@ const features: FeatureBlock[] = [
   },
   {
     id: "feature-ficha",
+    category: "clinica",
     title: "Ficha clínica completa",
     body: "Datos personales, obra social y antecedentes médicos con chips visuales. Todo el paciente en una sola pantalla, sin saltar entre planillas.",
     bullets: [
@@ -146,6 +171,7 @@ const features: FeatureBlock[] = [
   },
   {
     id: "feature-anamnesis",
+    category: "clinica",
     title: "Anamnesis con dos formularios",
     body: "Dos cuestionarios separados: uno para pacientes adultos y otro para odontopediatría. Cada respuesta queda asociada al paciente como antecedente clínico ordenado.",
     bullets: [
@@ -161,6 +187,7 @@ const features: FeatureBlock[] = [
   },
   {
     id: "feature-evoluciones",
+    category: "clinica",
     title: "Evoluciones ancladas a la pieza",
     body: "Registrá cada prestación clínica del día y, si corresponde, vinculala al odontograma actual. Cada evolución queda anclada a la pieza y cara afectada, así la bitácora del paciente nunca pierde trazabilidad.",
     bullets: [
@@ -176,6 +203,7 @@ const features: FeatureBlock[] = [
   },
   {
     id: "feature-caja",
+    category: "diaadia",
     title: "Caja diaria y comprobantes",
     body: "Presupuestos y pagos por paciente con saldo siempre actualizado. Caja diaria con desglose por medio de pago. Recibos numerados con PDF imprimible.",
     bullets: [
@@ -202,6 +230,7 @@ const features: FeatureBlock[] = [
   },
   {
     id: "feature-galeria",
+    category: "clinica",
     title: "Galería de estudios por paciente",
     body: "Subí fotos clínicas, radiografías e informes y dejá todo organizado por paciente. Filtros rápidos para encontrar lo que necesitás sin revolver el celular.",
     bullets: [
@@ -217,6 +246,7 @@ const features: FeatureBlock[] = [
   },
   {
     id: "feature-reportes",
+    category: "escalar",
     title: "Reportes clínicos y financieros",
     body: "Toda la información de tu consultorio en tablas y gráficos sin armar nada en Excel. Cobros, turnos, pacientes y performance — actualizados en vivo y exportables a PDF.",
     bullets: [
@@ -233,6 +263,7 @@ const features: FeatureBlock[] = [
   },
   {
     id: "feature-multidispositivos",
+    category: "escalar",
     title: "Funciona en cualquier dispositivo",
     body: "Computadora, tablet o celular. Mismo Dentidad, misma información, sincronizado en vivo desde el navegador.",
     bullets: [
@@ -249,6 +280,7 @@ const features: FeatureBlock[] = [
   },
   {
     id: "feature-multisede",
+    category: "escalar",
     title: "Multi-sede en una sola cuenta",
     body: "Si tu clínica tiene más de un consultorio, gestionalos todos desde la misma cuenta. Cada sede con su agenda, sus profesionales y su caja — sin pagar usuarios extra ni cambiar de sistema cuando abras una nueva.",
     bullets: [
@@ -451,48 +483,9 @@ export default function Features() {
           </p>
         </div>
 
-        {/* DESKTOP: original alternating layout */}
-        <div className="hidden md:block mt-20 space-y-28">
-          {features.map((f, i) => {
-            const reverse = i % 2 === 1;
-            return (
-              <FadeInSection key={f.id} delay={0}>
-                <article
-                  id={f.id}
-                  aria-labelledby={`${f.id}-title`}
-                  className={`grid gap-10 lg:gap-14 lg:grid-cols-2 items-center ${
-                    reverse ? "lg:[&>*:first-child]:order-2" : ""
-                  }`}
-                >
-                  <div>
-                    <FeatureVisual visual={f.visual} />
-                  </div>
-                  <div className="max-w-xl">
-                    <h3
-                      id={`${f.id}-title`}
-                      className="text-3xl font-extrabold text-navy tracking-tight text-balance"
-                    >
-                      {f.title}
-                    </h3>
-                    <p className="mt-4 text-ink-2 text-[17px] leading-relaxed">
-                      {f.body}
-                    </p>
-                    <ul className="mt-6 space-y-2.5">
-                      {f.bullets.map((b) => (
-                        <li
-                          key={b}
-                          className="flex items-start gap-2.5 text-ink leading-relaxed"
-                        >
-                          <CheckMark />
-                          <span>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              </FadeInSection>
-            );
-          })}
+        {/* DESKTOP: tabs por categoría — 3 grupos en lugar de 9 features apilados */}
+        <div className="hidden md:block mt-16">
+          <FeaturesTabs features={features} />
         </div>
 
         <FadeInSection>

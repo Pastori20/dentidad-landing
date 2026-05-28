@@ -1,25 +1,11 @@
 import ScreenTile from "./ScreenTile";
 import MobileCarousel from "./MobileCarousel";
 import FadeInSection from "./FadeInSection";
-import FeaturesTabsClient from "./FeaturesTabsClient";
 import type { CSSProperties, ReactNode } from "react";
 
+// La category sigue en el data por compatibilidad con código existente, pero
+// ya no se usa para dividir features en tabs.
 type FeatureCategory = "diaadia" | "clinica" | "escalar";
-
-const categoryMeta: Record<FeatureCategory, { label: string; description: string }> = {
-  diaadia: {
-    label: "Día a día",
-    description: "Lo que hacés todos los días: agenda, recordatorios y cobros.",
-  },
-  clinica: {
-    label: "Clínica",
-    description: "Tu trabajo profesional: ficha, odontograma, anamnesis y galería.",
-  },
-  escalar: {
-    label: "Escalar",
-    description: "Cuando tu clínica crece: reportes, multi-sede y multi-dispositivo.",
-  },
-};
 
 type TileSpec = {
   // Pre-cropped screenshot rendered at its natural aspect ratio.
@@ -419,55 +405,81 @@ const themeStyles: Record<IncluyeItem["theme"], { bg: string; iconBg: string; ic
   },
 };
 
-// Helper para renderizar un panel completo de una categoría (server-side)
-// Esto pre-renderiza todas las features de una categoría incluyendo los visuals,
-// y se pasa al FeaturesTabsClient como ReactNode para que el cliente solo maneje
-// el toggle entre los 3 paneles ya renderizados.
-function renderCategoryPanel(catFeatures: FeatureBlock[]): ReactNode {
+// Slide para el carousel desktop — phone (iPhone mobile screenshot) a la
+// izquierda, texto a la derecha. Mismo layout que tenía el desktop antes pero
+// dentro de un carousel y usando los iPhone screenshots que quedan más lindos.
+function DesktopFeatureSlide({ feature }: { feature: FeatureBlock }) {
   return (
-    <div className="space-y-20 lg:space-y-24">
-      {catFeatures.map((f, i) => {
-        const reverse = i % 2 === 1;
-        return (
-          <article
-            key={f.id}
-            id={f.id}
-            aria-labelledby={`${f.id}-title`}
-            className={`grid gap-10 lg:gap-14 lg:grid-cols-2 items-center ${
-              reverse ? "lg:[&>*:first-child]:order-2" : ""
-            }`}
-          >
-            <div>
-              <FeatureVisual visual={f.visual} />
-            </div>
-            <div className="max-w-xl">
-              <h3
-                id={`${f.id}-title`}
-                className="text-3xl font-extrabold text-navy tracking-tight text-balance"
-              >
-                {f.title}
-              </h3>
-              <p className="mt-4 text-ink-2 text-[17px] leading-relaxed">
-                {f.body}
-              </p>
-              <ul className="mt-6 space-y-2.5">
-                {f.bullets.map((b) => (
-                  <li
-                    key={b}
-                    className="flex items-start gap-2.5 text-ink leading-relaxed"
-                  >
-                    <CheckMark />
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </article>
-        );
-      })}
+    <article
+      id={`${feature.id}-desktop`}
+      aria-labelledby={`${feature.id}-title-desktop`}
+      className="grid gap-10 lg:gap-14 lg:grid-cols-2 items-center px-4 lg:px-16 py-4"
+    >
+      {/* Visual — iPhone screenshot cuando existe, fallback al desktop tile */}
+      <div className="flex justify-center">
+        <DesktopFeatureVisual feature={feature} />
+      </div>
+      {/* Texto */}
+      <div className="max-w-xl">
+        <h3
+          id={`${feature.id}-title-desktop`}
+          className="text-2xl lg:text-3xl font-extrabold text-navy tracking-tight text-balance"
+        >
+          {feature.title}
+        </h3>
+        <p className="mt-4 text-ink-2 text-[16px] lg:text-[17px] leading-relaxed">
+          {feature.body}
+        </p>
+        <ul className="mt-5 space-y-2.5">
+          {feature.bullets.map((b) => (
+            <li
+              key={b}
+              className="flex items-start gap-2.5 text-ink leading-relaxed"
+            >
+              <CheckMark />
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
+  );
+}
+
+// Para el carousel desktop usamos los iPhone screenshots cuando existen — son
+// más lindos y consistentes con el mobile. Si no hay screenshot mobile para
+// esa feature, caemos al FeatureVisual tradicional (SVG illustrations, etc.)
+function DesktopFeatureVisual({ feature }: { feature: FeatureBlock }) {
+  const mobileSrc = MOBILE_SCREENSHOTS_DESKTOP[feature.id];
+  if (mobileSrc) {
+    const isHorizontal = feature.id === "feature-odontograma";
+    return (
+      <img
+        src={mobileSrc}
+        alt={feature.title}
+        className={
+          isHorizontal
+            ? "w-full max-w-[440px] h-auto drop-shadow-2xl"
+            : "w-auto max-h-[440px] drop-shadow-2xl"
+        }
+        loading="lazy"
+      />
+    );
+  }
+  // Fallback al FeatureVisual original (SVG illustrations, screenshots desktop)
+  return (
+    <div className="w-full max-w-[500px]">
+      <FeatureVisual visual={feature.visual} />
     </div>
   );
 }
+
+const MOBILE_SCREENSHOTS_DESKTOP: Record<string, string> = {
+  "feature-agenda": "/screens/mobile/agenda-mobile.png",
+  "feature-ficha": "/screens/mobile/ficha-mobile.png",
+  "feature-odontograma": "/screens/mobile/odontograma-mobile.png",
+  "feature-caja": "/screens/mobile/caja-mobile.png",
+};
 
 export default function Features() {
   return (
@@ -529,26 +541,21 @@ export default function Features() {
           </p>
         </div>
 
-        {/* DESKTOP: tabs por categoría — 3 paneles pre-renderizados, cliente solo
-            maneja el toggle entre ellos. Esto deja a ScreenTile (server) intacto. */}
+        {/* DESKTOP: carousel único con TODAS las features, side-by-side
+            (iPhone screenshot a la izquierda, texto a la derecha). */}
         <div className="hidden md:block mt-16">
-          <FeaturesTabsClient
-            categoryMeta={categoryMeta}
-            counts={{
-              diaadia: features.filter((f) => f.category === "diaadia").length,
-              clinica: features.filter((f) => f.category === "clinica").length,
-              escalar: features.filter((f) => f.category === "escalar").length,
-            }}
-            panelDiaadia={renderCategoryPanel(
-              features.filter((f) => f.category === "diaadia")
-            )}
-            panelClinica={renderCategoryPanel(
-              features.filter((f) => f.category === "clinica")
-            )}
-            panelEscalar={renderCategoryPanel(
-              features.filter((f) => f.category === "escalar")
-            )}
-          />
+          <MobileCarousel
+            slideClassName="min-w-full"
+            align="center"
+            showArrows
+          >
+            {features.map((f) => (
+              <DesktopFeatureSlide key={f.id} feature={f} />
+            ))}
+          </MobileCarousel>
+          <p className="mt-2 text-center text-xs text-ink-3">
+            Usá las flechas o los dots para ver todas las funcionalidades
+          </p>
         </div>
 
         <FadeInSection>

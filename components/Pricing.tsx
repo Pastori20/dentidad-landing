@@ -148,10 +148,12 @@ export default function Pricing() {
           </div>
         </FadeInSection>
 
-        {/* MOBILE: pricing carousel — Clínica centered with side arrows */}
-        <div className="mt-10 md:hidden">
+        {/* MOBILE: pricing carousel — Clínica centered. Cards al 94% para que
+            se vean bien anchos, con un mini peek del próximo a cada lado que
+            invita a deslizar. */}
+        <div className="mt-10 md:hidden -mx-4">
           <MobileCarousel
-            slideClassName="min-w-[82%] px-2"
+            slideClassName="min-w-[94%] px-2"
             startIndex={1}
             align="center"
             showArrows

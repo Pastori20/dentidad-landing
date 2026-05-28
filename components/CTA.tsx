@@ -1,13 +1,5 @@
-const EMAIL = "info.dentidad@gmail.com";
-// Formato internacional sin '+': 54 (Argentina) + 9 (móvil) + 3571 (área Río Tercero) + número
-const WHATSAPP_NUMBER = "5493571549321";
-
-const MAILTO_HREF = `mailto:${EMAIL}?subject=${encodeURIComponent(
-  "Quiero conocer Dentidad"
-)}`;
-const WHATSAPP_HREF = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-  "Hola, quiero conocer más sobre Dentidad"
-)}`;
+import SignupForm from "./SignupForm";
+import FadeInSection from "./FadeInSection";
 
 export default function CTA() {
   return (
@@ -33,49 +25,68 @@ export default function CTA() {
         }}
       />
 
-      <div className="container-x relative z-10 max-w-3xl">
-        <h2
-          id="cta-title"
-          className="text-[2rem] md:text-5xl font-extrabold tracking-tight text-white leading-tight text-balance"
-        >
-          Empezá a ordenar tu consultorio.
-        </h2>
-        <p className="mt-4 md:mt-5 text-base md:text-lg text-white/80 leading-relaxed max-w-2xl">
-          Dentidad reúne agenda, ficha clínica, odontograma y cobros en un solo
-          lugar. Hecho para odontólogos en Argentina.
-        </p>
-
-        <div className="mt-6 md:mt-9 flex flex-col sm:flex-row gap-3">
-          <a href={MAILTO_HREF} className="btn-primary text-base">
-            Solicitar acceso
-          </a>
-          <a
-            href={WHATSAPP_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold px-6 py-3 rounded-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-navy-700"
-          >
-            <WhatsAppIcon />
-            Hablar por WhatsApp
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              aria-hidden="true"
+      <div className="container-x relative z-10 grid gap-10 lg:gap-16 lg:grid-cols-[1fr_1.1fr] items-start">
+        {/* LEFT: copy */}
+        <FadeInSection>
+          <div>
+            <p className="text-xs md:text-sm font-mono uppercase tracking-[2px] text-mint">
+              Empezá hoy
+            </p>
+            <h2
+              id="cta-title"
+              className="mt-3 text-[2rem] md:text-5xl font-extrabold tracking-tight text-white leading-tight text-balance"
             >
-              <path
-                d="M5 12h14M13 5l7 7-7 7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
-        </div>
+              Probá Dentidad 14 días gratis.
+            </h2>
+            <p className="mt-4 md:mt-5 text-base md:text-lg text-white/80 leading-relaxed">
+              Sin tarjeta. Sin permanencia. Te creamos la cuenta y te ayudamos a migrar tus pacientes.
+            </p>
+
+            <ul className="mt-6 md:mt-8 space-y-3">
+              <BulletItem text="14 días gratis para que pruebes todo" />
+              <BulletItem text="Después: 50% OFF los primeros 3 meses" />
+              <BulletItem text="Migración asistida sin costo extra" />
+              <BulletItem text="Soporte directo del fundador" />
+            </ul>
+
+            <div className="mt-8 pt-6 border-t border-white/15">
+              <p className="text-sm text-white/70 mb-1">¿Preferís hablar primero?</p>
+              <a
+                href="https://wa.me/5493571549321?text=Hola%2C%20quiero%20conocer%20m%C3%A1s%20sobre%20Dentidad"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-mint hover:text-mint-soft font-semibold transition-colors"
+              >
+                <WhatsAppIcon /> Hablanos por WhatsApp →
+              </a>
+            </div>
+          </div>
+        </FadeInSection>
+
+        {/* RIGHT: signup form */}
+        <FadeInSection delay={0.15}>
+          <div className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 p-6 md:p-8 shadow-2xl">
+            <SignupForm compact />
+          </div>
+        </FadeInSection>
       </div>
     </section>
+  );
+}
+
+function BulletItem({ text }: { text: string }) {
+  return (
+    <li className="flex items-start gap-3 text-white/90 leading-relaxed">
+      <span
+        aria-hidden="true"
+        className="flex-shrink-0 w-6 h-6 rounded-full bg-mint/20 text-mint flex items-center justify-center mt-0.5"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M5 13l4 4L19 7" />
+        </svg>
+      </span>
+      <span>{text}</span>
+    </li>
   );
 }
 

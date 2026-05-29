@@ -122,7 +122,7 @@ export default function Pricing() {
     <section
       id="planes"
       aria-labelledby="pricing-title"
-      className="relative py-16 md:py-32 border-b border-border bg-gradient-to-b from-mint-soft/20 via-bg to-mint-soft/30 overflow-hidden"
+      className="relative py-16 md:py-32 border-b border-border bg-gradient-to-b from-mint-soft/20 via-bg to-mint-soft/30"
     >
       {/* Decoración de fondo — blobs animados */}
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -295,7 +295,13 @@ function PricingCard({ plan }: { plan: Plan }) {
 
   return (
     <div
-      className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${t.bg} ${t.border} ${t.ring}`}
+      className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl ${t.bg} ${t.border} ${t.ring} ${
+        isHighlight
+          ? // Highlight card "sobresale": scale + translate up + z-index para
+            // que el shadow no quede tapado por los siblings
+            "lg:scale-[1.06] lg:-translate-y-3 lg:z-10 hover:-translate-y-4"
+          : "hover:-translate-y-1"
+      }`}
     >
       {/* Ribbon "Más elegido" — INSIDE the card, no overflow + pulse subtle */}
       {isHighlight && (
@@ -350,8 +356,17 @@ function PricingCard({ plan }: { plan: Plan }) {
           </p>
         </div>
 
+        {/* CTA — movido arriba (después del precio) para que se vea sin scroll
+            como en Vercel/Stripe. Decisión rápida del usuario */}
+        <a
+          href="#cta"
+          className={`mt-5 inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 font-bold text-[14px] md:text-[15px] transition-colors ${t.cta}`}
+        >
+          {plan.cta}
+        </a>
+
         {/* Differentiator features — sin eyebrow, más compacto */}
-        <ul className="mt-4 space-y-2">
+        <ul className="mt-5 space-y-2">
           {plan.highlights.map((feat) => (
             <li
               key={feat}
@@ -383,14 +398,6 @@ function PricingCard({ plan }: { plan: Plan }) {
             </ul>
           </div>
         )}
-
-        {/* CTA */}
-        <a
-          href="#cta"
-          className={`mt-5 inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 font-bold text-[14px] md:text-[15px] transition-colors ${t.cta}`}
-        >
-          {plan.cta}
-        </a>
       </div>
     </div>
   );

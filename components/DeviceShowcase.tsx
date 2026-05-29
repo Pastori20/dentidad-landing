@@ -268,18 +268,10 @@ function DeviceMedia({
     />
   );
 
-  // Mac IDLE: el PNG es el mockup MacBook Air completo con chassis baked in.
-  // Mac VIDEO: el video también viene CON el chassis MacBook Air grabado por
-  // la extensión (no es el screen recording bare, es el frame del laptop).
-  // Ambos se renderean directo. Las esquinas grises del MP4 ya fueron
-  // reemplazadas por negro vía colorkey (igual que iPhone).
-  if (device.id === "mac") {
-    return <div className="drop-shadow-2xl">{media}</div>;
-  }
-
-  // Todos los demás (iPad, iPhone idle y video) — solo drop-shadow, sin clip
-  // ni manipulación. El video iPhone se muestra tal cual viene del archivo
-  // original, sin colorkey ni border-radius — el usuario lo prefiere así.
+  // Render directo SIN ningún efecto, clip, ni manipulación de colores.
+  // Los assets (PNG e MP4) vienen tal cual del WEBM/PNG original de la
+  // extensión de Chrome — el usuario quiere los videos exactos como los
+  // generó la extensión, con chassis baked-in y fondos originales.
   return <div className="drop-shadow-2xl">{media}</div>;
 }
 

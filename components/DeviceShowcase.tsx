@@ -98,25 +98,30 @@ function GridView({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.25 } }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="grid grid-cols-12 gap-3 md:gap-5 items-end"
+      className="grid grid-cols-12 gap-3 md:gap-6 md:items-center"
     >
-      {/* Mac — más ancho (formato horizontal) */}
+      {/* DESKTOP: Mac arriba-izquierda, iPad abajo-izquierda, iPhone al costado
+          derecho ocupando ambas rows. MOBILE: stack vertical original. */}
+
+      {/* Mac — top left en desktop, full width en mobile */}
       <DeviceTile
         device={devices[0]}
         onClick={() => onSelect("mac")}
-        className="col-span-12 md:col-span-5"
+        className="col-span-12 md:col-span-8 md:col-start-1 md:row-start-1"
       />
-      {/* iPad — medio (horizontal pero más cuadrado) */}
+      {/* iPad — bottom left en desktop, half-row en mobile */}
       <DeviceTile
         device={devices[1]}
         onClick={() => onSelect("ipad")}
-        className="col-span-7 md:col-span-4"
+        className="col-span-7 md:col-span-8 md:col-start-1 md:row-start-2"
       />
-      {/* iPhone — angosto (vertical) */}
+      {/* iPhone — right column spanning both rows en desktop, half-row en mobile.
+          self-center centra vertical cuando el alto del iPhone no matchea con
+          el alto combinado de Mac+iPad. */}
       <DeviceTile
         device={devices[2]}
         onClick={() => onSelect("iphone")}
-        className="col-span-5 md:col-span-3"
+        className="col-span-5 md:col-span-4 md:col-start-9 md:row-start-1 md:row-span-2 md:self-center"
       />
     </motion.div>
   );

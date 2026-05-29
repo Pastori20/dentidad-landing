@@ -217,7 +217,7 @@ export default function Pricing() {
             invita a deslizar. */}
         <div className="mt-10 md:hidden -mx-4">
           <MobileCarousel
-            slideClassName="min-w-[94%] px-2"
+            slideClassName="min-w-[94%] px-2 py-2"
             startIndex={1}
             align="center"
             showArrows
@@ -277,13 +277,16 @@ function PricingCard({ plan }: { plan: Plan }) {
 
   return (
     <div
-      className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl ${t.bg} ${t.border} ${
+      className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 md:hover:shadow-2xl ${t.bg} ${t.border} ${
         isHighlight
           ? // Highlight card "sobresale": scale + translate up + z-index para
             // que el shadow no quede tapado por los siblings, + ring mint para
-            // hacerlo destacar independiente del theme color
-            "lg:scale-[1.06] lg:-translate-y-3 lg:z-10 hover:-translate-y-4 ring-4 ring-mint/25 shadow-2xl shadow-mint/30"
-          : "hover:-translate-y-1"
+            // hacerlo destacar independiente del theme color.
+            // Hover lift SOLO en desktop (md:) — en mobile/touch el lift hace
+            // que el overflow-hidden del carousel viewport corte la parte
+            // superior de la card al tocarla.
+            "lg:scale-[1.06] lg:-translate-y-3 lg:z-10 md:hover:-translate-y-4 ring-4 ring-mint/25 shadow-2xl shadow-mint/30"
+          : "md:hover:-translate-y-1"
       }`}
     >
       {/* Ribbon "Más elegido" — INSIDE the card, no overflow + pulse subtle */}

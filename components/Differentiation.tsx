@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import MobileCarousel from "./MobileCarousel";
 import FadeInSection from "./FadeInSection";
+import DraggableScrollRow from "./DraggableScrollRow";
 
 type Row = {
   topic: string;
@@ -154,13 +155,25 @@ export default function Differentiation() {
           </div>
         </FadeInSection>
 
-        {/* Desktop: mismo FlipCard que mobile, ahora en grid 3x3 */}
-        <div className="hidden md:grid mt-14 grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-          {rows.map((r, i) => (
-            <FadeInSection key={r.topic} delay={i * 0.05}>
-              <FlipCard row={r} index={i} />
-            </FadeInSection>
-          ))}
+        {/* Desktop: horizontal scroll row con drag-to-scroll — todas las 9
+            comparaciones en un solo renglón scrolleable, mismo patrón que
+            "Todo lo que incluye" en Features para consistencia. */}
+        <div className="hidden md:block mt-14 -mx-6">
+          <FadeInSection>
+            <DraggableScrollRow className="scroll-row-mint flex gap-5 lg:gap-6 overflow-x-auto snap-x snap-mandatory px-6 py-4 scroll-smooth select-none">
+              {rows.map((r, i) => (
+                <li
+                  key={r.topic}
+                  className="flex-shrink-0 w-[320px] lg:w-[360px] snap-start list-none"
+                >
+                  <FlipCard row={r} index={i} />
+                </li>
+              ))}
+            </DraggableScrollRow>
+          </FadeInSection>
+          <p className="mt-2 text-center text-xs text-ink-3">
+            ← Arrastrá las tarjetas para ver las {rows.length} comparaciones →
+          </p>
         </div>
 
         {/* Mobile: carousel — swipe through 9 comparisons one at a time */}

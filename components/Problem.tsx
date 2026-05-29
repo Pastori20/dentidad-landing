@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import FadeInSection from "./FadeInSection";
 import MobileCarousel from "./MobileCarousel";
+import DraggableScrollRow from "./DraggableScrollRow";
 
 type PainPoint = {
   title: string;
@@ -187,13 +188,24 @@ export default function Problem() {
           </p>
         </div>
 
-        {/* DESKTOP: 3-col grid */}
-        <div className="hidden md:grid mt-16 gap-6 md:grid-cols-3">
-          {painPoints.map((p, i) => (
-            <FadeInSection key={p.title} delay={i * 0.1}>
-              <PainCard p={p} index={i} />
-            </FadeInSection>
-          ))}
+        {/* DESKTOP: single horizontal scroll row con drag-to-scroll.
+            Mismo patrón que "Todo lo que incluye" para consistencia visual. */}
+        <div className="hidden md:block mt-12 -mx-6">
+          <FadeInSection>
+            <DraggableScrollRow className="scroll-row-mint flex gap-6 overflow-x-auto snap-x snap-mandatory px-6 py-4 scroll-smooth select-none">
+              {painPoints.map((p, i) => (
+                <li
+                  key={p.title}
+                  className="flex-shrink-0 w-[380px] lg:w-[420px] snap-start list-none"
+                >
+                  <PainCard p={p} index={i} />
+                </li>
+              ))}
+            </DraggableScrollRow>
+          </FadeInSection>
+          <p className="mt-2 text-center text-xs text-ink-3">
+            ← Arrastrá las tarjetas para ver todo →
+          </p>
         </div>
       </div>
     </section>

@@ -28,14 +28,16 @@ type Plan = {
 // Gradient + border styles per theme. La carga visual de "destacado" se aplica
 // aparte con `isHighlight`, así cualquier theme puede ser el highlight.
 const planThemeStyles: Record<PlanTheme, { bg: string; border: string; cta: string }> = {
+  // Sky — degradado azul de verdad, SIN blanco en el medio, edges más saturados
   sky: {
-    bg: "bg-gradient-to-br from-[#EAF2FE] via-white to-[#DCEEFF]/60",
-    border: "border border-[#3B82F6]/25",
+    bg: "bg-gradient-to-br from-[#C5DCFA] via-[#DCEEFF] to-[#B5D0F2]",
+    border: "border border-[#3B82F6]/30",
     cta: "bg-navy text-white hover:bg-navy/90",
   },
+  // Mint — degradado verde-menta lleno, sin blanco, full color brand
   mint: {
-    bg: "bg-gradient-to-br from-mint-soft/40 via-white to-mint-soft/20",
-    border: "border border-mint/40",
+    bg: "bg-gradient-to-br from-[#A8EBD8] via-[#C5F1E3] to-[#8FE0CA]",
+    border: "border border-mint/50",
     cta: "bg-mint-deep text-white hover:bg-mint hover:text-navy",
   },
   // Navy theme — el del medio (Clínica destacada) tipo Webflow Pro card:
@@ -124,7 +126,7 @@ export default function Pricing() {
     <section
       id="planes"
       aria-labelledby="pricing-title"
-      className="relative py-16 md:py-32 border-b border-border bg-gradient-to-b from-mint-soft/20 via-bg to-mint-soft/30"
+      className="relative py-10 md:py-20 border-b border-border bg-gradient-to-b from-mint-soft/20 via-bg to-mint-soft/30"
     >
       {/* Decoración de fondo — blobs animados */}
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -180,16 +182,18 @@ export default function Pricing() {
           </div>
         </FadeInSection>
 
-        {/* Promo banner — ahora componente reutilizable con shimmer fuerte */}
+        {/* Promo banner FULL-WIDTH — rompe el container con w-screen para que
+            ocupe edge-to-edge, igual que el banner que está entre Problem y
+            Features. Margen vertical chico para no perder ritmo. */}
         <FadeInSection>
-          <div className="mt-8 md:mt-10">
-            <PromoBanner />
+          <div className="mt-6 md:mt-8">
+            <PromoBanner fullWidth />
           </div>
         </FadeInSection>
 
         {/* SHARED features — what every plan includes */}
         <FadeInSection>
-          <div className="mt-8 md:mt-10 rounded-2xl bg-mint-soft/30 border border-mint/30 p-5 md:p-7">
+          <div className="mt-6 md:mt-8 rounded-2xl bg-mint-soft/30 border border-mint/30 p-5 md:p-7">
             <p className="text-xs font-mono uppercase tracking-[2px] text-mint-deep font-bold flex items-center gap-2">
               <SparkleIcon />
               Todos los planes incluyen

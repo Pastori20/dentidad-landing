@@ -1,6 +1,7 @@
 import ScreenTile from "./ScreenTile";
 import MobileCarousel from "./MobileCarousel";
 import FadeInSection from "./FadeInSection";
+import DraggableScrollRow from "./DraggableScrollRow";
 import type { CSSProperties, ReactNode } from "react";
 
 // La category sigue en el data por compatibilidad con código existente, pero
@@ -887,15 +888,11 @@ function CheckMark() {
 }
 
 function BentoIncluye({ items }: { items: IncluyeItem[] }) {
-  // Horizontal scroll lateral — todos los items en una sola fila, scroll
-  // nativo del browser con scrollbar visible y snap-x para que se sientan los
-  // items al swipear. Mismo comportamiento en mobile y desktop.
+  // Horizontal scroll lateral — drag-to-scroll en desktop via wrapper client
+  // (DraggableScrollRow). En mobile sigue el swipe nativo del browser intacto.
   return (
     <div className="mt-8 md:mt-12 -mx-4 md:-mx-6">
-      <ul
-        role="list"
-        className="scroll-row-mint flex gap-4 overflow-x-auto snap-x snap-mandatory px-4 md:px-6 pb-4 scroll-smooth"
-      >
+      <DraggableScrollRow className="scroll-row-mint flex gap-4 overflow-x-auto snap-x snap-mandatory px-4 md:px-6 pb-4 scroll-smooth select-none">
         {items.map((item) => (
           <li
             key={item.title}
@@ -904,9 +901,9 @@ function BentoIncluye({ items }: { items: IncluyeItem[] }) {
             <CompactIncluyeCard item={item} />
           </li>
         ))}
-      </ul>
+      </DraggableScrollRow>
       <p className="mt-2 text-center text-xs text-ink-3">
-        ← Deslizá o arrastrá para ver todo →
+        ← Arrastrá las tarjetas para ver todo →
       </p>
     </div>
   );

@@ -52,7 +52,7 @@ export default function DeviceShowcase() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <div className="mt-12 md:mt-16 max-w-6xl mx-auto">
+    <div className="mt-12 md:mt-14 max-w-6xl md:max-w-3xl lg:max-w-4xl mx-auto">
       {/* Hint label sobre el grid — desaparece cuando hay uno expandido */}
       <motion.p
         animate={{ opacity: activeId ? 0 : 0.8, y: activeId ? -8 : 0 }}

@@ -10,33 +10,29 @@ type Device = {
   label: string;
   image: string;
   video: string;
-  /** Si necesita que le ponga el frame de browser Mac (los otros vienen con frame nativo de la extensión) */
-  needsBrowserFrame: boolean;
 };
 
 // Mac y iPad comparten el mismo video (el sistema corriendo en desktop).
 // iPhone usa su propio video con frame de iPhone nativo de la extensión.
+// El handling de chassis CSS es por-device en DeviceMedia abajo.
 const devices: Device[] = [
   {
     id: "mac",
     label: "Computadora",
     image: "/hero/mac.png",
     video: "/hero/mac-video.mp4",
-    needsBrowserFrame: true,
   },
   {
     id: "ipad",
     label: "Tablet",
     image: "/hero/ipad.png",
     video: "/hero/mac-video.mp4",
-    needsBrowserFrame: false,
   },
   {
     id: "iphone",
     label: "Celular",
     image: "/hero/iphone.png",
     video: "/hero/iphone-video.mp4",
-    needsBrowserFrame: false,
   },
 ];
 
@@ -272,8 +268,19 @@ function DeviceMedia({
     />
   );
 
-  if (device.needsBrowserFrame) {
-    return <MacDisplay>{media}</MacDisplay>;
+  // Mac IDLE: el nuevo PNG es el mockup completo del MacBook Air con chassis
+  // baked in (transparente con drop-shadow CSS suma profundidad). Renderear
+  // directo sin wrapper porque el chassis ya está en la imagen.
+  if (device.id === "mac" && !showVideo) {
+    return <div className="drop-shadow-2xl">{media}</div>;
+  }
+
+  // Mac VIDEO: el video es solo el contenido del browser (sin chassis). Lo
+  // envolvemos en un MacBookChassis CSS que evoca el mockup — bezel oscuro
+  // arriba/lados + lip gris extendido abajo. Sin fake browser chrome porque
+  // el video ya tiene su chrome real grabado.
+  if (device.id === "mac" && showVideo) {
+    return <MacBookChassis>{media}</MacBookChassis>;
   }
 
   // iPhone: cuando mostramos el VIDEO, el archivo MP4 tiene fondo gris en las
@@ -297,36 +304,35 @@ function DeviceMedia({
   return <div className="drop-shadow-2xl">{media}</div>;
 }
 
-/* ───────────────────────── MAC DISPLAY (bezel + browser chrome) ────────────── */
+/* ─────────── MACBOOK AIR CHASSIS (bezel + lip gris extendido) ────────────── */
 
 /**
- * Display tipo MacBook/iMac: bezel negro grueso alrededor + browser chrome
- * adentro. Da sensación de pantalla "real" en vez de solo una captura web.
+ * Chassis tipo MacBook Air — evoca el mockup PNG que se usa para idle.
+ * Display: bezel oscuro alrededor.
+ * Base: lip gris claro extendido más allá del display, con indent del trackpad.
+ * NO incluye fake browser chrome: el video ya tiene su chrome real grabado.
  */
-function MacDisplay({ children }: { children: React.ReactNode }) {
+function MacBookChassis({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative">
-      {/* Bezel negro exterior — simula el marco del display de un MacBook */}
-      <div className="rounded-[14px] md:rounded-[18px] bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] p-1.5 md:p-2 shadow-2xl ring-1 ring-white/5">
-        {/* Browser chrome */}
-        <div className="rounded-[8px] md:rounded-[10px] overflow-hidden bg-white">
-          {/* Top bar tipo macOS — fina, no roba mucho espacio vertical */}
-          <div className="flex items-center gap-1 px-2.5 py-1 md:py-1.5 bg-gradient-to-b from-[#e9e9e9] to-[#d8d8d8] border-b border-black/10">
-            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#ff5f57] ring-1 ring-black/5" />
-            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#febc2e] ring-1 ring-black/5" />
-            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#28c840] ring-1 ring-black/5" />
-            <div className="ml-2 flex-1 max-w-[220px] px-2.5 py-[1px] md:py-0.5 bg-white/80 rounded text-[8px] md:text-[9px] text-gray-500 font-mono text-center truncate leading-tight">
-              app.dentidad.com
-            </div>
-            <div className="w-8" />
-          </div>
+      {/* DISPLAY — bezel oscuro envolviendo el contenido */}
+      <div className="rounded-t-[14px] md:rounded-t-[18px] bg-gradient-to-b from-[#2a2a2a] via-[#1a1a1a] to-[#0a0a0a] p-1.5 md:p-2 shadow-2xl ring-1 ring-white/5">
+        <div className="rounded-t-[8px] md:rounded-t-[10px] overflow-hidden bg-white">
           {children}
         </div>
       </div>
-      {/* Pie/base sutil — pequeña sombra extendida que simula la base del MacBook */}
+
+      {/* BASE / LIP del MacBook — extiende ~3% a cada lado, rounded bottom */}
+      <div className="relative h-2.5 md:h-3.5 -mx-2 md:-mx-3 -mt-px">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#cfcfcf] via-[#a8a8a8] to-[#888888] rounded-b-2xl md:rounded-b-[20px] shadow-lg" />
+        {/* Indent del trackpad/hinge en el centro */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-10 md:w-14 h-0.5 md:h-1 bg-gradient-to-b from-[#666] to-[#909090] rounded-b-md" />
+      </div>
+
+      {/* Sombra base — extiende sutilmente para dar peso visual */}
       <div
         aria-hidden="true"
-        className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-[60%] h-2 rounded-full bg-black/30 blur-md"
+        className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-[75%] h-3 rounded-full bg-black/40 blur-lg pointer-events-none"
       />
     </div>
   );

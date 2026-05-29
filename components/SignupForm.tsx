@@ -165,9 +165,9 @@ export default function SignupForm({ defaultPlan = "Clínica", compact = false }
             defaultValue={defaultPlan}
             className={inputClass}
           >
-            <option value="Esencial" className="text-navy bg-white">Esencial — $50.000/mes</option>
-            <option value="Clínica" className="text-navy bg-white">Clínica — $85.000/mes</option>
-            <option value="Multi-sede" className="text-navy bg-white">Multi-sede — $300.000/mes</option>
+            <option value="Esencial" className="text-navy bg-white">Esencial — Básico</option>
+            <option value="Clínica" className="text-navy bg-white">Clínica — Intermedio</option>
+            <option value="Multi-sede" className="text-navy bg-white">Multi-sede — Pro</option>
           </select>
         </div>
       </div>

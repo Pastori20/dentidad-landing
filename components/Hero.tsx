@@ -1,4 +1,4 @@
-import HeroOverviewImage from "./HeroOverviewImage";
+import DeviceShowcase from "./DeviceShowcase";
 
 export default function Hero() {
   return (
@@ -127,9 +127,11 @@ export default function Hero() {
           </ul>
         </div>
 
-        {/* FULL-WIDTH product showcase con hover animation premium —
-            3D tilt + lift + glow + shine. Componente client separado. */}
-        <HeroOverviewImage />
+        {/* Showcase de los 3 devices (Mac/iPad/iPhone). Click en cualquiera
+            para verlo en grande reproduciendo un video del sistema en uso.
+            Mac y iPad comparten el video desktop; iPhone tiene su propio video
+            con frame nativo de iPhone. */}
+        <DeviceShowcase />
       </div>
     </section>
   );

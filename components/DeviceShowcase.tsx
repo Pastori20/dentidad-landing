@@ -304,13 +304,12 @@ function DeviceMedia({
   return <div className="drop-shadow-2xl">{media}</div>;
 }
 
-/* ─────────── MACBOOK AIR CHASSIS (bezel + lip gris extendido) ────────────── */
+/* ─────────── MACBOOK AIR CHASSIS (bezel + Safari bar + lip gris) ─────────── */
 
 /**
  * Chassis tipo MacBook Air — evoca el mockup PNG que se usa para idle.
- * Display: bezel oscuro alrededor.
+ * Display: bezel oscuro alrededor + barra Safari arriba (URL bar).
  * Base: lip gris claro extendido más allá del display, con indent del trackpad.
- * NO incluye fake browser chrome: el video ya tiene su chrome real grabado.
  */
 function MacBookChassis({ children }: { children: React.ReactNode }) {
   return (
@@ -318,6 +317,22 @@ function MacBookChassis({ children }: { children: React.ReactNode }) {
       {/* DISPLAY — bezel oscuro envolviendo el contenido */}
       <div className="rounded-t-[14px] md:rounded-t-[18px] bg-gradient-to-b from-[#2a2a2a] via-[#1a1a1a] to-[#0a0a0a] p-1.5 md:p-2 shadow-2xl ring-1 ring-white/5">
         <div className="rounded-t-[8px] md:rounded-t-[10px] overflow-hidden bg-white">
+          {/* Safari URL bar (iOS/macOS style) — arriba del contenido del video */}
+          <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-gradient-to-b from-[#262626] to-[#1a1a1a] border-b border-black/40">
+            {/* Traffic lights */}
+            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#ff5f57]" />
+            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#febc2e]" />
+            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#28c840]" />
+            {/* URL pill estilo Safari */}
+            <div className="ml-2 md:ml-3 flex-1 max-w-[280px] md:max-w-[320px] mx-auto flex items-center justify-center gap-1.5 px-3 py-0.5 md:py-1 bg-[#3a3a3a] rounded-md text-[9px] md:text-[11px] text-white/70 font-mono leading-tight">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" className="opacity-70">
+                <rect x="5" y="11" width="14" height="10" rx="2" />
+                <path d="M8 11V7a4 4 0 018 0v4" />
+              </svg>
+              <span className="truncate">app.dentidad.com</span>
+            </div>
+            <div className="w-8 md:w-10" />
+          </div>
           {children}
         </div>
       </div>

@@ -180,10 +180,14 @@ function ExpandedView({
       exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.25 } }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      {/* Active device — grande, reproduce video */}
+      {/* Active device — grande, reproduce video. Para el iPhone limitamos
+          por ALTURA (max-h) además del ancho, así nunca queda más alto que
+          el viewport del usuario (mobile chico). */}
       <div
         className={`mx-auto ${
-          active.id === "iphone" ? "max-w-[340px] md:max-w-[400px]" : "max-w-4xl"
+          active.id === "iphone"
+            ? "w-full max-w-[260px] sm:max-w-[290px] md:max-w-[320px] max-h-[70vh] md:max-h-[75vh] [&_video]:max-h-[70vh] md:[&_video]:max-h-[75vh] [&_img]:max-h-[70vh] md:[&_img]:max-h-[75vh]"
+            : "max-w-4xl"
         }`}
       >
         <DeviceMedia device={active} showVideo />
@@ -264,31 +268,56 @@ function DeviceMedia({
   );
 
   if (device.needsBrowserFrame) {
-    return <BrowserFrame>{media}</BrowserFrame>;
+    return <MacDisplay>{media}</MacDisplay>;
   }
 
-  // Devices con frame propio (iPad, iPhone) — solo sombra
+  // iPhone: cuando mostramos el VIDEO, el archivo MP4 tiene fondo gris en las
+  // esquinas curvas del marco (MP4 no soporta alpha como sí la PNG estática).
+  // Wrapper con border-radius grueso + overflow:hidden oculta esas esquinas
+  // grises matcheando la curvatura real del iPhone.
+  if (device.id === "iphone" && showVideo) {
+    return (
+      <div className="drop-shadow-2xl rounded-[12%/6%] overflow-hidden">
+        {media}
+      </div>
+    );
+  }
+
+  // Otros devices con frame propio (iPad, iPhone estático) — solo sombra
   return <div className="drop-shadow-2xl">{media}</div>;
 }
 
-/* ───────────────────────── BROWSER CHROME para el Mac ─────────────────────── */
+/* ───────────────────────── MAC DISPLAY (bezel + browser chrome) ────────────── */
 
-function BrowserFrame({ children }: { children: React.ReactNode }) {
+/**
+ * Display tipo MacBook/iMac: bezel negro grueso alrededor + browser chrome
+ * adentro. Da sensación de pantalla "real" en vez de solo una captura web.
+ */
+function MacDisplay({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-xl overflow-hidden bg-white shadow-2xl ring-1 ring-black/5">
-      {/* Top bar tipo macOS */}
-      <div className="flex items-center gap-1.5 px-3 py-2 bg-gradient-to-b from-[#e7e7e7] to-[#dadada] border-b border-black/10">
-        <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#ff5f57] ring-1 ring-black/5" />
-        <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#febc2e] ring-1 ring-black/5" />
-        <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#28c840] ring-1 ring-black/5" />
-        {/* URL pill */}
-        <div className="ml-3 flex-1 max-w-[260px] px-3 py-0.5 md:py-1 bg-white/80 rounded-md text-[9px] md:text-[10px] text-gray-500 font-mono text-center truncate">
-          app.dentidad.com
+    <div className="relative">
+      {/* Bezel negro exterior — simula el marco del display de un MacBook */}
+      <div className="rounded-[14px] md:rounded-[18px] bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] p-1.5 md:p-2 shadow-2xl ring-1 ring-white/5">
+        {/* Browser chrome */}
+        <div className="rounded-[8px] md:rounded-[10px] overflow-hidden bg-white">
+          {/* Top bar tipo macOS */}
+          <div className="flex items-center gap-1.5 px-3 py-2 bg-gradient-to-b from-[#e9e9e9] to-[#d8d8d8] border-b border-black/10">
+            <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#ff5f57] ring-1 ring-black/5" />
+            <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#febc2e] ring-1 ring-black/5" />
+            <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#28c840] ring-1 ring-black/5" />
+            <div className="ml-3 flex-1 max-w-[260px] px-3 py-0.5 md:py-1 bg-white/80 rounded-md text-[9px] md:text-[10px] text-gray-500 font-mono text-center truncate">
+              app.dentidad.com
+            </div>
+            <div className="w-12" />
+          </div>
+          {children}
         </div>
-        <div className="w-12" />
       </div>
-      {/* Content */}
-      {children}
+      {/* Pie/base sutil — pequeña sombra extendida que simula la base del MacBook */}
+      <div
+        aria-hidden="true"
+        className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-[60%] h-2 rounded-full bg-black/30 blur-md"
+      />
     </div>
   );
 }

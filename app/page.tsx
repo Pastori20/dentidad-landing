@@ -5,6 +5,7 @@ import Features from "@/components/Features";
 import Differentiation from "@/components/Differentiation";
 import FAQ from "@/components/FAQ";
 import Pricing from "@/components/Pricing";
+import PromoBanner from "@/components/PromoBanner";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 
@@ -15,12 +16,13 @@ export default function HomePage() {
       <main>
         <Hero />
         <Problem />
+        {/* Promo banner full-width entre Problem y Features —
+            el usuario ya vio el dolor, le mostramos el incentivo antes de
+            que explore las features */}
+        <PromoBanner fullWidth />
         <Features />
-        {/* Pricing arriba — después de ver features, mostrar precio.
-            Promo de 14 días gratis bien visible sin scroll eterno. */}
         <Pricing />
         <FAQ />
-        {/* Differentiation como refuerzo final antes del CTA */}
         <Differentiation />
         <CTA />
       </main>

@@ -887,32 +887,27 @@ function CheckMark() {
 }
 
 function BentoIncluye({ items }: { items: IncluyeItem[] }) {
-  // Unificamos todos los items (sin distinción spotlight/normal) — ahora todos
-  // son cards iguales y compactos para que entren parejo en el carousel.
-  const allItems = items;
-
+  // Horizontal scroll lateral — todos los items en una sola fila, scroll
+  // nativo del browser con scrollbar visible y snap-x para que se sientan los
+  // items al swipear. Mismo comportamiento en mobile y desktop.
   return (
-    <div className="mt-8 md:mt-12">
-      {/* MOBILE: carousel compacto con dots */}
-      <div className="md:hidden">
-        <MobileCarousel slideClassName="min-w-[78%] pl-3 first:pl-3 last:pr-3">
-          {allItems.map((item) => (
-            <CompactIncluyeCard key={item.title} item={item} />
-          ))}
-        </MobileCarousel>
-      </div>
-
-      {/* DESKTOP: grid 3 columnas con cards compactos */}
+    <div className="mt-8 md:mt-12 -mx-4 md:-mx-6">
       <ul
         role="list"
-        className="hidden md:grid grid-cols-3 gap-4 auto-rows-fr"
+        className="scroll-row-mint flex gap-4 overflow-x-auto snap-x snap-mandatory px-4 md:px-6 pb-4 scroll-smooth"
       >
-        {allItems.map((item) => (
-          <li key={item.title}>
+        {items.map((item) => (
+          <li
+            key={item.title}
+            className="flex-shrink-0 w-[260px] md:w-[300px] snap-start"
+          >
             <CompactIncluyeCard item={item} />
           </li>
         ))}
       </ul>
+      <p className="mt-2 text-center text-xs text-ink-3">
+        ← Deslizá o arrastrá para ver todo →
+      </p>
     </div>
   );
 }

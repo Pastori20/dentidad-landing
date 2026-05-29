@@ -1,3 +1,5 @@
+import HeroOverviewImage from "./HeroOverviewImage";
+
 export default function Hero() {
   return (
     <section
@@ -125,30 +127,9 @@ export default function Hero() {
           </ul>
         </div>
 
-        {/* FULL-WIDTH product showcase — placeholder con la imagen
-            multi-dispositivos hasta que el usuario pase la screenshot completa
-            del sistema. Cuando esté lista, reemplazar src por
-            /screens/hero-overview.png y sacar el wrapper transparente. */}
-        <div className="mt-14 md:mt-20 relative">
-          {/* Glow behind the screenshot */}
-          <div
-            aria-hidden="true"
-            className="absolute -inset-x-8 -inset-y-12 rounded-3xl pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, rgba(0,201,167,.18), transparent 70%)",
-            }}
-          />
-          <div className="relative max-w-6xl mx-auto">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/screens/multidispositivos.png"
-              alt="Dentidad funcionando en computadora, tablet y celular — vista completa del sistema."
-              className="block w-full h-auto drop-shadow-2xl"
-              loading="eager"
-            />
-          </div>
-        </div>
+        {/* FULL-WIDTH product showcase con hover animation premium —
+            3D tilt + lift + glow + shine. Componente client separado. */}
+        <HeroOverviewImage />
       </div>
     </section>
   );

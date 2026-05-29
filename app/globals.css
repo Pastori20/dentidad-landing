@@ -34,6 +34,30 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
   }
+}
+
+/* Horizontal scroll row utility — para "Todo lo que incluye" y similares.
+   Scrollbar mint custom (más alto, más visible) */
+@layer utilities {
+  .scroll-row-mint {
+    scrollbar-color: #00C9A7 rgba(183, 242, 229, 0.3);
+    scrollbar-width: thin;
+  }
+  .scroll-row-mint::-webkit-scrollbar {
+    height: 8px;
+    width: auto;
+  }
+  .scroll-row-mint::-webkit-scrollbar-track {
+    background: rgba(183, 242, 229, 0.3);
+    border-radius: 4px;
+  }
+  .scroll-row-mint::-webkit-scrollbar-thumb {
+    background: #00C9A7;
+    border-radius: 4px;
+  }
+  .scroll-row-mint::-webkit-scrollbar-thumb:hover {
+    background: #00A085;
+  }
 
   /* Selection */
   ::selection {

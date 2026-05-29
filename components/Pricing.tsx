@@ -3,6 +3,9 @@
 import { motion } from "framer-motion";
 import FadeInSection from "./FadeInSection";
 import MobileCarousel from "./MobileCarousel";
+import PromoBanner from "./PromoBanner";
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 
 type PlanTheme = "sky" | "mint" | "navy";
 
@@ -22,26 +25,25 @@ type Plan = {
   upcoming: string[];
 };
 
-// Gradient + border styles per theme. Each plan visually represents its weight:
-// sky (entry, light), mint (recommended, brand), navy (premium, deep).
-const planThemeStyles: Record<PlanTheme, { bg: string; border: string; ring: string; cta: string }> = {
+// Gradient + border styles per theme. La carga visual de "destacado" se aplica
+// aparte con `isHighlight`, así cualquier theme puede ser el highlight.
+const planThemeStyles: Record<PlanTheme, { bg: string; border: string; cta: string }> = {
   sky: {
     bg: "bg-gradient-to-br from-[#EAF2FE] via-white to-[#DCEEFF]/60",
     border: "border border-[#3B82F6]/25",
-    ring: "",
     cta: "bg-navy text-white hover:bg-navy/90",
   },
   mint: {
-    bg: "bg-gradient-to-br from-mint-soft/50 via-white to-mint-soft/30",
-    border: "border-2 border-mint",
-    ring: "ring-4 ring-mint/15 shadow-xl shadow-mint/30",
-    cta: "bg-mint text-navy hover:bg-mint-deep hover:text-white",
+    bg: "bg-gradient-to-br from-mint-soft/40 via-white to-mint-soft/20",
+    border: "border border-mint/40",
+    cta: "bg-mint-deep text-white hover:bg-mint hover:text-navy",
   },
+  // Navy theme — el del medio (Clínica destacada) tipo Webflow Pro card:
+  // fondo navy con accents mint, texto blanco.
   navy: {
     bg: "bg-gradient-to-br from-navy via-[#0a4978] to-[#0f5e95] text-white",
     border: "border border-mint/30",
-    ring: "shadow-xl shadow-navy/40",
-    cta: "bg-mint text-navy hover:bg-mint-deep hover:text-white",
+    cta: "bg-mint text-navy hover:bg-mint-soft",
   },
 };
 
@@ -83,7 +85,7 @@ const plans: Plan[] = [
     priceArs: 85000,
     priceUsd: 65,
     highlight: true,
-    theme: "mint",
+    theme: "navy",
     cta: "Probar 14 días gratis",
     highlights: [
       "Hasta 3 dentistas + recepción",
@@ -101,7 +103,7 @@ const plans: Plan[] = [
     priceArs: 300000,
     priceUsd: 230,
     highlight: false,
-    theme: "navy",
+    theme: "mint",
     cta: "Probar 14 días gratis",
     highlights: [
       "Sedes ilimitadas",
@@ -178,36 +180,10 @@ export default function Pricing() {
           </div>
         </FadeInSection>
 
-        {/* Promo banner — con shimmer animation que cruza el banner */}
+        {/* Promo banner — ahora componente reutilizable con shimmer fuerte */}
         <FadeInSection>
-          <div className="mt-8 md:mt-10 relative rounded-2xl bg-gradient-to-r from-navy via-[#0a4978] to-[#0f5e95] p-5 md:p-8 text-white flex flex-col md:flex-row md:items-center gap-4 md:gap-8 shadow-2xl shadow-navy/30 overflow-hidden border border-mint/20">
-            {/* Shimmer effect — barra de luz que cruza diagonal cada 4s */}
-            <motion.div
-              aria-hidden="true"
-              animate={{ x: ["-100%", "200%"] }}
-              transition={{ duration: 3, repeat: Infinity, repeatDelay: 1.5, ease: "easeInOut" }}
-              className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-12 pointer-events-none"
-            />
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-              className="flex-shrink-0 flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-mint/20 relative z-10"
-            >
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00C9A7" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-              </svg>
-            </motion.div>
-            <div className="flex-1 relative z-10">
-              <p className="text-xs md:text-sm font-mono uppercase tracking-[2px] text-mint-soft">
-                Promo de lanzamiento
-              </p>
-              <h3 className="mt-1 text-lg md:text-2xl font-extrabold leading-tight">
-                14 días gratis · Después 50% OFF los primeros 3 meses
-              </h3>
-              <p className="mt-1.5 text-sm md:text-[15px] text-mint-soft/85 leading-relaxed">
-                Sin tarjeta · Sin permanencia · Migración asistida incluida
-              </p>
-            </div>
+          <div className="mt-8 md:mt-10">
+            <PromoBanner />
           </div>
         </FadeInSection>
 
@@ -285,21 +261,24 @@ export default function Pricing() {
 function PricingCard({ plan }: { plan: Plan }) {
   const isHighlight = plan.highlight;
   const t = planThemeStyles[plan.theme];
-  // Para tier navy (Multi-sede) usamos texto blanco/mint en lugar de navy
+  // Para tier navy (ahora Clínica destacada) usamos texto blanco/mint
   const isNavyTheme = plan.theme === "navy";
   const titleColor = isNavyTheme ? "text-white" : "text-navy";
   const taglineColor = isNavyTheme ? "text-mint-soft/80" : "text-ink-2";
-  const eyebrowColor = isNavyTheme ? "text-mint-soft" : "text-ink-3";
   const ftrColor = isNavyTheme ? "text-mint-soft/90" : "text-ink";
   const dashedBorderColor = isNavyTheme ? "border-mint-soft/30" : "border-border/80";
 
+  // Estado del toggle del "Próximamente" — colapsado por defecto
+  const [showUpcoming, setShowUpcoming] = useState(false);
+
   return (
     <div
-      className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl ${t.bg} ${t.border} ${t.ring} ${
+      className={`relative h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl ${t.bg} ${t.border} ${
         isHighlight
           ? // Highlight card "sobresale": scale + translate up + z-index para
-            // que el shadow no quede tapado por los siblings
-            "lg:scale-[1.06] lg:-translate-y-3 lg:z-10 hover:-translate-y-4"
+            // que el shadow no quede tapado por los siblings, + ring mint para
+            // hacerlo destacar independiente del theme color
+            "lg:scale-[1.06] lg:-translate-y-3 lg:z-10 hover:-translate-y-4 ring-4 ring-mint/25 shadow-2xl shadow-mint/30"
           : "hover:-translate-y-1"
       }`}
     >
@@ -378,24 +357,54 @@ function PricingCard({ plan }: { plan: Plan }) {
           ))}
         </ul>
 
-        {/* Upcoming features */}
+        {/* Upcoming features — COLAPSABLE: arrow toggle */}
         {plan.upcoming.length > 0 && (
           <div className={`mt-4 pt-3 border-t border-dashed ${dashedBorderColor} flex-1`}>
-            <p className={`text-[10px] font-mono uppercase tracking-[1.5px] flex items-center gap-1.5 ${isNavyTheme ? "text-mint" : "text-mint-deep"}`}>
-              <ClockIcon />
-              Próximamente en este plan
-            </p>
-            <ul className="mt-2 space-y-1.5">
-              {plan.upcoming.map((feat) => (
-                <li
-                  key={feat}
-                  className={`flex items-start gap-2 text-[12.5px] leading-snug ${isNavyTheme ? "text-mint-soft/85" : "text-ink-2"}`}
+            <button
+              type="button"
+              onClick={() => setShowUpcoming(!showUpcoming)}
+              aria-expanded={showUpcoming}
+              aria-controls={`upcoming-${plan.id}`}
+              className={`w-full flex items-center justify-between gap-2 text-left group transition-opacity hover:opacity-80 ${
+                isNavyTheme ? "text-mint" : "text-mint-deep"
+              }`}
+            >
+              <span className="text-[10px] font-mono uppercase tracking-[1.5px] flex items-center gap-1.5">
+                <ClockIcon />
+                Próximamente · {plan.upcoming.length}
+              </span>
+              <motion.span
+                animate={{ rotate: showUpcoming ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex-shrink-0"
+                aria-hidden="true"
+              >
+                <ChevronDownIcon />
+              </motion.span>
+            </button>
+            <AnimatePresence initial={false}>
+              {showUpcoming && (
+                <motion.ul
+                  id={`upcoming-${plan.id}`}
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="overflow-hidden space-y-1.5"
                 >
-                  <SoonDot />
-                  <span>{feat}</span>
-                </li>
-              ))}
-            </ul>
+                  <li className="h-1" aria-hidden="true" />
+                  {plan.upcoming.map((feat) => (
+                    <li
+                      key={feat}
+                      className={`flex items-start gap-2 text-[12.5px] leading-snug ${isNavyTheme ? "text-mint-soft/85" : "text-ink-2"}`}
+                    >
+                      <SoonDot />
+                      <span>{feat}</span>
+                    </li>
+                  ))}
+                </motion.ul>
+              )}
+            </AnimatePresence>
           </div>
         )}
       </div>
@@ -454,6 +463,24 @@ function SoonDot() {
     >
       <circle cx="8" cy="8" r="6" fill="#00C9A7" fillOpacity="0.18" />
       <circle cx="8" cy="8" r="3" fill="#00C9A7" />
+    </svg>
+  );
+}
+
+function ChevronDownIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M6 9l6 6 6-6" />
     </svg>
   );
 }

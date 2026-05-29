@@ -52,7 +52,7 @@ export default function DeviceShowcase() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <div className="mt-12 md:mt-14 max-w-6xl md:max-w-3xl lg:max-w-4xl mx-auto">
+    <div className="mt-12 md:mt-14 max-w-6xl md:max-w-2xl lg:max-w-2xl mx-auto">
       {/* Hint label sobre el grid — desaparece cuando hay uno expandido */}
       <motion.p
         animate={{ opacity: activeId ? 0 : 0.8, y: activeId ? -8 : 0 }}
@@ -107,21 +107,21 @@ function GridView({
       <DeviceTile
         device={devices[0]}
         onClick={() => onSelect("mac")}
-        className="col-span-12 md:col-span-8 md:col-start-1 md:row-start-1"
+        className="col-span-12 md:col-span-7 md:col-start-1 md:row-start-1"
       />
       {/* iPad — bottom left en desktop, half-row en mobile */}
       <DeviceTile
         device={devices[1]}
         onClick={() => onSelect("ipad")}
-        className="col-span-7 md:col-span-8 md:col-start-1 md:row-start-2"
+        className="col-span-7 md:col-span-7 md:col-start-1 md:row-start-2"
       />
-      {/* iPhone — right column spanning both rows en desktop, half-row en mobile.
-          self-center centra vertical cuando el alto del iPhone no matchea con
-          el alto combinado de Mac+iPad. */}
+      {/* iPhone — right column spanning both rows en desktop (col-span-5 para
+          que el alto del iPhone se aproxime al alto combinado de Mac+iPad), en
+          mobile queda al lado del iPad. self-center balancea vertical. */}
       <DeviceTile
         device={devices[2]}
         onClick={() => onSelect("iphone")}
-        className="col-span-5 md:col-span-4 md:col-start-9 md:row-start-1 md:row-span-2 md:self-center"
+        className="col-span-5 md:col-span-5 md:col-start-8 md:row-start-1 md:row-span-2 md:self-center"
       />
     </motion.div>
   );
@@ -279,11 +279,15 @@ function DeviceMedia({
   // iPhone: cuando mostramos el VIDEO, el archivo MP4 tiene fondo gris en las
   // esquinas curvas del marco (MP4 no soporta alpha como sí la PNG estática).
   // Medido en el video real: el gris se extiende hasta ~16% horizontal × ~8%
-  // vertical en cada esquina. Aplicamos un rounded más agresivo (18%/9%) para
-  // cubrir todo y un margen de seguridad.
+  // vertical en cada esquina. Usamos border-radius elíptico via STYLE (no via
+  // Tailwind porque el slash en Tailwind es para opacity y no genera CSS
+  // elíptico). Valores 22%/11% para cubrir con margen de seguridad.
   if (device.id === "iphone" && showVideo) {
     return (
-      <div className="drop-shadow-2xl rounded-[18%/9%] overflow-hidden">
+      <div
+        className="drop-shadow-2xl overflow-hidden"
+        style={{ borderRadius: "22% / 11%" }}
+      >
         {media}
       </div>
     );

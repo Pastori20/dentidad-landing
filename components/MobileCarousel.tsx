@@ -104,7 +104,7 @@ export default function MobileCarousel({
             type="button"
             aria-label="Anterior"
             onClick={() => emblaApi.scrollPrev()}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-lg text-[#063760] hover:bg-[#B7F2E5] active:scale-95 transition text-2xl font-bold"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-[#00C9A7] shadow-lg shadow-[#00C9A7]/30 text-[#063760] hover:bg-[#00A085] hover:text-white active:scale-95 transition text-2xl font-bold"
           >
             ‹
           </button>
@@ -112,7 +112,7 @@ export default function MobileCarousel({
             type="button"
             aria-label="Siguiente"
             onClick={() => emblaApi.scrollNext()}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-lg text-[#063760] hover:bg-[#B7F2E5] active:scale-95 transition text-2xl font-bold"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-[#00C9A7] shadow-lg shadow-[#00C9A7]/30 text-[#063760] hover:bg-[#00A085] hover:text-white active:scale-95 transition text-2xl font-bold"
           >
             ›
           </button>

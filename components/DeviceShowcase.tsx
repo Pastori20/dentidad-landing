@@ -9,7 +9,10 @@ type Device = {
   id: DeviceId;
   label: string;
   image: string;
+  /** MP4 H.264 — fallback universal (Safari iOS) */
   video: string;
+  /** WEBM VP9 con alpha — preferido en Chrome/Firefox/Edge, corners transparentes */
+  videoWebm?: string;
 };
 
 // Mac y iPad comparten el mismo video (el sistema corriendo en desktop).
@@ -33,6 +36,9 @@ const devices: Device[] = [
     label: "Celular",
     image: "/hero/iphone.png",
     video: "/hero/iphone-video.mp4",
+    // WEBM con VP9 alpha — corners transparentes reales (Chrome/Firefox/Edge).
+    // Safari iOS cae al .mp4 que tiene corners en negro.
+    videoWebm: "/hero/iphone-video.webm",
   },
 ];
 
@@ -249,14 +255,20 @@ function DeviceMedia({
   const media = showVideo ? (
     <video
       key={`${device.id}-video`}
-      src={device.video}
       autoPlay
       loop
       muted
       playsInline
       preload="metadata"
       className="block w-full h-auto"
-    />
+    >
+      {/* WEBM con VP9+alpha primero — Chrome/Firefox/Edge tienen corners
+          transparentes reales. Si no soporta (Safari iOS), cae al MP4. */}
+      {device.videoWebm && (
+        <source src={device.videoWebm} type="video/webm" />
+      )}
+      <source src={device.video} type="video/mp4" />
+    </video>
   ) : (
     // eslint-disable-next-line @next/next/no-img-element
     <img

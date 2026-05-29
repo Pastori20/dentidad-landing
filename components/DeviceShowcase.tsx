@@ -277,24 +277,9 @@ function DeviceMedia({
     return <div className="drop-shadow-2xl">{media}</div>;
   }
 
-  // iPhone: cuando mostramos el VIDEO, el archivo MP4 tiene fondo gris en las
-  // esquinas curvas del marco (MP4 no soporta alpha como sí la PNG estática).
-  // Medido en el video real: el gris se extiende hasta ~16% horizontal × ~8%
-  // vertical en cada esquina. Usamos border-radius elíptico via STYLE (no via
-  // Tailwind porque el slash en Tailwind es para opacity y no genera CSS
-  // elíptico). Valores 22%/11% para cubrir con margen de seguridad.
-  if (device.id === "iphone" && showVideo) {
-    return (
-      <div
-        className="drop-shadow-2xl overflow-hidden"
-        style={{ borderRadius: "22% / 11%" }}
-      >
-        {media}
-      </div>
-    );
-  }
-
-  // Otros devices con frame propio (iPad, iPhone estático) — solo sombra
+  // Todos los demás (iPad, iPhone idle y video) — solo drop-shadow, sin clip
+  // ni manipulación. El video iPhone se muestra tal cual viene del archivo
+  // original, sin colorkey ni border-radius — el usuario lo prefiere así.
   return <div className="drop-shadow-2xl">{media}</div>;
 }
 

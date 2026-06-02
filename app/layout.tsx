@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, DM_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import StructuredData from "@/components/StructuredData";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -96,32 +99,6 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Dentidad",
-  applicationCategory: "BusinessApplication",
-  applicationSubCategory: "Healthcare Practice Management Software",
-  operatingSystem: "Web",
-  description:
-    "Software de gestión clínica para consultorios odontológicos en Argentina: agenda, ficha clínica, odontograma y cobros.",
-  url: SITE_URL,
-  publisher: {
-    "@type": "Organization",
-    name: "Solvianweb",
-    url: SITE_URL,
-  },
-  inLanguage: "es-AR",
-  featureList: [
-    "Agenda de turnos",
-    "Ficha clínica",
-    "Odontograma digital",
-    "Caja diaria y comprobantes",
-    "Galería de fotos e informes",
-    "Roles de equipo (administrador, profesional, recepción)",
-  ],
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -130,12 +107,18 @@ export default function RootLayout({
   return (
     <html lang="es-AR" className={`${dmSans.variable} ${dmMono.variable}`}>
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        {/* JSON-LD structured data (Organization + SoftwareApplication con
+            pricing + WebSite + FAQPage). Reemplaza el JSON-LD inline anterior
+            con un set completo para Google rich results + AI search engines. */}
+        <StructuredData />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* Vercel Analytics — pageviews, países, dispositivos (gratis hasta 2.5k/mes) */}
+        <Analytics />
+        {/* Speed Insights — Core Web Vitals reales (afecta SEO) */}
+        <SpeedInsights />
+      </body>
     </html>
   );
 }

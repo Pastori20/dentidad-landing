@@ -2,3 +2,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.dentidad.com/sitemap.xml
+
+# AI search engines (ChatGPT, Perplexity, Claude, Gemini)
+# Ver: https://llmstxt.org/
+# https://www.dentidad.com/llms.txt

@@ -64,14 +64,14 @@ export default function PromoBanner({ fullWidth = false, className = "" }: Props
               más fina sin ocupar tanto espacio vertical en mobile. */}
 
           <div className="flex-1">
-            {/* MOBILE: una sola línea consolidada "PROMO LANZAMIENTO · 14 días gratis" */}
+            {/* MOBILE: una sola línea consolidada "PROMO LANZAMIENTO · 50% OFF los 3 primeros meses" */}
             <div className="md:hidden flex items-center gap-2 flex-wrap">
               <span className="text-[10px] font-mono uppercase tracking-[1.5px] text-mint-soft font-bold">
                 Promo lanzamiento
               </span>
               <span className="text-mint" aria-hidden="true">·</span>
               <span className="text-base font-extrabold text-white">
-                14 días gratis
+                50% OFF los 3 primeros meses
               </span>
             </div>
 

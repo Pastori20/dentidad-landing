@@ -19,9 +19,11 @@ export default function PromoBanner({ fullWidth = false, className = "" }: Props
     ? `relative w-screen left-1/2 -translate-x-1/2 ${className}`
     : `relative ${className}`;
 
+  // Mobile: padding vertical reducido (py-3) para línea más fina.
+  // Desktop: mantenemos py-5/py-7 para presencia visual.
   const bannerClass = fullWidth
-    ? "relative bg-gradient-to-r from-navy via-[#0a4978] to-[#0f5e95] py-5 md:py-7 text-white overflow-hidden border-y border-mint/30 shadow-xl"
-    : "relative rounded-2xl bg-gradient-to-r from-navy via-[#0a4978] to-[#0f5e95] p-5 md:p-7 text-white overflow-hidden shadow-2xl shadow-navy/30 border border-mint/20";
+    ? "relative bg-gradient-to-r from-navy via-[#0a4978] to-[#0f5e95] py-3 md:py-7 text-white overflow-hidden border-y border-mint/30 shadow-xl"
+    : "relative rounded-2xl bg-gradient-to-r from-navy via-[#0a4978] to-[#0f5e95] py-3 px-4 md:p-7 text-white overflow-hidden shadow-2xl shadow-navy/30 border border-mint/20";
 
   return (
     <div className={wrapperClass}>
@@ -54,40 +56,37 @@ export default function PromoBanner({ fullWidth = false, className = "" }: Props
         />
 
         <div
-          className={`relative z-10 flex flex-col md:flex-row md:items-center gap-4 md:gap-6 ${
+          className={`relative z-10 flex flex-col md:flex-row md:items-center gap-2 md:gap-6 ${
             fullWidth ? "container-x" : ""
           }`}
         >
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            className="flex-shrink-0 flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-2xl bg-mint/20"
-          >
-            <svg
-              width="26"
-              height="26"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#00C9A7"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-            </svg>
-          </motion.div>
+          {/* Icono giratorio REMOVIDO (decisión Bauti 2/6) — la línea queda
+              más fina sin ocupar tanto espacio vertical en mobile. */}
 
           <div className="flex-1">
-            <p className="text-xs md:text-sm font-mono uppercase tracking-[2px] text-mint-soft">
-              Promo de lanzamiento
-            </p>
-            <h3 className="mt-1 text-lg md:text-2xl font-extrabold leading-tight">
-              14 días gratis · Después 50% OFF los primeros 3 meses
-            </h3>
-            <p className="mt-1.5 text-sm md:text-[15px] text-mint-soft/85 leading-relaxed">
-              Sin tarjeta · Sin permanencia · Migración asistida incluida
-            </p>
+            {/* MOBILE: una sola línea consolidada "PROMO LANZAMIENTO · 14 días gratis" */}
+            <div className="md:hidden flex items-center gap-2 flex-wrap">
+              <span className="text-[10px] font-mono uppercase tracking-[1.5px] text-mint-soft font-bold">
+                Promo lanzamiento
+              </span>
+              <span className="text-mint" aria-hidden="true">·</span>
+              <span className="text-base font-extrabold text-white">
+                14 días gratis
+              </span>
+            </div>
+
+            {/* DESKTOP: versión completa con eyebrow + título largo + subtítulo */}
+            <div className="hidden md:block">
+              <p className="text-xs md:text-sm font-mono uppercase tracking-[2px] text-mint-soft">
+                Promo de lanzamiento
+              </p>
+              <h3 className="mt-1 text-lg md:text-2xl font-extrabold leading-tight">
+                14 días gratis · Después 50% OFF los primeros 3 meses
+              </h3>
+              <p className="mt-1.5 text-sm md:text-[15px] text-mint-soft/85 leading-relaxed">
+                Sin tarjeta · Sin permanencia · Migración asistida incluida
+              </p>
+            </div>
           </div>
 
           {fullWidth && (

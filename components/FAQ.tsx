@@ -47,14 +47,16 @@ export default function FAQ() {
       className="py-14 md:py-28 border-b border-border bg-bg"
     >
       <div className="container-x">
-        <div className="max-w-3xl">
+        {/* Desktop: centrado horizontal con mx-auto + text-center.
+            Mobile: left-aligned como antes (más natural en pantalla angosta). */}
+        <div className="max-w-3xl md:mx-auto md:text-center">
           <p className="eyebrow">Preguntas frecuentes</p>
           <h2 id="faq-title" className="section-title mt-3 text-balance">
             Preguntas frecuentes
           </h2>
         </div>
 
-        <div className="mt-8 md:mt-12 max-w-3xl space-y-3">
+        <div className="mt-8 md:mt-12 max-w-3xl md:mx-auto space-y-3">
           {faqs.map((f, i) => {
             const isOpen = open === i;
             const panelId = `faq-panel-${i}`;

@@ -75,10 +75,11 @@ const plans: Plan[] = [
     cta: "Probar 14 días gratis",
     highlights: [
       "1 dentista",
+      "Portal del paciente",
       "Galería hasta 500 archivos",
       "Soporte por email",
     ],
-    upcoming: ["Portal del paciente"],
+    upcoming: [],
   },
   {
     id: "clinica",
@@ -91,12 +92,14 @@ const plans: Plan[] = [
     cta: "Probar 14 días gratis",
     highlights: [
       "Hasta 3 dentistas + recepción",
+      "Portal del paciente",
+      "Firma de consentimientos",
       "Reportes financieros y clínicos",
       "Caja diaria + recibos PDF",
       "Roles y permisos del equipo",
       "Soporte WhatsApp Business",
     ],
-    upcoming: ["Portal del paciente", "Firma de consentimientos"],
+    upcoming: [],
   },
   {
     id: "multisede",
@@ -110,14 +113,13 @@ const plans: Plan[] = [
     highlights: [
       "Sedes ilimitadas",
       "Hasta 10 dentistas",
-      "Reportes por sede",
-      "Soporte directo del fundador",
-    ],
-    upcoming: [
       "Portal del paciente",
       "Firma de consentimientos",
       "Facturación electrónica ARCA",
+      "Reportes por sede",
+      "Soporte directo del fundador",
     ],
+    upcoming: [],
   },
 ];
 
@@ -503,6 +505,6 @@ function SparkleIcon() {
       className="flex-shrink-0"
     >
       <path d="M12 0l2.5 8.5L23 12l-8.5 2.5L12 23l-2.5-8.5L1 12l8.5-2.5L12 0z" />
-    </svg>
+     </svg>
   );
 }

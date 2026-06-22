@@ -3,6 +3,7 @@ import { DM_Sans, DM_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import StructuredData from "@/components/StructuredData";
+import WhatsAppFloating from "@/components/WhatsAppFloating";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -114,6 +115,8 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        {/* Botón flotante WhatsApp — fixed bottom-right, visible en toda la landing */}
+        <WhatsAppFloating />
         {/* Vercel Analytics — pageviews, países, dispositivos (gratis hasta 2.5k/mes) */}
         <Analytics />
         {/* Speed Insights — Core Web Vitals reales (afecta SEO) */}

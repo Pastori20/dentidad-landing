@@ -321,7 +321,7 @@ function PricingCard({ plan }: { plan: Plan }) {
           </p>
         </div>
 
-        {/* Price block COMPACT — promo price big, regular strikethrough inline */}
+        {/* Price block — solo precio promo + badge contexto, sin precio regular tachado */}
         <div className="mt-4">
           {/* Big promo price */}
           <div className="flex items-baseline gap-2">
@@ -330,11 +330,8 @@ function PricingCard({ plan }: { plan: Plan }) {
             </span>
             <span className={`text-sm ${taglineColor}`}>/mes</span>
           </div>
-          {/* Strikethrough + promo context */}
-          <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span className={`text-sm line-through ${isNavyTheme ? "text-mint-soft/55" : "text-ink-3"}`}>
-              ${formatArs(plan.priceArs)}
-            </span>
+          {/* Solo badge promo, sin mostrar el precio regular */}
+          <div className="mt-1.5">
             <span className={`text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${isNavyTheme ? "bg-mint/20 text-mint" : "bg-mint/15 text-mint-deep"}`}>
               50% OFF · 3 meses
             </span>

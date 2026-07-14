@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import FadeInSection from "./FadeInSection";
 import MobileCarousel from "./MobileCarousel";
 import PromoBanner from "./PromoBanner";
+import { REGISTER_URL } from "@/lib/config";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 
@@ -344,7 +345,7 @@ function PricingCard({ plan }: { plan: Plan }) {
         {/* CTA — movido arriba (después del precio) para que se vea sin scroll
             como en Vercel/Stripe. Decisión rápida del usuario */}
         <a
-          href="#cta"
+          href={REGISTER_URL}
           className={`mt-5 inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 font-bold text-[14px] md:text-[15px] transition-colors ${t.cta}`}
         >
           {plan.cta}

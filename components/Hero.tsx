@@ -1,4 +1,5 @@
 import DeviceShowcase from "./DeviceShowcase";
+import { REGISTER_URL } from "@/lib/config";
 
 export default function Hero() {
   return (
@@ -61,7 +62,7 @@ export default function Hero() {
           </p>
 
           <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-3 justify-center">
-            <a href="#cta" className="btn-primary text-base">
+            <a href={REGISTER_URL} className="btn-primary text-base">
               Probar 14 días gratis
               <svg
                 width="16"

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import MobileCarousel from "./MobileCarousel";
 import FadeInSection from "./FadeInSection";
 import DraggableScrollRow from "./DraggableScrollRow";
+import { REGISTER_URL } from "@/lib/config";
 
 type Row = {
   topic: string;
@@ -192,7 +193,7 @@ export default function Differentiation() {
           <p className="text-ink-2">
             ¿Te suena familiar la columna de la izquierda?
           </p>
-          <a href="#cta" className="btn-primary mt-5 inline-flex">
+          <a href={REGISTER_URL} className="btn-primary mt-5 inline-flex">
             Probar 14 días gratis
             <svg
               width="16"

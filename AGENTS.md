@@ -173,6 +173,20 @@ Este repo lo manejan **dos agentes en paralelo**:
 | Integración con backend (Klaviyo/Resend para captura de leads) | **Codex** |
 | Conectar GitHub a Vercel | Vos (manual, no agente) |
 
+## Design system (leer antes de tocar UI)
+
+**`docs/design-system-producto-a-la-vista.md` es la fuente de verdad visual.**
+Antes de cambiar cualquier cosa de UI, motion, layout o copy de la landing, leerlo.
+Define la tesis ("el scroll es el demo"), el sistema de motion, el momento sticky
+del demo de producto, y los anti-patrones prohibidos.
+
+Tres reglas que se violan seguido:
+- **Nada de scroll-jacking.** Sticky de CSS + `useScroll` de framer-motion. NO GSAP,
+  NO librerías de scroll suavizado (el tráfico es mobile y llega de anuncios pagos).
+- **Solo animar `transform` y `opacity`.** Todo lo demás re-rasteriza y tironea.
+- **`prefers-reduced-motion` deja la página como documento estático completo**, con
+  todo el contenido visible. Nunca esconder contenido detrás de una animación.
+
 ## Convenciones de código
 
 - **Tailwind v3**: usar tokens — `navy`, `mint`, `mint-deep`, `mint-soft`, `ink`, `bg`. **No hex hardcodeados** salvo SVG inline.

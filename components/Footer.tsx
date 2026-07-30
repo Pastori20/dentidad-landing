@@ -1,7 +1,7 @@
 import Logo from "./Logo";
 
 const EMAIL = "info.dentidad@gmail.com";
-const WHATSAPP_NUMBER = "5493571549321";
+const WHATSAPP_NUMBER = "5493571566221";
 
 const productLinks = [
   { label: "Funcionalidades", href: "#features" },

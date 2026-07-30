@@ -7,10 +7,10 @@ import { useEffect, useState } from "react";
  * Aparece fijo en la esquina inferior derecha en toda la landing,
  * con un mensaje pre-cargado al chat de Bauti.
  *
- * Número: +54 9 3571 549321 (formato wa.me: 5493571549321)
+ * Número: +54 9 3571 566221 (formato wa.me: 5493571566221)
  * Mensaje pre-cargado para reducir fricción al primer contacto.
  */
-const WHATSAPP_NUMBER = "5493571549321";
+const WHATSAPP_NUMBER = "5493571566221";
 const PREFILLED_MESSAGE =
   "Hola! Vi Dentidad en el sitio y quería saber más sobre la prueba de 14 días.";
 

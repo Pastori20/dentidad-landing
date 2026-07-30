@@ -12,7 +12,7 @@ const navItems = [
 ];
 
 const WHATSAPP_HREF =
-  "https://wa.me/5493571549321?text=Hola!%20Vi%20Dentidad%20y%20quer%C3%ADa%20saber%20m%C3%A1s%20sobre%20la%20prueba%20de%2014%20d%C3%ADas.";
+  "https://wa.me/5493571566221?text=Hola!%20Vi%20Dentidad%20y%20quer%C3%ADa%20saber%20m%C3%A1s%20sobre%20la%20prueba%20de%2014%20d%C3%ADas.";
 
 function WhatsappGlyph({ size = 18 }: { size?: number }) {
   return (

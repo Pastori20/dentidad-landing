@@ -52,7 +52,7 @@ export default function CTA() {
             <div className="mt-8 pt-6 border-t border-white/15">
               <p className="text-sm text-white/70 mb-1">¿Preferís hablar primero?</p>
               <a
-                href="https://wa.me/5493571549321?text=Hola%2C%20quiero%20conocer%20m%C3%A1s%20sobre%20Dentidad"
+                href="https://wa.me/5493571566221?text=Hola%2C%20quiero%20conocer%20m%C3%A1s%20sobre%20Dentidad"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-mint hover:text-mint-soft font-semibold transition-colors"

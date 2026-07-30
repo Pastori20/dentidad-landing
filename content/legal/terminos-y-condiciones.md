@@ -172,7 +172,7 @@ Lo anterior es sin perjuicio de los derechos de los Usuarios consumidores confor
 Para consultas, reclamos o ejercicio de derechos relacionados con estos Términos, el Usuario puede contactar a:
 
 - **Email:** info.dentidad@gmail.com
-- **WhatsApp:** +54 9 3571 549321
+- **WhatsApp:** +54 9 3571 566221
 - **Dirección:** Río Tercero, Córdoba, Argentina
 
 ---

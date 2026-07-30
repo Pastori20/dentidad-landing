@@ -19,7 +19,7 @@ El responsable del tratamiento de los datos personales recolectados a través de
 **Contacto para temas de privacidad:**
 
 - **Email:** info.dentidad@gmail.com
-- **WhatsApp:** +54 9 3571 549321
+- **WhatsApp:** +54 9 3571 566221
 
 ---
 
@@ -168,7 +168,7 @@ Esta política puede ser actualizada en cualquier momento. Publicaremos la versi
 Para cualquier consulta relacionada con esta política o el tratamiento de tus datos:
 
 - **Email:** info.dentidad@gmail.com
-- **WhatsApp:** +54 9 3571 549321
+- **WhatsApp:** +54 9 3571 566221
 - **Dirección:** Río Tercero, Córdoba, Argentina
 
 ---

@@ -1,4 +1,4 @@
-﻿# Agents.md — Dentidad Landing (comercial)
+# Agents.md — Dentidad Landing (comercial)
 
 > **Lectura obligatoria antes de tocar código.** Si abrís una sesión y este archivo no fue leído todavía, leelo primero.
 > **Encoding:** mantener este archivo guardado en UTF-8 para evitar texto roto en terminales o editores.
@@ -95,7 +95,7 @@ public/screens/
 
 ### Datos de contacto en código (hard-coded)
 - Email: `info.dentidad@gmail.com` (en `CTA.tsx` y `Footer.tsx`)
-- WhatsApp: `5493571549321` (formato wa.me sin `+`)
+- WhatsApp: `5493571566221` (formato wa.me sin `+`)
 - Dirección legal: "Río Tercero, Córdoba, Argentina"
 
 ### Pendientes técnicos

@@ -159,7 +159,17 @@ Este repo lo manejan **dos agentes en paralelo**:
 
 > Anotar tareas a medio hacer para que el otro agente las vea.
 
-- _(nada en progreso)_
+- **Demo scroll-driven "Un día en tu consultorio"** (Claude): rama
+  `claude/design-system-motion`, **PR abierto**. Sección nueva entre PromoBanner
+  y Features: el marco queda quieto y la pantalla de adentro recorre un día de
+  trabajo (turno → ficha → odontograma → cobro) al ritmo del scroll. Sticky de
+  CSS + `useScroll`, sin scroll-jacking y sin dependencias nuevas. Primitivas
+  `components/motion/{Reveal,RevealGroup}`; `FadeInSection` quedó como alias.
+  Con movimiento reducido devuelve la versión documento con todo el contenido.
+  Capturas nuevas en `public/screens/demo/`, generadas con
+  `scripts/capturar-demo.mjs` (SaaS en modo demo, datos ficticios).
+  **Pendiente de producto: el odontograma no tiene vista mobile** — ver
+  `specs/demo-scroll/tasks.md`.
 
 ## División de trabajo sugerida
 

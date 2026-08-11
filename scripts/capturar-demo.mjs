@@ -13,8 +13,15 @@
  *
  * UN SOLO contexto de browser: sembramos y navegamos una vez a tamaño desktop,
  * capturamos, y después cambiamos el viewport a mobile y volvemos a capturar.
- * Los datos sembrados viven en el estado de la app, así que con dos contextos
- * habría que sembrar dos veces (y el mobile ni siquiera tiene selector de fecha).
+ * Los datos sembrados viven en `localStorage` (modo demo), así que sobreviven al
+ * recargar y no hace falta sembrar dos veces.
+ *
+ * ⚠ Al pasar a mobile hay que RECARGAR y volver el scroll a cero. La primera
+ * corrida no lo hacía y salieron mal dos de las cuatro capturas mobile: la app
+ * quedaba montada con el layout de escritorio y, como la agenda y el
+ * odontograma desbordan a lo ancho, el screenshot agarraba la página corrida a
+ * la derecha. Se veían como recortes rotos del escritorio, con el texto cortado
+ * en los dos bordes — justo lo contrario de lo que la sección quiere mostrar.
  */
 import { chromium } from "file:///C:/Users/Pastori/OneDrive/Desktop/Bautista/OdontoApp/odonto-next/node_modules/playwright-core/index.mjs";
 import { mkdir } from "node:fs/promises";
@@ -45,7 +52,9 @@ const DIA_CON_TURNOS = "2026-03-31"; // 3 turnos (src/data/mock/appointments.ts)
  *   clínicas en "Ficha", y adentro hay un strip de pestañas.
  */
 const PASOS = [
-  { id: "agenda", desktop: ["Turnos"], mobile: ["Turnos"], fecha: DIA_CON_TURNOS },
+  // `fecha` es solo de desktop: en mobile no hay selector de día, por eso los
+  // turnos se siembran para HOY y la agenda mobile los muestra sin navegar.
+  { id: "agenda", desktop: ["Turnos"], mobile: ["Turnos"], fecha: DIA_CON_TURNOS, soloDesktop: true },
   { id: "ficha", desktop: ["Ficha"], mobile: ["Más", "Ficha"] },
   {
     id: "odontograma",
@@ -68,19 +77,16 @@ const PAGOS_DEMO = [
   { concepto: "Control y radiografía", importe: "25000", medio: "Efectivo" },
 ];
 
-/**
- * Turnos de HOY. Sembrarlos es más robusto que navegar el calendario: el
- * selector de fecha es un popover propio y en mobile ni siquiera existe, así
- * que con navegación la agenda mobile quedaba siempre vacía.
- * Motivos INVENTADOS; el paciente es el del demo.
- */
-const TURNOS_DEMO = [
-  { hora: "09:00", motivo: "Control de ortodoncia", estado: "Confirmado" },
-  { hora: "10:30", motivo: "Limpieza y flúor", estado: "Confirmado con recordatorio" },
-  { hora: "12:00", motivo: "Conducto molar", estado: "Pendiente" },
-];
+/** Clave del snapshot del modo demo (persistencia en `localStorage`). */
+const SNAPSHOT_KEY = "odontoapp:workspace:v1";
 
-const modalDe = (page) => page.locator("div.fixed.inset-0.z-50").first();
+/**
+ * El modal abierto. `:visible` no es decorativo: puede haber más de un overlay
+ * `fixed inset-0 z-50` en el DOM (uno oculto que quedó de un paso anterior), y
+ * `.first()` a secas agarraba ese — sus campos no son editables y el `fill`
+ * moría por timeout. Así se sembraban cero turnos, en silencio.
+ */
+const modalDe = (page) => page.locator("div.fixed.inset-0.z-50:visible").first();
 
 async function login(page) {
   await page.goto(BASE, { waitUntil: "networkidle" });
@@ -95,6 +101,15 @@ async function login(page) {
     await page.locator('form:has(input[type="password"]) button[type="submit"]').first().click();
     await page.waitForTimeout(4000);
   }
+  // Si ya había sesión, `goto` cae directo en el workspace y esta función
+  // volvía al instante — el primer click salía antes de que la app hidratara y
+  // el paso fallaba con "no encontré Turnos". Se espera el workspace.
+  await page
+    .locator('button:has-text("Turnos"):visible')
+    .first()
+    .waitFor({ state: "visible", timeout: 15000 })
+    .catch(() => {});
+  await page.waitForTimeout(800);
 }
 
 /** Click tolerante por texto visible. Timeout corto a propósito: un fallo lento multiplica la corrida. */
@@ -125,9 +140,17 @@ async function clickSuave(page, texto, ms = 1600) {
 async function cerrarModal(page) {
   for (let i = 0; i < 3; i += 1) {
     if (!(await modalDe(page).count())) return;
-    for (const txt of ["Cerrar", "Cancelar", "Volver"]) {
-      await modalDe(page).locator(`button:has-text("${txt}")`).first()
-        .click({ timeout: 1500 }).catch(() => {});
+    // La X de varios modales no tiene texto: se cierra por `aria-label`. Sin
+    // esto, el modal de editar turno (que se abre al tocar un turno de la
+    // lista en mobile) quedaba abierto y bloqueaba toda la corrida.
+    for (const sel of [
+      'button[aria-label="Cerrar"]',
+      'button:has-text("Cerrar")',
+      'button:has-text("Cancelar")',
+      'button:has-text("Volver")',
+    ]) {
+      await modalDe(page).locator(sel).first()
+        .click({ timeout: 1500, force: true }).catch(() => {});
       await page.waitForTimeout(350);
       if (!(await modalDe(page).count())) return;
     }
@@ -136,7 +159,21 @@ async function cerrarModal(page) {
   }
 }
 
-async function elegirPaciente(page) {
+/**
+ * Deja un paciente seleccionado, que es lo que necesitan los pasos de ficha y
+ * odontograma.
+ *
+ * En mobile la pestaña del bottom nav se llama **"Paciente"** (singular) y lleva
+ * derecho a la ficha; en desktop es "Pacientes" y hay que elegir una fila de la
+ * lista. No es lo mismo: buscar "Pacientes" en mobile no encuentra nada, y
+ * entonces el click de fila caía sobre un TURNO de la agenda, que abre una hoja
+ * de acciones. Esa hoja tapa el bottom nav y todos los pasos siguientes fallan.
+ */
+async function elegirPaciente(page, plataforma = "desktop") {
+  if (plataforma === "mobile") {
+    await clickSuave(page, "Paciente", 2200);
+    return;
+  }
   await clickSuave(page, "Pacientes", 2000);
   try {
     const fila = page.locator("li button:visible").first();
@@ -149,41 +186,45 @@ async function elegirPaciente(page) {
   }
 }
 
-async function sembrarTurnos(page) {
-  await cerrarModal(page);
-  await clickSuave(page, "Turnos", 2600);
-
-  let cargados = 0;
-  for (const turno of TURNOS_DEMO) {
-    await cerrarModal(page);
-    await clickSuave(page, "+ TURNO", 1400);
-    const modal = modalDe(page);
-    // Esperar EXPLÍCITAMENTE a que el modal se muestre. Chequear `count()` a
-    // secas es una carrera: el modal aparece unos ms después y salíamos del
-    // loop dejándolo abierto — y ese overlay bloquea todo lo que viene después.
-    await modal.waitFor({ state: "visible", timeout: 6000 }).catch(() => {});
-    if (!(await modal.count())) break;
-
-    try {
-      await modal.locator('input[type="text"]').first()
-        .fill(turno.motivo, { timeout: 2500 });
-      const selects = modal.locator("select");
-      const n = await selects.count();
-      // Orden observado: profesional · hora inicio · hora fin · estado.
-      await selects.nth(0).selectOption({ index: 1 }).catch(() => {});
-      await selects.nth(1).selectOption(turno.hora).catch(() => {});
-      if (n >= 4) {
-        await selects.nth(n - 1).selectOption({ label: turno.estado }).catch(() => {});
-      }
-      await modal.locator('button[type="submit"]').first().click({ timeout: 3000 });
-      await page.waitForTimeout(1700);
-      cargados += 1;
-    } catch {
-      // formulario distinto al esperado: seguimos con los que salgan
+/**
+ * Turnos para HOY, escritos directo en el snapshot del modo demo.
+ *
+ * La agenda mobile no tiene selector de día: muestra la semana actual, así que
+ * sin turnos de hoy sale vacía y una agenda vacía en la landing dice "acá no
+ * trabaja nadie". Cargarlos por el formulario resultó frágil (el modal pide
+ * elegir paciente en un buscador propio y su contenedor nunca queda quieto para
+ * Playwright). Copiar los turnos que el demo YA trae, movidos a hoy, usa los
+ * mismos datos ficticios y no depende de la UI.
+ */
+async function sembrarTurnosDeHoy(page) {
+  const cargados = await page.evaluate((key) => {
+    const snap = JSON.parse(localStorage.getItem(key) || "{}");
+    if (!Array.isArray(snap.appointments)) {
+      return 0;
     }
-    await cerrarModal(page);
-  }
-  await cerrarModal(page);
+    const hoy = new Date();
+    const ymd = [
+      hoy.getFullYear(),
+      String(hoy.getMonth() + 1).padStart(2, "0"),
+      String(hoy.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    const base = snap.appointments.filter((a) => a.kind === "appointment").slice(0, 3);
+    if (base.length === 0) {
+      return 0;
+    }
+    const nuevos = base.map((a, i) => ({ ...a, id: `apt-demo-hoy-${i}`, date: ymd }));
+    // Idempotente: volver a correr el script no acumula turnos.
+    snap.appointments = [
+      ...snap.appointments.filter((a) => !String(a.id).startsWith("apt-demo-hoy-")),
+      ...nuevos,
+    ];
+    localStorage.setItem(key, JSON.stringify(snap));
+    return nuevos.length;
+  }, SNAPSHOT_KEY);
+
+  await page.reload({ waitUntil: "networkidle" });
+  await page.waitForTimeout(2500);
   return cargados;
 }
 
@@ -254,6 +295,24 @@ async function fijarFecha(page, ymd) {
   }
 }
 
+/**
+ * Vuelve el scroll a cero: el de la ventana y el de CUALQUIER contenedor que
+ * scrollee a lo ancho (la grilla de la agenda y las arcadas del odontograma
+ * tienen `overflow-x-auto`). Sin esto la captura sale corrida y con el texto
+ * cortado en el borde izquierdo.
+ */
+async function scrollAlOrigen(page) {
+  await page.evaluate(() => {
+    window.scrollTo(0, 0);
+    for (const el of document.querySelectorAll("*")) {
+      if (el.scrollLeft > 0) {
+        el.scrollLeft = 0;
+      }
+    }
+  });
+  await page.waitForTimeout(350);
+}
+
 async function capturar(page, dir, plataforma) {
   for (const paso of PASOS) {
     await cerrarModal(page);
@@ -262,13 +321,19 @@ async function capturar(page, dir, plataforma) {
       if (!(await clickSuave(page, salto))) {
         ok = false;
         console.log(`  ! "${paso.id}": no encontré "${salto}"`);
+        // Listar lo que SÍ hay ahorra la corrida siguiente: casi siempre el
+        // texto del botón cambió, o hay una hoja/modal tapando la navegación.
+        const visibles = await page.locator("button:visible").allInnerTexts();
+        console.log(`     hay: ${JSON.stringify(visibles.slice(0, 10))}`);
       }
     }
-    if (paso.fecha && !(await fijarFecha(page, paso.fecha))) {
+    const fijaFecha = paso.fecha && !(paso.soloDesktop && plataforma === "mobile");
+    if (fijaFecha && !(await fijarFecha(page, paso.fecha))) {
       console.log(`  ! "${paso.id}": no pude fijar ${paso.fecha}`);
       ok = false;
     }
     await page.waitForTimeout(900);
+    await scrollAlOrigen(page);
 
     // El odontograma en mobile muestra "girá el dispositivo": un visitante que
     // viene de un anuncio no va a girar nada (FR-17 del spec).
@@ -291,15 +356,52 @@ const page = await ctx.newPage();
 await login(page);
 await elegirPaciente(page);
 console.log(`sembré ${await sembrarPagos(page)} pagos`);
+console.log(`sembré ${await sembrarTurnosDeHoy(page)} turnos de hoy`);
+
+// Recargar después de sembrar: si algún modal quedó colgado, su overlay
+// `fixed inset-0 z-50` intercepta TODOS los clicks siguientes y la corrida de
+// capturas falla entera. Recargar lo barre y los datos están en localStorage.
+await page.reload({ waitUntil: "networkidle" });
+await page.waitForTimeout(2500);
+await login(page);
+await elegirPaciente(page);
 
 console.log("desktop 1440x900:");
 await capturar(page, `${OUT}/desktop`, "desktop");
 
 console.log("mobile 500x1000:");
 await page.setViewportSize(MOBILE);
-await page.waitForTimeout(2000);
+// Recargar es lo que hace que la app se monte con SU layout mobile (bottom nav,
+// drawer, arcadas compactas) en vez de quedarse con el de escritorio encogido.
+// Los datos sembrados están en localStorage, así que sobreviven.
+await page.reload({ waitUntil: "networkidle" });
+await page.waitForTimeout(2500);
+await login(page);
+await elegirPaciente(page, "mobile");
+// Tocar una fila en mobile abre el modal de editar turno: hay que barrerlo.
+await cerrarModal(page);
 await capturar(page, `${OUT}/mobile`, "mobile");
 
 await ctx.close();
 await browser.close();
+
+/**
+ * El odontograma NO tiene vista mobile: a 500px la app reemplaza las arcadas por
+ * una tarjeta que dice "Mejor en horizontal". Publicar eso en la landing sería
+ * anunciar que el odontograma no anda en el teléfono, y además la spec lo
+ * prohíbe (FR-17).
+ *
+ * Se recorta un tramo de las dos arcadas de la captura de escritorio: siete
+ * piezas por arcada, con la restauración marcada y la extracción. Es la parte
+ * distintiva y, al ser un recorte ACOTADO, los números de pieza siguen
+ * leyéndose en un teléfono — la banda entera de 32 piezas, metida en el ancho
+ * de un celular, quedaba ilegible. Los bordes caen entre tarjetas y entre
+ * piezas, así que se ve deliberado y no como un screenshot cortado.
+ */
+const { default: sharp } = await import("sharp");
+await sharp(`${OUT}/desktop/odontograma.png`)
+  .extract({ left: 630, top: 1112, width: 762, height: 545 })
+  .toFile(`${OUT}/mobile/odontograma-arcadas.png`);
+console.log("recorté mobile/odontograma-arcadas.png (el odontograma no tiene vista mobile)");
+
 console.log("listo");

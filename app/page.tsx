@@ -1,3 +1,4 @@
+import DemoScroll from "@/components/demo/DemoScroll";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Problem from "@/components/Problem";
@@ -20,6 +21,9 @@ export default function HomePage() {
             el usuario ya vio el dolor, le mostramos el incentivo antes de
             que explore las features */}
         <PromoBanner fullWidth />
+        {/* El demo va ANTES de Features: primero se ve el producto trabajando,
+            después el detalle funcionalidad por funcionalidad. */}
+        <DemoScroll />
         <Features />
         <Pricing />
         <FAQ />

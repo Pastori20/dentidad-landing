@@ -22,8 +22,8 @@ Todos los planes arrancan con 14 días gratis para probar sin tarjeta.
 | Plan | Precio | Incluye |
 |------|--------|---------|
 | **Esencial** | $50.000 ARS/mes | 1 dentista, galería hasta 500 archivos, soporte por email |
-| **Clínica** | $85.000 ARS/mes | Hasta 3 dentistas + recepción, reportes financieros y clínicos, caja diaria, roles y permisos, soporte WhatsApp Business |
-| **Multi-sede** | $300.000 ARS/mes | Sedes ilimitadas, hasta 10 dentistas, reportes por sede, soporte directo del fundador |
+| **Clínica** | $85.000 ARS/mes | Hasta 3 dentistas + recepción, recordatorios automáticos por email, reserva de turnos online, nomenclador de tratamientos con comisiones y liquidación a derivadores, historial de cajas día por día, reportes financieros y clínicos, caja diaria, roles y permisos, soporte WhatsApp Business |
+| **Multi-sede** | $300.000 ARS/mes | Todo lo del plan Clínica, sedes ilimitadas, hasta 10 dentistas, reportes por sede, soporte directo del fundador |
 
 Todos los planes incluyen: agenda + recordatorios WhatsApp con link, ficha clínica completa + odontograma, anamnesis adulto y odontopediátrico, acceso multidispositivo, backup automático en la nube, sin permanencia, migración asistida.
 

@@ -92,6 +92,10 @@ const plans: Plan[] = [
     cta: "Probar 14 días gratis",
     highlights: [
       "Hasta 3 dentistas + recepción",
+      "Recordatorios automáticos por email",
+      "Reserva de turnos online",
+      "Nomenclador + comisiones a derivadores",
+      "Historial de cajas día por día",
       "Portal del paciente",
       "Firma de consentimientos",
       "Reportes financieros y clínicos",
@@ -111,6 +115,7 @@ const plans: Plan[] = [
     theme: "mint",
     cta: "Probar 14 días gratis",
     highlights: [
+      "Todo lo del plan Clínica",
       "Sedes ilimitadas",
       "Hasta 10 dentistas",
       "Portal del paciente",

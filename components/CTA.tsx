@@ -44,6 +44,7 @@ export default function CTA() {
 
             <ul className="mt-6 md:mt-8 space-y-3">
               <BulletItem text="14 días gratis para que pruebes todo" />
+              <BulletItem text="Después: 50% OFF los primeros 3 meses" />
               <BulletItem text="Migración asistida sin costo extra" />
               <BulletItem text="Soporte directo del fundador" />
             </ul>

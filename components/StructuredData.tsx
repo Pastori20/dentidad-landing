@@ -69,14 +69,16 @@ const softwareApplicationSchema = {
       "@type": "Offer",
       name: "Esencial",
       description: "Plan para arrancar a digitalizar el consultorio (1 dentista).",
-      price: "50000",
+      price: "25000",
       priceCurrency: "ARS",
       priceSpecification: {
         "@type": "UnitPriceSpecification",
-        price: "50000",
+        price: "25000",
         priceCurrency: "ARS",
         billingDuration: "P1M",
         valueAddedTaxIncluded: true,
+        description:
+          "50% OFF los primeros 3 meses durante la promo de lanzamiento. Precio regular $50.000/mes.",
       },
       availability: "https://schema.org/InStock",
       eligibleRegion: { "@type": "Country", name: "AR" },
@@ -86,14 +88,16 @@ const softwareApplicationSchema = {
       name: "Clínica",
       description:
         "Plan para consultorios con equipo (hasta 3 dentistas + recepción).",
-      price: "85000",
+      price: "42500",
       priceCurrency: "ARS",
       priceSpecification: {
         "@type": "UnitPriceSpecification",
-        price: "85000",
+        price: "42500",
         priceCurrency: "ARS",
         billingDuration: "P1M",
         valueAddedTaxIncluded: true,
+        description:
+          "50% OFF los primeros 3 meses durante la promo de lanzamiento. Precio regular $85.000/mes.",
       },
       availability: "https://schema.org/InStock",
       eligibleRegion: { "@type": "Country", name: "AR" },
@@ -103,14 +107,16 @@ const softwareApplicationSchema = {
       name: "Multi-sede",
       description:
         "Plan para cadenas multi-sucursal (sedes ilimitadas, hasta 10 dentistas).",
-      price: "300000",
+      price: "150000",
       priceCurrency: "ARS",
       priceSpecification: {
         "@type": "UnitPriceSpecification",
-        price: "300000",
+        price: "150000",
         priceCurrency: "ARS",
         billingDuration: "P1M",
         valueAddedTaxIncluded: true,
+        description:
+          "50% OFF los primeros 3 meses durante la promo de lanzamiento. Precio regular $300.000/mes.",
       },
       availability: "https://schema.org/InStock",
       eligibleRegion: { "@type": "Country", name: "AR" },
@@ -153,7 +159,7 @@ const faqSchema = {
       name: "¿Cuánto cuesta Dentidad?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Dentidad tiene 3 planes: Esencial ($50.000/mes para 1 dentista), Clínica ($85.000/mes hasta 3 dentistas + recepción) y Multi-sede ($300.000/mes para cadenas). Todos con 14 días gratis para probar sin tarjeta.",
+        text: "Dentidad tiene 3 planes: Esencial ($50.000/mes para 1 dentista), Clínica ($85.000/mes hasta 3 dentistas + recepción) y Multi-sede ($300.000/mes para cadenas). Todos con 50% OFF los primeros 3 meses durante la promo de lanzamiento + 14 días gratis para probar sin tarjeta.",
       },
     },
     {

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import FadeInSection from "./FadeInSection";
 import MobileCarousel from "./MobileCarousel";
+import PromoBanner from "./PromoBanner";
 import { REGISTER_URL } from "@/lib/config";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
@@ -158,6 +159,27 @@ export default function Pricing() {
       <div className="container-x relative z-10">
         <FadeInSection>
           <div className="max-w-3xl mx-auto text-center">
+            {/* Badge animado flotante */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-mint to-mint-deep text-navy px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-mint/30 mb-6"
+            >
+              <motion.span
+                animate={{ rotate: [0, 15, -15, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                🔥
+              </motion.span>
+              <span>PROMO DE LANZAMIENTO ACTIVA</span>
+              <motion.span
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                className="inline-block w-2 h-2 rounded-full bg-red-500"
+              />
+            </motion.div>
+
             <h2 id="pricing-title" className="section-title text-balance">
               Precios claros. Sin sorpresas.
             </h2>
@@ -165,6 +187,15 @@ export default function Pricing() {
               Elegí el plan que se adapta a tu consultorio. Cambialo cuando
               quieras. Sin permanencia, sin contratos eternos.
             </p>
+          </div>
+        </FadeInSection>
+
+        {/* Promo banner FULL-WIDTH — rompe el container con w-screen para que
+            ocupe edge-to-edge, igual que el banner que está entre Problem y
+            Features. Margen vertical chico para no perder ritmo. */}
+        <FadeInSection>
+          <div className="mt-6 md:mt-8">
+            <PromoBanner fullWidth />
           </div>
         </FadeInSection>
 
@@ -296,13 +327,20 @@ function PricingCard({ plan }: { plan: Plan }) {
           </p>
         </div>
 
-        {/* Price block — precio regular, sin promo */}
+        {/* Price block — solo precio promo + badge contexto, sin precio regular tachado */}
         <div className="mt-4">
+          {/* Big promo price */}
           <div className="flex items-baseline gap-2">
             <span className={`text-3xl md:text-4xl font-extrabold ${titleColor}`}>
-              ${formatArs(plan.priceArs)}
+              ${formatArs(plan.priceArs / 2)}
             </span>
             <span className={`text-sm ${taglineColor}`}>/mes</span>
+          </div>
+          {/* Solo badge promo, sin mostrar el precio regular */}
+          <div className="mt-1.5">
+            <span className={`text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${isNavyTheme ? "bg-mint/20 text-mint" : "bg-mint/15 text-mint-deep"}`}>
+              50% OFF · 3 meses
+            </span>
           </div>
           <p className={`mt-2 text-[12px] ${taglineColor}`}>
             14 días gratis para arrancar · sin tarjeta

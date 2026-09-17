@@ -174,13 +174,15 @@ export default function SignupForm({ defaultPlan = "Clínica", compact = false }
 
       <div>
         <label htmlFor="telefono" className={labelClass}>
-          Teléfono / WhatsApp <span className={compact ? "text-white/50" : "text-ink-3"}>(opcional)</span>
+          WhatsApp
         </label>
         <input
           type="tel"
           id="telefono"
           name="telefono"
-          placeholder="+54 9 351 555 0000"
+          placeholder="Con código de área, ej. 3571 566221"
+          autoComplete="tel"
+          required
           className={inputClass}
         />
       </div>

@@ -174,7 +174,7 @@ export default function SignupForm({ defaultPlan = "Clínica", compact = false }
 
       <div>
         <label htmlFor="telefono" className={labelClass}>
-          WhatsApp
+          Teléfono
         </label>
         <input
           type="tel"

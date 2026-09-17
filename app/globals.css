@@ -11,6 +11,15 @@
     color-scheme: light;
   }
 
+  /* Sin scroll horizontal. Lo que se pase de ancho (ej. un bloque con
+     w-screen = 100vw, que en desktop incluye la barra de scroll) se recorta.
+     `clip` y no `hidden`: hidden convierte al elemento en contenedor de
+     scroll y rompe el `position: sticky` del header. */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   html {
     scroll-behavior: smooth;
   }

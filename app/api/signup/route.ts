@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
   // Obligatorio: es por donde se contacta a la clínica.
   if (!isValidPhone(telefono)) {
     return NextResponse.json(
-      { error: "Ingresá un WhatsApp válido, con código de área" },
+      { error: "Ingresá un teléfono válido, con código de área" },
       { status: 400 }
     );
   }

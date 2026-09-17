@@ -16,9 +16,16 @@ type SignupBody = {
   ciudad: string;
   cantidadDentistas: string;
   plan: string;
-  telefono?: string;
+  telefono: string;
   mensaje?: string;
 };
+
+/** 8 a 15 dígitos, y solo lo que la gente escribe entre ellos: + espacios - . ( ) */
+function isValidPhone(phone: string): boolean {
+  if (!/^[+\d\s().-]+$/.test(phone)) return false;
+  const digits = phone.replace(/\D/g, "").length;
+  return digits >= 8 && digits <= 15;
+}
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -45,8 +52,8 @@ export async function POST(request: NextRequest) {
   }
 
   // Validación básica server-side
-  const { email, nombre, consultorio, ciudad, cantidadDentistas, plan } = body;
-  if (!email || !nombre || !consultorio || !ciudad || !cantidadDentistas || !plan) {
+  const { email, nombre, consultorio, ciudad, cantidadDentistas, plan, telefono } = body;
+  if (!email || !nombre || !consultorio || !ciudad || !cantidadDentistas || !plan || !telefono) {
     return NextResponse.json(
       { error: "Completá todos los campos requeridos" },
       { status: 400 }
@@ -55,6 +62,13 @@ export async function POST(request: NextRequest) {
   if (!isValidEmail(email)) {
     return NextResponse.json(
       { error: "Email inválido" },
+      { status: 400 }
+    );
+  }
+  // Obligatorio: es por donde se contacta a la clínica.
+  if (!isValidPhone(telefono)) {
+    return NextResponse.json(
+      { error: "Ingresá un WhatsApp válido, con código de área" },
       { status: 400 }
     );
   }

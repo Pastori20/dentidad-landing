@@ -84,6 +84,38 @@ const highlights: Highlight[] = [
       </svg>
     ),
   },
+  {
+    // La objeción que más frena a cambiar de sistema: perder lo que ya está
+    // cargado. Es lo primero que pregunta quien viene de otro software.
+    title: "Cambiate sin perder nada",
+    body: "Dentidad importa tus pacientes desde Excel o desde el sistema que usás hoy, y te acompaña en el pase.",
+    bullets: [
+      "Importación desde Excel o CSV, con vista previa",
+      "Migración asistida desde otro sistema",
+      "Tus datos se exportan cuando quieras",
+    ],
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 7.5h13l-3.5-3.5" />
+        <path d="M20 16.5H7l3.5 3.5" />
+      </svg>
+    ),
+  },
+  {
+    title: "Portal del paciente y ficha previa",
+    body: "Dentidad le da a cada paciente su propio link, sin contraseña, para completar sus datos y ver sus turnos y comprobantes.",
+    bullets: [
+      "Ficha y anamnesis desde el celular, antes de llegar",
+      "QR en la sala de espera para completarla ahí",
+      "Turnos, comprobantes y presupuestos en PDF",
+    ],
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="5" y="2.5" width="14" height="19" rx="2.5" />
+        <path d="M9 8.5h6M9 12h6M9 15.5h3" />
+      </svg>
+    ),
+  },
 ];
 
 export default function Highlights() {
@@ -108,7 +140,8 @@ export default function Highlights() {
           </div>
         </FadeInSection>
 
-        <div className="mt-8 md:mt-12 grid gap-4 md:gap-5 sm:grid-cols-2">
+        {/* 6 tarjetas: 3x2 en escritorio, 2x3 en tablet, una columna en celular. */}
+        <div className="mt-8 md:mt-12 grid gap-4 md:gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {highlights.map((item, index) => (
             <FadeInSection key={item.title} delay={index * 0.08}>
               <article className="h-full rounded-2xl border border-border bg-bg-card p-5 md:p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-mint hover:shadow">

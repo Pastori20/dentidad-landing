@@ -14,8 +14,8 @@ import { Children, useCallback, useEffect, useState, type ReactNode } from "reac
  * Usa Embla, el mismo motor que el carrusel de precios. La primera versión
  * usaba el scroll nativo del navegador (scroll-snap) y en el celular de
  * Bautista no se deslizaba; Embla ya estaba probado en la landing. Además
- * `clickAllowed()` distingue un toque de un arrastre, así que deslizar nunca
- * cuenta como toque.
+ * Embla frena el click que sigue a un arrastre, así que deslizar nunca cuenta
+ * como toque.
  *
  * Sin avance automático a propósito: son tarjetas para leer.
  *
@@ -52,8 +52,9 @@ export default function HighlightsStories({
   const goTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi]);
 
   function handleTap(event: React.MouseEvent<HTMLDivElement>, index: number) {
-    // Si fue un arrastre (deslizar), Embla ya movió el carrusel: no es un toque.
-    if (!emblaApi || !emblaApi.clickAllowed()) return;
+    // Si fue un arrastre (deslizar), este click no llega: Embla 8 lo frena en
+    // la fase de captura cuando el dedo se movió más que su umbral.
+    if (!emblaApi) return;
     // Tocar una tarjeta que asoma al costado la trae.
     if (index !== active) {
       emblaApi.scrollTo(index);

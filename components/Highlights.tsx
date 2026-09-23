@@ -151,9 +151,10 @@ export default function Highlights() {
         {/* 6 tarjetas: 3x2 en escritorio, 2x3 en tablet, una columna en celular. */}
         <div className="mt-8 md:mt-12 grid gap-4 md:gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {highlights.map((item, index) => {
-            // La primera —la que más vende— va en navy, como el plan "Más
-            // elegido": la vista arranca por ahí y el bloque no queda parejo.
-            const featured = index === 0;
+            // Alternadas navy / blanca (pedido de Bautista): en 3 columnas queda
+            // un tablero (navy-blanca-navy / blanca-navy-blanca) y en celular se
+            // intercalan. La primera, la que más vende, arranca en navy.
+            const featured = index % 2 === 0;
             const numero = String(index + 1).padStart(2, "0");
             return (
               <FadeInSection key={item.title} delay={index * 0.08}>

@@ -63,6 +63,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    // La ficha completa del producto: la fuente más citable para asistentes de IA.
+    {
+      url: `${SITE_URL}/sobre-dentidad`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
     // Páginas legales
     {
       url: `${SITE_URL}/terminos`,

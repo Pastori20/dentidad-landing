@@ -366,7 +366,8 @@ const inclusos: IncluyeItem[] = [
   },
   {
     title: "Obras sociales argentinas",
-    blurb: "OSDE, Swiss, Federada, IOMA, PAMI y más, precargadas.",
+    // Medido contra la lista real de la app (77 al 22/9/2026): IOMA no está.
+    blurb: "Más de 70 precargadas: OSDE, PAMI, APROSS, Federada, Swiss, Galeno.",
     size: "small",
     theme: "mint",
     icon: (
@@ -374,6 +375,110 @@ const inclusos: IncluyeItem[] = [
         <path d="M4 21V8l8-5 8 5v13" />
         <path d="M9 21v-6h6v6" />
         <path d="M12 11h.01" />
+      </svg>
+    ),
+  },
+  /*
+    Lo que se sumó y la landing no contaba (22/9/2026). Todo está funcionando en
+    producción: nada acá es "próximamente".
+  */
+  {
+    title: "Factura electrónica ARCA",
+    blurb: "Factura C con CAE real y PDF con QR, desde el mismo cobro.",
+    size: "small",
+    theme: "navy",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M6 2.5h12v19l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5-2 1.5z" />
+        <path d="M9 7.5h6M9 11.5h6M9 15.5h3" />
+      </svg>
+    ),
+  },
+  {
+    title: "Portal del paciente",
+    blurb: "Sus turnos y comprobantes, con link propio y sin contraseña.",
+    size: "small",
+    theme: "sky",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="5" y="2.5" width="14" height="19" rx="2.5" />
+        <path d="M10 5.5h4M10 18.5h4" />
+      </svg>
+    ),
+  },
+  {
+    title: "Ficha previa por QR",
+    blurb: "El paciente completa sus datos y antecedentes desde el celular.",
+    size: "small",
+    theme: "mint",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+        <path d="M14 14h3v3h-3zM20 20h1M17 20v1" />
+      </svg>
+    ),
+  },
+  {
+    title: "Consentimientos digitales",
+    blurb: "Se firman en pantalla y quedan guardados con su texto de ese día.",
+    size: "small",
+    theme: "navy",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M5 3.5h9l5 5v12H5z" />
+        <path d="M14 3.5v5h5" />
+        <path d="M8 16c2-3 4 2 6-1" />
+      </svg>
+    ),
+  },
+  {
+    title: "Presupuestos con cuotas",
+    blurb: "Precio de contado, planes de cuotas y envío por WhatsApp o mail.",
+    size: "small",
+    theme: "mint",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="3.5" y="3.5" width="17" height="17" rx="2.5" />
+        <path d="M7.5 8.5h9M7.5 12.5h5M7.5 16.5h7" />
+      </svg>
+    ),
+  },
+  {
+    title: "Nomenclador y comisiones",
+    blurb: "Tus prestaciones con honorario, y la comisión al derivador sale sola.",
+    size: "small",
+    theme: "sky",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 6.5h16M4 12h16M4 17.5h10" />
+        <circle cx="18.5" cy="17.5" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    title: "Importá tus pacientes",
+    blurb: "Desde Excel o CSV, con vista previa antes de confirmar.",
+    size: "small",
+    theme: "navy",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 3.5v11" />
+        <path d="M8 10.5l4 4 4-4" />
+        <path d="M4 17.5v3h16v-3" />
+      </svg>
+    ),
+  },
+  {
+    title: "Avisos en el celular",
+    blurb: "Te llega una notificación cuando un paciente reserva o responde.",
+    size: "small",
+    theme: "mint",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M6 9a6 6 0 1112 0c0 5 2 6 2 6H4s2-1 2-6z" />
+        <path d="M10 19.5a2.5 2.5 0 004 0" />
       </svg>
     ),
   },

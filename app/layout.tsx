@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s · Dentidad",
   },
   description:
-    "Software web de gestión clínica para odontólogos: agenda, ficha clínica, odontograma y cobros en un solo lugar. Pensado para Argentina.",
+    "Software de gestión para consultorios odontológicos de Argentina: turnos online con seña por Mercado Pago, recordatorios por WhatsApp, ficha clínica, odontograma, caja y factura electrónica ARCA.",
   keywords: [
     "software dental",
     "gestión clínica dental",
@@ -38,6 +38,11 @@ export const metadata: Metadata = {
     "agenda turnos odontólogo",
     "software odontólogo Argentina",
     "consultorio odontológico",
+    "turnos online odontología",
+    "recordatorios WhatsApp pacientes",
+    "facturación electrónica ARCA odontología",
+    "seña de turno con Mercado Pago",
+    "portal del paciente odontología",
     "Dentidad",
     "Solvianweb",
   ],
@@ -53,7 +58,7 @@ export const metadata: Metadata = {
     siteName: "Dentidad",
     title: "Dentidad — Software dental para Argentina",
     description:
-      "Agenda, ficha clínica, odontograma y cobros en una sola plataforma para odontólogos.",
+      "Turnos online con seña, recordatorios por WhatsApp, ficha clínica, odontograma, caja y factura ARCA. Para consultorios odontológicos de Argentina.",
     images: [
       {
         // Servimos el OG image desde raw.githubusercontent.com porque Vercel
@@ -72,7 +77,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Dentidad — Software dental para Argentina",
     description:
-      "Agenda, ficha clínica, odontograma y cobros en una sola plataforma para odontólogos.",
+      "Turnos online con seña, recordatorios por WhatsApp, ficha clínica, odontograma, caja y factura ARCA. Para consultorios odontológicos de Argentina.",
     images: [
       "https://raw.githubusercontent.com/Pastori20/dentidad-landing/main/public/og-image.png",
     ],

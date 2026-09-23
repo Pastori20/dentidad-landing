@@ -1,41 +1,9 @@
 "use client";
 
 import { useState } from "react";
-
-const faqs = [
-  {
-    q: "¿Necesito instalar algo en mi computadora?",
-    a: "No. Dentidad funciona desde el navegador. Lo abrís desde la computadora del consultorio, desde tu tablet o desde el celular sin instalar nada.",
-  },
-  {
-    q: "¿Mis datos están seguros?",
-    a: "Sí. Los datos viajan encriptados, se guardan en infraestructura profesional de nube y se hacen backups automáticos. Ningún dato queda en la computadora del consultorio: si se rompe o la cambiás, todo sigue en su lugar.",
-  },
-  {
-    q: "¿Qué pasa si se va internet en el consultorio?",
-    a: "Hoy Dentidad requiere conexión a internet para funcionar. Estamos trabajando en un modo offline para sumar más adelante.",
-  },
-  {
-    q: "¿Puedo darle acceso a mi secretaria o a otro profesional?",
-    a: "Sí. Podés sumar usuarios con roles diferenciados: profesional, recepción o administrador. Cada uno ve y edita lo que le corresponde según su rol.",
-  },
-  {
-    q: "¿Las obras sociales argentinas ya vienen cargadas?",
-    a: "Sí. Federada Salud, Swiss Medical, Prevención Salud, APROSS, Unimed, SanCor Salud, Galeno, JS Jerárquicos, Medifé, Integral, Omint y Particular. Si te falta alguna, la sumamos.",
-  },
-  {
-    q: "¿Dentidad emite facturas de ARCA?",
-    a: 'Por ahora no. Dentidad genera comprobantes y recibos internos imprimibles con tus datos y matrícula, ideales para entregar al paciente. Para la facturación electrónica fiscal seguís usando "Comprobantes en Línea" de ARCA y podés guardar el número en Dentidad. La integración con ARCA está en planes.',
-  },
-  {
-    q: "¿Cómo migro mis datos de Excel o de mi sistema actual?",
-    a: "Si tenés tu información en Excel, planillas o un sistema anterior, te podemos dar una mano para importarla al inicio. Escribinos y vemos cómo arrancar con todo cargado de entrada.",
-  },
-  {
-    q: "¿Qué pasa si quiero dejar de usar Dentidad?",
-    a: "Tus datos son tuyos. Podés exportar toda tu información en cualquier momento y cancelar cuando quieras.",
-  },
-];
+// Mismo texto que el FAQPage del JSON-LD: Google exige que lo marcado sea
+// idéntico a lo visible (ver lib/faq-data.ts).
+import { faqs } from "@/lib/faq-data";
 
 export default function FAQ() {
   const [open, setOpen] = useState<number | null>(0);

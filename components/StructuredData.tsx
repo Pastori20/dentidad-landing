@@ -10,6 +10,8 @@
  * Se renderea en <head> via Next.js script.
  */
 
+import { faqs } from "@/lib/faq-data";
+
 const SITE_URL = "https://www.dentidad.com";
 
 const organizationSchema = {
@@ -49,18 +51,35 @@ const softwareApplicationSchema = {
   operatingSystem: "Web Browser",
   url: SITE_URL,
   description:
-    "Sistema de gestión odontológica para clínicas en Argentina. Agenda con recordatorios por WhatsApp, ficha clínica, odontograma digital, caja diaria, reportes y acceso multidispositivo en una sola plataforma.",
+    "Sistema de gestión odontológica para clínicas y consultorios de Argentina. Reserva de turnos online con seña por Mercado Pago, agenda con recordatorios automáticos por WhatsApp y email, ficha clínica, odontograma digital, caja diaria, presupuestos, facturación electrónica ARCA y portal del paciente, en una sola plataforma accesible desde computadora, tablet y celular.",
   inLanguage: "es-AR",
   countriesSupported: "AR",
+  /*
+    Lo que Dentidad hace HOY en producción. Nada de "próximamente": una función
+    anunciada que no existe hace más daño que una función ausente, porque la
+    desmiente el producto.
+  */
   featureList: [
-    "Agenda con recordatorios automáticos por WhatsApp",
+    "Reserva de turnos online con link público para pacientes",
+    "Seña del turno con Mercado Pago, a la cuenta del consultorio",
+    "Recordatorios automáticos por WhatsApp y por email, con confirmación del paciente",
+    "El horario se libera cuando el paciente avisa que no puede asistir",
     "Ficha clínica completa y anamnesis adulto/odontopediátrico",
-    "Odontograma digital con doble vista inicial/actual",
+    "Odontograma digital con doble vista inicial/actual, exportable a PDF",
+    "Evoluciones ancladas a la pieza y la cara tratadas",
     "Galería de fotos, radiografías e informes por paciente",
-    "Caja diaria con desglose por medio de pago",
+    "Caja diaria con desglose por medio de pago e historial por día",
+    "Presupuestos por tratamiento con precio de contado y planes de cuotas",
+    "Nomenclador de tratamientos con honorarios y comisiones a derivadores",
+    "Facturación electrónica ARCA (ex AFIP): Factura C con CAE y PDF con QR",
+    "Portal del paciente con turnos, comprobantes y ficha previa por QR",
+    "Consentimientos informados digitales, editables por el consultorio",
+    "Importación de pacientes desde Excel o CSV",
     "Reportes financieros y clínicos",
-    "Acceso desde computadora, tablet y celular",
-    "Backup automático en la nube",
+    "Roles y permisos para profesional, recepción y administrador",
+    "Notificaciones al celular y app instalable desde el navegador",
+    "Obras sociales argentinas precargadas",
+    "Acceso desde computadora, tablet y celular, con backup automático en la nube",
     "Multi-sede para cadenas odontológicas",
     "Sin permanencia, migración asistida",
   ],
@@ -69,16 +88,16 @@ const softwareApplicationSchema = {
       "@type": "Offer",
       name: "Esencial",
       description: "Plan para arrancar a digitalizar el consultorio (1 dentista).",
-      price: "25000",
+      price: "50000",
       priceCurrency: "ARS",
       priceSpecification: {
         "@type": "UnitPriceSpecification",
-        price: "25000",
+        price: "50000",
         priceCurrency: "ARS",
         billingDuration: "P1M",
         valueAddedTaxIncluded: true,
         description:
-          "50% OFF los primeros 3 meses durante la promo de lanzamiento. Precio regular $50.000/mes.",
+          "Precio de lista. Promo de lanzamiento vigente: 50% OFF los primeros 3 meses ($25.000/mes). Incluye 14 días gratis sin tarjeta.",
       },
       availability: "https://schema.org/InStock",
       eligibleRegion: { "@type": "Country", name: "AR" },
@@ -88,16 +107,16 @@ const softwareApplicationSchema = {
       name: "Clínica",
       description:
         "Plan para consultorios con equipo (hasta 3 dentistas + recepción).",
-      price: "42500",
+      price: "85000",
       priceCurrency: "ARS",
       priceSpecification: {
         "@type": "UnitPriceSpecification",
-        price: "42500",
+        price: "85000",
         priceCurrency: "ARS",
         billingDuration: "P1M",
         valueAddedTaxIncluded: true,
         description:
-          "50% OFF los primeros 3 meses durante la promo de lanzamiento. Precio regular $85.000/mes.",
+          "Precio de lista. Promo de lanzamiento vigente: 50% OFF los primeros 3 meses ($42.500/mes). Incluye 14 días gratis sin tarjeta.",
       },
       availability: "https://schema.org/InStock",
       eligibleRegion: { "@type": "Country", name: "AR" },
@@ -107,16 +126,16 @@ const softwareApplicationSchema = {
       name: "Multi-sede",
       description:
         "Plan para cadenas multi-sucursal (sedes ilimitadas, hasta 10 dentistas).",
-      price: "150000",
+      price: "300000",
       priceCurrency: "ARS",
       priceSpecification: {
         "@type": "UnitPriceSpecification",
-        price: "150000",
+        price: "300000",
         priceCurrency: "ARS",
         billingDuration: "P1M",
         valueAddedTaxIncluded: true,
         description:
-          "50% OFF los primeros 3 meses durante la promo de lanzamiento. Precio regular $300.000/mes.",
+          "Precio de lista. Promo de lanzamiento vigente: 50% OFF los primeros 3 meses ($150.000/mes). Incluye 14 días gratis sin tarjeta.",
       },
       availability: "https://schema.org/InStock",
       eligibleRegion: { "@type": "Country", name: "AR" },
@@ -150,67 +169,19 @@ const websiteSchema = {
   },
 };
 
+/*
+  El FAQPage sale del MISMO array que renderiza la sección visible. Google pide
+  que el texto marcado sea idéntico al que ve la persona; antes acá había un
+  juego de preguntas distinto del de la página.
+*/
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "¿Cuánto cuesta Dentidad?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Dentidad tiene 3 planes: Esencial ($50.000/mes para 1 dentista), Clínica ($85.000/mes hasta 3 dentistas + recepción) y Multi-sede ($300.000/mes para cadenas). Todos con 50% OFF los primeros 3 meses durante la promo de lanzamiento + 14 días gratis para probar sin tarjeta.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "¿Puedo probar Dentidad gratis?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Sí, ofrecemos 14 días gratis para probar el sistema completo sin pedirte tarjeta de crédito. Si no te convence, no pagás nada.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "¿Funciona en mi celular y tablet?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Sí, Dentidad es 100% web — funciona en cualquier dispositivo con navegador: computadora, tablet o celular. La interfaz se adapta a cada pantalla.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "¿Tiene odontograma digital?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Sí. El odontograma es 100% digital con doble vista (inicial y actual), permite registrar prestaciones por pieza y cara, y se exporta a PDF.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "¿Manda recordatorios por WhatsApp?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Sí. Los recordatorios se envían automáticamente por WhatsApp con un link interactivo donde el paciente puede confirmar el turno o avisar ausencia. La agenda se actualiza sola.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "¿Hay permanencia o contrato a largo plazo?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. Dentidad es sin permanencia. Pagás mes a mes y podés dar de baja cuando quieras. También hacemos migración asistida si venís de Excel, planillas o otro sistema.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "¿Funciona para clínicas con varias sedes?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Sí. El plan Multi-sede permite gestionar sedes ilimitadas con reportes consolidados por sede, hasta 10 dentistas y soporte directo del fundador.",
-      },
-    },
-  ],
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: { "@type": "Answer", text: faq.a },
+  })),
 };
 
 export default function StructuredData() {

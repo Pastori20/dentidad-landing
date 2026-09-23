@@ -134,14 +134,21 @@ export default function Highlights() {
           ))}
         </div>
 
+        {/* El cierre del bloque: franja del mismo ancho que las tarjetas. Suelto
+            a la izquierda, el botón quedaba colgado. */}
         <FadeInSection>
-          <div className="mt-8 md:mt-10">
-            <a href={REGISTER_URL} className="btn-primary-deep">
+          <div className="mt-4 md:mt-5 flex flex-col gap-4 rounded-2xl border border-mint/40 bg-mint-soft/30 p-5 md:flex-row md:items-center md:justify-between md:p-6">
+            <div>
+              <p className="text-[15px] md:text-base font-bold text-navy">
+                Probalo con tus propios pacientes durante 14 días
+              </p>
+              <p className="mt-1 text-sm text-ink-2">
+                Sin tarjeta · Sin permanencia · Migración asistida
+              </p>
+            </div>
+            <a href={REGISTER_URL} className="btn-primary-deep w-full md:w-auto shrink-0">
               Probar 14 días gratis
             </a>
-            <p className="mt-3 text-sm text-ink-3">
-              Sin tarjeta · Sin permanencia · Migración asistida
-            </p>
           </div>
         </FadeInSection>
       </div>

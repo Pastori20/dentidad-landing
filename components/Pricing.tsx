@@ -5,26 +5,9 @@ import FadeInSection from "./FadeInSection";
 import MobileCarousel from "./MobileCarousel";
 import PromoBanner from "./PromoBanner";
 import { REGISTER_URL } from "@/lib/config";
+import { plans, sharedFeatures, type Plan, type PlanTheme } from "@/lib/plans-data";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-
-type PlanTheme = "sky" | "mint" | "navy";
-
-type Plan = {
-  id: string;
-  name: string;
-  tagline: string;
-  priceArs: number;
-  priceUsd: number;
-  highlight: boolean;
-  cta: string;
-  /** Color theme — each card has its own gradient bg for visual variety */
-  theme: PlanTheme;
-  /** What makes THIS plan different (assume common features are listed above) */
-  highlights: string[];
-  /** Features futuras INCLUIDAS en este tier cuando se lancen (sin upgrade) */
-  upcoming: string[];
-};
 
 // Gradient + border styles per theme. La carga visual de "destacado" se aplica
 // aparte con `isHighlight`, así cualquier theme puede ser el highlight.
@@ -52,82 +35,6 @@ const planThemeStyles: Record<PlanTheme, { bg: string; border: string; cta: stri
 
 const formatArs = (n: number) =>
   new Intl.NumberFormat("es-AR", { maximumFractionDigits: 0 }).format(n);
-
-// Features que TODOS los planes incluyen — se muestran arriba de los cards
-// para no repetirlas 3 veces y dejar cada card más liviano.
-const sharedFeatures = [
-  "Agenda + recordatorios WhatsApp con link",
-  "Ficha clínica completa + odontograma",
-  "Anamnesis adulto y odontopediátrico",
-  "Acceso desde compu, tablet y celular",
-  "Backup automático en la nube",
-  "Sin permanencia · Migración asistida",
-];
-
-const plans: Plan[] = [
-  {
-    id: "esencial",
-    name: "Esencial",
-    tagline: "Para arrancar a digitalizar.",
-    priceArs: 50000,
-    priceUsd: 40,
-    highlight: false,
-    theme: "sky",
-    cta: "Probar 14 días gratis",
-    highlights: [
-      "1 dentista",
-      "Portal del paciente",
-      "Galería hasta 500 archivos",
-      "Soporte por email",
-    ],
-    upcoming: [],
-  },
-  {
-    id: "clinica",
-    name: "Clínica",
-    tagline: "Para consultorios con equipo.",
-    priceArs: 85000,
-    priceUsd: 65,
-    highlight: true,
-    theme: "navy",
-    cta: "Probar 14 días gratis",
-    highlights: [
-      "Hasta 3 dentistas + recepción",
-      "Recordatorios automáticos por email",
-      "Reserva de turnos online",
-      "Nomenclador + comisiones a derivadores",
-      "Historial de cajas día por día",
-      "Portal del paciente",
-      "Firma de consentimientos",
-      "Reportes financieros y clínicos",
-      "Caja diaria + recibos PDF",
-      "Roles y permisos del equipo",
-      "Soporte WhatsApp Business",
-    ],
-    upcoming: [],
-  },
-  {
-    id: "multisede",
-    name: "Multi-sede",
-    tagline: "Para cadenas multi-sucursal.",
-    priceArs: 300000,
-    priceUsd: 230,
-    highlight: false,
-    theme: "mint",
-    cta: "Probar 14 días gratis",
-    highlights: [
-      "Todo lo del plan Clínica",
-      "Sedes ilimitadas",
-      "Hasta 10 dentistas",
-      "Portal del paciente",
-      "Firma de consentimientos",
-      "Facturación electrónica ARCA",
-      "Reportes por sede",
-      "Soporte directo del fundador",
-    ],
-    upcoming: [],
-  },
-];
 
 export default function Pricing() {
   return (

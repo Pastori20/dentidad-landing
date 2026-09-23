@@ -3,11 +3,14 @@ import Logo from "./Logo";
 const EMAIL = "info.dentidad@gmail.com";
 const WHATSAPP_NUMBER = "5493571566221";
 
+// Con "/" adelante: el pie también se muestra en /sobre-dentidad y en los
+// legales, donde un "#features" suelto no lleva a ningún lado. "Próximamente"
+// se sacó: esa sección ya no existe.
 const productLinks = [
-  { label: "Funcionalidades", href: "#features" },
-  { label: "Próximamente", href: "#proximamente" },
-  { label: "Planes", href: "#planes" },
-  { label: "Preguntas frecuentes", href: "#faq" },
+  { label: "Funcionalidades", href: "/#features" },
+  { label: "Planes", href: "/#planes" },
+  { label: "Preguntas frecuentes", href: "/#faq" },
+  { label: "Todo sobre Dentidad", href: "/sobre-dentidad" },
 ];
 
 const legalLinks = [

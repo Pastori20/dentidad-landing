@@ -25,17 +25,17 @@ export default function Hero() {
         }}
       />
 
-      <div className="container-x relative z-10">
-        {/* Hero copy — centered, vertical layout, no right column */}
-        <div className="max-w-4xl mx-auto text-center">
+      <div className="container-x relative z-10 grid items-center gap-12 lg:max-w-7xl lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-10 xl:gap-14">
+        {/* Izquierda: el título. En el celular va arriba y centrado. */}
+        <div className="text-center lg:text-left">
           <p className="font-mono text-xs font-medium tracking-[2px] uppercase text-mint">
             Software dental para Argentina
           </p>
 
-          <h1 className="mt-5 text-[2.5rem] leading-[1.05] sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-extrabold tracking-tight text-balance">
+          <h1 className="mt-5 text-[2.5rem] leading-[1.05] sm:text-6xl lg:text-[3.4rem] xl:text-[3.9rem] font-extrabold tracking-tight text-balance">
             Tu consultorio,{" "}
             <span className="relative inline-block">
-              <span className="text-mint">ordenado al detalle</span>
+              <span className="text-mint">ordenado al detalle</span>.
               <svg
                 aria-hidden="true"
                 className="absolute -bottom-2 left-0 w-full"
@@ -52,17 +52,16 @@ export default function Hero() {
                 />
               </svg>
             </span>
-            .
           </h1>
 
-          <p className="mt-6 md:mt-8 text-base md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 md:mt-8 text-base md:text-xl text-white/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
             Dentidad reúne agenda, ficha clínica, odontograma y cobros en una
             sola plataforma pensada para odontólogos en Argentina. Sin papel,
             sin Excel, sin software de hace 20 años.
           </p>
 
-          <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-3 justify-center">
-            <a href={REGISTER_URL} className="btn-primary text-base">
+          <div className="mt-8 md:mt-10 flex flex-col sm:flex-row sm:flex-wrap gap-3 justify-center lg:justify-start">
+            <a href={REGISTER_URL} className="btn-primary text-base whitespace-nowrap">
               Probar 14 días gratis
               <svg
                 width="16"
@@ -82,7 +81,7 @@ export default function Hero() {
             </a>
             <a
               href="#features"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold px-6 py-3 rounded-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-navy-700"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold px-6 py-3 rounded-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-navy-700"
             >
               Ver cómo funciona
               <svg
@@ -105,7 +104,7 @@ export default function Hero() {
 
           <ul
             role="list"
-            className="mt-7 md:mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-white/75"
+            className="mt-7 md:mt-9 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-3 text-sm text-white/75"
           >
             <li className="flex items-center gap-2">
               <CheckIcon />
@@ -128,10 +127,7 @@ export default function Hero() {
           </ul>
         </div>
 
-        {/* Showcase de los 3 devices (Mac/iPad/iPhone). Click en cualquiera
-            para verlo en grande reproduciendo un video del sistema en uso.
-            Mac y iPad comparten el video desktop; iPhone tiene su propio video
-            con frame nativo de iPhone. */}
+        {/* Derecha: tablet + celular con Dentidad funcionando en video. */}
         <DeviceShowcase />
       </div>
     </section>

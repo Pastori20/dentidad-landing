@@ -23,6 +23,8 @@ import { useEffect, useRef, useState, type RefObject } from "react";
  * cuando el hero sale de la pantalla, y con "reducir movimiento" activado no
  * arrancan solos.
  */
+type Device = "ipad" | "phone";
+
 export default function DeviceShowcase() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const tabletRef = useRef<HTMLVideoElement>(null);
@@ -32,6 +34,29 @@ export default function DeviceShowcase() {
   // Lo que eligió la persona con el botón. null = todavía no tocó nada.
   const [userChoice, setUserChoice] = useState<"play" | "pause" | null>(null);
   const [playing, setPlaying] = useState(false);
+  // El equipo destacado: con el mouse encima, o tocado en pantallas táctiles.
+  const [focus, setFocus] = useState<Device | null>(null);
+  const lastPointer = useRef<string>("mouse");
+
+  function focusHandlers(device: Device) {
+    return {
+      onPointerEnter: (e: React.PointerEvent) => {
+        if (e.pointerType === "mouse") setFocus(device);
+      },
+      onPointerLeave: (e: React.PointerEvent) => {
+        if (e.pointerType === "mouse") setFocus(null);
+      },
+      onPointerDown: (e: React.PointerEvent) => {
+        lastPointer.current = e.pointerType;
+      },
+      // Sin mouse no hay "pasar por encima": tocar destaca, volver a tocar suelta.
+      onClick: () => {
+        if (lastPointer.current !== "mouse") {
+          setFocus((actual) => (actual === device ? null : device));
+        }
+      },
+    };
+  }
 
   useEffect(() => {
     setReducedMotion(
@@ -69,35 +94,63 @@ export default function DeviceShowcase() {
       ref={wrapRef}
       className="relative mx-auto w-full max-w-[640px] lg:max-w-none"
     >
-      {/* Brillo detrás de los equipos */}
+      {/* Brillo detrás de los equipos: respira todo el tiempo */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-[10%] top-[8%] h-[70%] rounded-full bg-mint/20 blur-3xl"
+        className="pointer-events-none absolute inset-x-[10%] top-[8%] h-[70%] rounded-full bg-mint/20 blur-3xl will-change-transform motion-safe:animate-breathe"
       />
 
       <div className="relative pb-[16%]">
-        <div className="w-[88%]">
-          <IpadFrame>
-            <DeviceVideo
-              videoRef={tabletRef}
-              src="/hero/tablet-demo.mp4"
-              poster="/hero/tablet-demo-poster.jpg"
-              label="Dentidad en una tablet: agenda del día, pacientes y odontograma"
-              onPlayingChange={setPlaying}
-            />
-          </IpadFrame>
+        {/* iPad: flota (capa de afuera) y reacciona al mouse (capa de adentro) */}
+        <div
+          className={`relative w-[88%] motion-safe:animate-float-slow ${
+            focus === "ipad" ? "z-30" : "z-10"
+          }`}
+        >
+          <div
+            {...focusHandlers("ipad")}
+            className={`transition-transform duration-500 ease-[cubic-bezier(.2,.8,.2,1)] ${
+              focus === "ipad"
+                ? "scale-[1.03]"
+                : focus === "phone"
+                  ? "scale-[0.97]"
+                  : ""
+            }`}
+          >
+            <IpadFrame dim={focus === "phone"}>
+              <DeviceVideo
+                videoRef={tabletRef}
+                src="/hero/tablet-demo.mp4"
+                poster="/hero/tablet-demo-poster.jpg"
+                label="Dentidad en una tablet: agenda del día, pacientes y odontograma"
+                onPlayingChange={setPlaying}
+              />
+            </IpadFrame>
+          </div>
         </div>
 
-        {/* El iPhone, apoyado sobre la esquina del iPad */}
-        <div className="absolute bottom-0 right-[1%] w-[27%]">
-          <IphoneFrame>
-            <DeviceVideo
-              videoRef={phoneRef}
-              src="/hero/celular-demo.mp4"
-              poster="/hero/celular-demo-poster.jpg"
-              label="Dentidad en el celular: turnos de hoy y ficha del paciente"
-            />
-          </IphoneFrame>
+        {/* El iPhone, apoyado sobre la esquina del iPad. Con el mouse encima
+            crece desde su esquina y tapa buena parte del iPad. */}
+        <div className="absolute bottom-0 right-[1%] z-20 w-[27%] motion-safe:animate-float-fast">
+          <div
+            {...focusHandlers("phone")}
+            className={`origin-bottom-right transition-transform duration-500 ease-[cubic-bezier(.2,.8,.2,1)] ${
+              focus === "phone"
+                ? "scale-[1.45]"
+                : focus === "ipad"
+                  ? "translate-x-[10%] translate-y-[4%] scale-[0.9]"
+                  : ""
+            }`}
+          >
+            <IphoneFrame dim={focus === "ipad"}>
+              <DeviceVideo
+                videoRef={phoneRef}
+                src="/hero/celular-demo.mp4"
+                poster="/hero/celular-demo-poster.jpg"
+                label="Dentidad en el celular: turnos de hoy y ficha del paciente"
+              />
+            </IphoneFrame>
+          </div>
         </div>
       </div>
 
@@ -143,7 +196,14 @@ export default function DeviceShowcase() {
  * con esquinas de 18 pt. Borde de aluminio + bisel negro parejo + cámara en el
  * lado largo (arriba, apaisado).
  */
-function IpadFrame({ children }: { children: React.ReactNode }) {
+function IpadFrame({
+  children,
+  dim,
+}: {
+  children: React.ReactNode;
+  /** El otro equipo está destacado: este se oscurece un poco. */
+  dim: boolean;
+}) {
   return (
     <div className="[container-type:inline-size]">
       <div className="rounded-[4.6cqw] bg-gradient-to-br from-[#8b93a1] via-[#3a404b] to-[#6b7280] p-[0.45cqw] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.65)]">
@@ -155,6 +215,7 @@ function IpadFrame({ children }: { children: React.ReactNode }) {
           />
           <div className="relative aspect-[1180/820] overflow-hidden rounded-[1.5cqw] bg-navy">
             {children}
+            <ScreenEffects dim={dim} shine="motion-safe:animate-shine" />
           </div>
         </div>
       </div>
@@ -173,7 +234,14 @@ function IpadFrame({ children }: { children: React.ReactNode }) {
  * En `cqw` del ancho del cuerpo: marco de titanio 1,1 + bisel 3 = pantalla de
  * 91,8 de ancho. Un punto de pantalla = 91,8 / 393 = 0,2336 cqw.
  */
-function IphoneFrame({ children }: { children: React.ReactNode }) {
+function IphoneFrame({
+  children,
+  dim,
+}: {
+  children: React.ReactNode;
+  /** El otro equipo está destacado: este se oscurece un poco. */
+  dim: boolean;
+}) {
   return (
     <div className="relative [container-type:inline-size]">
       {/* Botones laterales: acción y volumen a la izquierda, encendido a la derecha */}
@@ -220,10 +288,37 @@ function IphoneFrame({ children }: { children: React.ReactNode }) {
                 className="h-[1.2cqw] w-[31.3cqw] rounded-full bg-ink"
               />
             </div>
+            <ScreenEffects dim={dim} shine="motion-safe:animate-shine-late" />
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Encima de cada pantalla: un reflejo de luz que la cruza cada tantos segundos
+ * (el del iPhone desfasado del iPad) y una capa oscura para cuando el otro
+ * equipo está destacado. Solo transform/opacity.
+ */
+function ScreenEffects({ dim, shine }: { dim: boolean; shine: string }) {
+  return (
+    <>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        <span
+          className={`absolute inset-y-0 left-0 w-[35%] -translate-x-[120%] bg-gradient-to-r from-transparent via-white/20 to-transparent will-change-transform ${shine}`}
+        />
+      </span>
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 bg-navy-900 transition-opacity duration-500 ${
+          dim ? "opacity-40" : "opacity-0"
+        }`}
+      />
+    </>
   );
 }
 

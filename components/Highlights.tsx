@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import FadeInSection from "./FadeInSection";
+import HighlightsStories from "./HighlightsStories";
 import { REGISTER_URL } from "@/lib/config";
 
 /**
@@ -148,97 +149,22 @@ export default function Highlights() {
           </div>
         </FadeInSection>
 
-        {/* 6 tarjetas: 3x2 en escritorio, 2x3 en tablet, una columna en celular. */}
-        <div className="mt-8 md:mt-12 grid gap-4 md:gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {highlights.map((item, index) => {
-            // Alternadas navy / blanca (pedido de Bautista): en 3 columnas queda
-            // un tablero (navy-blanca-navy / blanca-navy-blanca) y en celular se
-            // intercalan. La primera, la que más vende, arranca en navy.
-            const featured = index % 2 === 0;
-            const numero = String(index + 1).padStart(2, "0");
-            return (
-              <FadeInSection key={item.title} delay={index * 0.08}>
-                <article
-                  className={`group relative h-full overflow-hidden rounded-2xl border p-6 md:p-7 transition-all duration-300 hover:-translate-y-1 ${
-                    featured
-                      ? "border-mint/30 bg-gradient-to-br from-navy via-[#0a4978] to-[#0f5e95] text-white shadow-xl shadow-navy/20 hover:shadow-2xl hover:shadow-navy/30"
-                      : "border-border bg-bg-card hover:border-mint/60 hover:shadow-xl hover:shadow-navy/10"
-                  }`}
-                >
-                  {/* Brillo menta en la esquina: se enciende al pasar el mouse. */}
-                  <span
-                    aria-hidden="true"
-                    className={`pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full blur-3xl transition-opacity duration-500 ${
-                      featured ? "bg-mint/30 opacity-80 group-hover:opacity-100" : "bg-mint/25 opacity-0 group-hover:opacity-100"
-                    }`}
-                  />
-                  {/* El número grande, casi transparente, de fondo. */}
-                  <span
-                    aria-hidden="true"
-                    className={`pointer-events-none absolute -bottom-6 right-3 select-none text-[7.5rem] font-extrabold leading-none tracking-tighter ${
-                      featured ? "text-white/[0.06]" : "text-navy/[0.045]"
-                    }`}
-                  >
-                    {numero}
-                  </span>
+        {/* Celular: carrusel tipo historias (se desliza o se toca para pasar). */}
+        <div className="mt-8 md:hidden">
+          <HighlightsStories labels={highlights.map((item) => item.title)}>
+            {highlights.map((item, index) => (
+              <HighlightCard key={item.title} item={item} index={index} />
+            ))}
+          </HighlightsStories>
+        </div>
 
-                  <div className="relative">
-                    <div className="flex items-center justify-between gap-3">
-                      <span
-                        className={`inline-flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105 [&>svg]:h-6 [&>svg]:w-6 ${
-                          featured
-                            ? "bg-mint text-navy shadow-lg shadow-mint/30"
-                            : "bg-navy text-mint shadow-md shadow-navy/20"
-                        }`}
-                      >
-                        {item.icon}
-                      </span>
-                      <span
-                        className={`rounded-full px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] ${
-                          featured ? "bg-white/10 text-mint" : "bg-mint-soft/60 text-mint-deep"
-                        }`}
-                      >
-                        {item.tag}
-                      </span>
-                    </div>
-
-                    <h3
-                      className={`mt-5 text-lg md:text-xl font-extrabold tracking-tight text-balance ${
-                        featured ? "text-white" : "text-navy"
-                      }`}
-                    >
-                      {item.title}
-                    </h3>
-                    <p
-                      className={`mt-2 text-[15px] leading-relaxed ${
-                        featured ? "text-white/75" : "text-ink-2"
-                      }`}
-                    >
-                      {item.body}
-                    </p>
-
-                    <ul
-                      className={`mt-5 space-y-2.5 border-t pt-4 ${
-                        featured ? "border-white/15" : "border-border"
-                      }`}
-                    >
-                      {item.bullets.map((bullet) => (
-                        <li
-                          key={bullet}
-                          className={`flex items-start gap-2.5 text-[14px] leading-snug ${
-                            featured ? "text-white/90" : "text-ink"
-                          }`}
-                        >
-                          <Check light={featured} />
-                          <span>{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              </FadeInSection>
-            );
-          })}
+        {/* Tablet y escritorio: grilla, 2 columnas y después 3. */}
+        <div className="mt-12 hidden gap-5 md:grid md:grid-cols-2 lg:grid-cols-3">
+          {highlights.map((item, index) => (
+            <FadeInSection key={item.title} delay={index * 0.08}>
+              <HighlightCard item={item} index={index} />
+            </FadeInSection>
+          ))}
         </div>
 
         {/* El cierre del bloque: franja del mismo ancho que las tarjetas. Suelto
@@ -260,6 +186,98 @@ export default function Highlights() {
         </FadeInSection>
       </div>
     </section>
+  );
+}
+
+/**
+ * Una tarjeta destacada. La usan el carrusel del celular y la grilla.
+ *
+ * Alternadas navy / blanca (pedido de Bautista): en 3 columnas queda un tablero
+ * (navy-blanca-navy / blanca-navy-blanca) y en el carrusel se intercalan. La
+ * primera, la que más vende, arranca en navy.
+ */
+function HighlightCard({ item, index }: { item: Highlight; index: number }) {
+  const featured = index % 2 === 0;
+  const numero = String(index + 1).padStart(2, "0");
+  return (
+    <article
+      className={`group relative h-full overflow-hidden rounded-2xl border p-6 md:p-7 transition-all duration-300 md:hover:-translate-y-1 ${
+        featured
+          ? "border-mint/30 bg-gradient-to-br from-navy via-[#0a4978] to-[#0f5e95] text-white shadow-xl shadow-navy/20 hover:shadow-2xl hover:shadow-navy/30"
+          : "border-border bg-bg-card hover:border-mint/60 hover:shadow-xl hover:shadow-navy/10"
+      }`}
+    >
+      {/* Brillo menta en la esquina: se enciende al pasar el mouse. */}
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full blur-3xl transition-opacity duration-500 ${
+          featured ? "bg-mint/30 opacity-80 group-hover:opacity-100" : "bg-mint/25 opacity-0 group-hover:opacity-100"
+        }`}
+      />
+      {/* El número grande, casi transparente, de fondo. */}
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none absolute -bottom-6 right-3 select-none text-[7.5rem] font-extrabold leading-none tracking-tighter ${
+          featured ? "text-white/[0.06]" : "text-navy/[0.045]"
+        }`}
+      >
+        {numero}
+      </span>
+
+      <div className="relative">
+        <div className="flex items-center justify-between gap-3">
+          <span
+            className={`inline-flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105 [&>svg]:h-6 [&>svg]:w-6 ${
+              featured
+                ? "bg-mint text-navy shadow-lg shadow-mint/30"
+                : "bg-navy text-mint shadow-md shadow-navy/20"
+            }`}
+          >
+            {item.icon}
+          </span>
+          <span
+            className={`rounded-full px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] ${
+              featured ? "bg-white/10 text-mint" : "bg-mint-soft/60 text-mint-deep"
+            }`}
+          >
+            {item.tag}
+          </span>
+        </div>
+
+        <h3
+          className={`mt-5 text-lg md:text-xl font-extrabold tracking-tight text-balance ${
+            featured ? "text-white" : "text-navy"
+          }`}
+        >
+          {item.title}
+        </h3>
+        <p
+          className={`mt-2 text-[15px] leading-relaxed ${
+            featured ? "text-white/75" : "text-ink-2"
+          }`}
+        >
+          {item.body}
+        </p>
+
+        <ul
+          className={`mt-5 space-y-2.5 border-t pt-4 ${
+            featured ? "border-white/15" : "border-border"
+          }`}
+        >
+          {item.bullets.map((bullet) => (
+            <li
+              key={bullet}
+              className={`flex items-start gap-2.5 text-[14px] leading-snug ${
+                featured ? "text-white/90" : "text-ink"
+              }`}
+            >
+              <Check light={featured} />
+              <span>{bullet}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
   );
 }
 

@@ -101,7 +101,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/favicon.svg" }],
+    // iOS no acepta SVG como apple-touch-icon: con el SVG, al agregar la
+    // página a la pantalla de inicio usaba una captura. PNG a sangre y opaco
+    // (iOS redondea él), generado en el sistema por scripts/render-brand-icons.ts.
+    apple: [{ url: "/apple-touch-icon-v2.png", sizes: "180x180" }],
   },
 };
 

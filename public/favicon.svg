@@ -1,14 +1,2 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Dentidad favicon">
-  <style>
-    .fav-d {
-      font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-      font-weight: 900;
-      font-size: 56px;
-      letter-spacing: -3px;
-      fill: #ffffff;
-    }
-  </style>
-  <rect width="64" height="64" rx="14" fill="#063760"/>
-  <text x="14" y="52" class="fav-d">d</text>
-  <circle cx="50" cy="16" r="5" fill="#00C9A7"/>
-</svg>
+<!-- Generado por scripts/render-brand-icons.ts desde src/components/brand/dentidad-mark.ts. Copiado del sistema (odonto-next/public/dentidad-favicon.svg). No editar a mano. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Dentidad"><rect width="200" height="200" rx="44" fill="#063760"/><path d="M95.13 162.04Q83.74 162.04 74.47 156.26Q65.21 150.48 59.86 140.37Q54.50 130.25 54.50 117.33Q54.50 104.24 59.94 94.13Q65.38 84.01 74.81 78.14Q84.25 72.28 95.81 72.28Q104.65 72.28 111.28 75.42Q117.91 78.57 122.16 84.52L122.16 37.60L147.66 37.60L147.66 160L125.05 160L122.16 148.95Q119.61 152.52 115.95 155.50Q112.30 158.47 107.20 160.25Q102.10 162.04 95.13 162.04M101.76 139.77Q108.05 139.77 112.90 136.88Q117.74 133.99 120.38 128.89Q123.01 123.79 123.01 117.16Q123.01 110.53 120.38 105.43Q117.74 100.33 112.90 97.44Q108.05 94.55 101.76 94.55Q95.64 94.55 90.80 97.44Q85.95 100.33 83.23 105.43Q80.51 110.53 80.51 116.99Q80.51 123.62 83.23 128.81Q85.95 133.99 90.80 136.88Q95.64 139.77 101.76 139.77" fill="#ffffff"/><circle cx="158" cy="50" r="13" fill="#00C9A7"/></svg>

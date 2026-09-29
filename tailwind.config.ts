@@ -53,7 +53,13 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['"DM Sans"', "system-ui", "-apple-system", '"Segoe UI"', "sans-serif"],
+        sans: [
+          '"DM Sans"',
+          "system-ui",
+          "-apple-system",
+          '"Segoe UI"',
+          "sans-serif",
+        ],
         mono: ['"DM Mono"', "ui-monospace", '"SF Mono"', "Menlo", "monospace"],
       },
       borderRadius: {
@@ -70,6 +76,13 @@ const config: Config = {
       animation: {
         "fade-up": "fadeUp 0.6s cubic-bezier(.4, 0, .2, 1)",
         "fade-in": "fadeIn 0.4s cubic-bezier(.4, 0, .2, 1)",
+        // Hero: los equipos flotan desfasados, el brillo respira y un reflejo
+        // cruza las pantallas. Solo transform/opacity (sin tirones).
+        "float-slow": "float 7s ease-in-out infinite",
+        "float-fast": "float 5.5s ease-in-out -2s infinite",
+        breathe: "breathe 6s ease-in-out infinite",
+        shine: "shine 9s ease-in-out infinite",
+        "shine-late": "shine 9s ease-in-out 4.5s infinite",
       },
       keyframes: {
         fadeUp: {
@@ -79,6 +92,18 @@ const config: Config = {
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
+        },
+        float: {
+          "0%, 100%": { transform: "translate3d(0, 0, 0)" },
+          "50%": { transform: "translate3d(0, -2.2%, 0)" },
+        },
+        breathe: {
+          "0%, 100%": { opacity: "0.55", transform: "scale(0.96)" },
+          "50%": { opacity: "1", transform: "scale(1.04)" },
+        },
+        shine: {
+          "0%": { transform: "translate3d(-120%, 0, 0) skewX(-18deg)" },
+          "22%, 100%": { transform: "translate3d(260%, 0, 0) skewX(-18deg)" },
         },
       },
     },

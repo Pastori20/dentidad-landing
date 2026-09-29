@@ -20,8 +20,13 @@
     overflow-x: clip;
   }
 
-  html {
-    scroll-behavior: smooth;
+  /* Con Lenis activo, él maneja el scroll (y pone `scroll-behavior: auto`).
+     Esto queda para cuando Lenis no corre: sin JS todavía, o en el celular. Y
+     nunca con "reducir movimiento". */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {

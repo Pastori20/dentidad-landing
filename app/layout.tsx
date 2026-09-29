@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import StructuredData from "@/components/StructuredData";
 import WhatsAppFloating from "@/components/WhatsAppFloating";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -122,6 +123,8 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body>
+        {/* Scroll con inercia (Lenis). Se apaga solo con "reducir movimiento". */}
+        <SmoothScroll />
         {children}
         {/* Botón flotante WhatsApp — fixed bottom-right, visible en toda la landing */}
         <WhatsAppFloating />

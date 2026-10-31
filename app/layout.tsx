@@ -83,15 +83,9 @@ export const metadata: Metadata = {
       "https://raw.githubusercontent.com/Pastori20/dentidad-landing/main/public/og-image.png",
     ],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-    },
-  },
+  // robots va en cada página, no acá: en la 404 Next ya agrega su propio
+  // noindex, y con este "index, follow" quedaban dos etiquetas que se
+  // contradicen (Bing lo marca como error).
   verification: {
     // Verificación de dominio para Meta Business — desbloquea ads sin
     // restricciones y permite controlar previews de OG cuando alguien

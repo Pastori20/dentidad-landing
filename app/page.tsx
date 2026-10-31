@@ -8,7 +8,16 @@ import FAQ from "@/components/FAQ";
 import Pricing from "@/components/Pricing";
 import PromoBanner from "@/components/PromoBanner";
 import CTA from "@/components/CTA";
+import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+
+export const metadata: Metadata = {
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+};
 
 export default function HomePage() {
   return (

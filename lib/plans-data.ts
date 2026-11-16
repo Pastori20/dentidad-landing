@@ -112,12 +112,10 @@ export function formatPlanPrice(priceArs: number): string {
 /*
   La prueba gratis y la promo de lanzamiento, en un solo lugar.
 
-  Las leen la sección de precios, el banner de la promo, la FAQ, el JSON-LD,
-  /sobre-dentidad y los llms.txt. Antes la promo estaba escrita a mano en cada
-  uno y el precio con descuento se calculaba en el schema por separado. Si la
-  promo cambia o termina, se cambia acá.
-
-  Nunca "sin tarjeta": no se promete.
+  Las leen las superficies para buscadores y asistentes de IA: el JSON-LD,
+  los llms.txt, /sobre-dentidad y la pregunta de la promo en la FAQ. La sección
+  de precios y el banner de la home todavía tienen el texto escrito a mano: si
+  la promo cambia o termina, se cambia acá y también ahí.
 */
 export const TRIAL_DAYS = 14;
 
@@ -130,9 +128,6 @@ export const LAUNCH_PROMO = {
 export function promoPriceArs(priceArs: number): number {
   return Math.round((priceArs * (100 - LAUNCH_PROMO.percentOff)) / 100);
 }
-
-/** "50% OFF los primeros 3 meses" — para badges y banners. */
-export const PROMO_SHORT = `${LAUNCH_PROMO.percentOff}% OFF los primeros ${LAUNCH_PROMO.months} meses`;
 
 /** La promo en una oración que se sostiene sola (FAQ, schema, llms.txt). */
 export const PROMO_SENTENCE = `Promo de lanzamiento vigente: ${LAUNCH_PROMO.percentOff}% de descuento los primeros ${LAUNCH_PROMO.months} meses en cualquier plan, después de los ${TRIAL_DAYS} días gratis.`;

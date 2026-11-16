@@ -225,7 +225,7 @@ export default function SignupForm({ defaultPlan = "Clínica", compact = false }
       </button>
 
       <p className={`text-xs leading-relaxed text-center ${compact ? "text-white/60" : "text-ink-3"}`}>
-        Sin permanencia. Te creamos la cuenta en menos de 24hs.
+        Sin tarjeta. Sin permanencia. Te creamos la cuenta en menos de 24hs.
       </p>
     </form>
   );

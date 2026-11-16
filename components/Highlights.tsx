@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import FadeInSection from "./FadeInSection";
 import HighlightsStories from "./HighlightsStories";
 import { REGISTER_URL } from "@/lib/config";
-import { PROMO_SHORT } from "@/lib/plans-data";
 
 /**
  * Lo que más mueve la aguja, apenas se entra.
@@ -177,7 +176,7 @@ export default function Highlights() {
                 Probalo con tus propios pacientes durante 14 días
               </p>
               <p className="mt-1 text-sm text-ink-2">
-                Después, {PROMO_SHORT} · Sin permanencia · Migración asistida
+                Sin tarjeta · Sin permanencia · Migración asistida
               </p>
             </div>
             <a href={REGISTER_URL} className="btn-primary-deep w-full md:w-auto shrink-0">

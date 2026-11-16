@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PROMO_SHORT, TRIAL_DAYS } from "@/lib/plans-data";
 
 type Props = {
   /** Si true, ocupa todo el ancho del viewport sin container ni border-radius */
@@ -72,7 +71,7 @@ export default function PromoBanner({ fullWidth = false, className = "" }: Props
               </span>
               <span className="text-mint" aria-hidden="true">·</span>
               <span className="text-base font-extrabold text-white">
-                {PROMO_SHORT}
+                50% OFF los 3 primeros meses
               </span>
             </div>
 
@@ -82,10 +81,10 @@ export default function PromoBanner({ fullWidth = false, className = "" }: Props
                 Promo de lanzamiento
               </p>
               <h3 className="mt-1 text-lg md:text-2xl font-extrabold leading-tight">
-                {TRIAL_DAYS} días gratis · Después {PROMO_SHORT}
+                14 días gratis · Después 50% OFF los primeros 3 meses
               </h3>
               <p className="mt-1.5 text-sm md:text-[15px] text-mint-soft/85 leading-relaxed">
-                Sin permanencia · Migración asistida incluida
+                Sin tarjeta · Sin permanencia · Migración asistida incluida
               </p>
             </div>
           </div>

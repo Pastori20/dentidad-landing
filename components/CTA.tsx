@@ -1,6 +1,5 @@
 import SignupForm from "./SignupForm";
 import FadeInSection from "./FadeInSection";
-import { PROMO_SHORT, TRIAL_DAYS } from "@/lib/plans-data";
 
 export default function CTA() {
   return (
@@ -37,15 +36,15 @@ export default function CTA() {
               id="cta-title"
               className="mt-3 text-[2rem] md:text-5xl font-extrabold tracking-tight text-white leading-tight text-balance"
             >
-              Probá Dentidad {TRIAL_DAYS} días gratis.
+              Probá Dentidad 14 días gratis.
             </h2>
             <p className="mt-4 md:mt-5 text-base md:text-lg text-white/80 leading-relaxed">
-              Sin permanencia. Te creamos la cuenta y te ayudamos a migrar tus pacientes.
+              Sin tarjeta. Sin permanencia. Te creamos la cuenta y te ayudamos a migrar tus pacientes.
             </p>
 
             <ul className="mt-6 md:mt-8 space-y-3">
-              <BulletItem text={`${TRIAL_DAYS} días gratis para que pruebes todo`} />
-              <BulletItem text={`Después: ${PROMO_SHORT}`} />
+              <BulletItem text="14 días gratis para que pruebes todo" />
+              <BulletItem text="Después: 50% OFF los primeros 3 meses" />
               <BulletItem text="Migración asistida sin costo extra" />
               <BulletItem text="Soporte directo del fundador" />
             </ul>

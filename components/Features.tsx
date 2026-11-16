@@ -292,6 +292,85 @@ type IncluyeItem = {
 };
 
 const inclusos: IncluyeItem[] = [
+  /*
+    Lo nuevo del 16/11/2026, adelante de la fila para que se vea sin arrastrar.
+    Verificado contra odonto-next (origin/main d08eb51). El detalle de cada uno
+    está en lib/product-facts.ts.
+  */
+  {
+    title: "Horario propio de cada profesional",
+    blurb: "Hasta tres tramos por día y una columna por profesional en la agenda.",
+    size: "small",
+    theme: "mint",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="3" y="4.5" width="18" height="16" rx="2" />
+        <path d="M3 9.5h18M9 9.5v11M15 9.5v11" />
+      </svg>
+    ),
+  },
+  {
+    title: "Feriados y vacaciones",
+    blurb: "Cerrás un día o un rango y la reserva online no ofrece turnos.",
+    size: "small",
+    theme: "sky",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="3" y="4.5" width="18" height="16" rx="2" />
+        <path d="M3 9.5h18M8 2.5v4M16 2.5v4M9.5 13l5 5M14.5 13l-5 5" />
+      </svg>
+    ),
+  },
+  {
+    title: "Plan de tratamiento por etapas",
+    blurb: "Cada etapa con su presupuesto: solo lo aceptado es deuda.",
+    size: "small",
+    theme: "navy",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="5" cy="6" r="2" />
+        <circle cx="5" cy="18" r="2" />
+        <path d="M5 8v8M10 6h10M10 12h7M10 18h10" />
+      </svg>
+    ),
+  },
+  {
+    title: "Deudores y pendientes de cobrar",
+    blurb: "Quién te debe y qué tratamientos hechos falta cobrar.",
+    size: "small",
+    theme: "mint",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .9-3 2s1.3 1.7 3 2 3 .9 3 2-1.3 2-3 2c-1.4 0-2.5-.5-3-1.5M12 6.5v11" />
+      </svg>
+    ),
+  },
+  {
+    title: "Indicaciones post tratamiento",
+    blurb: "Por WhatsApp, por email o impresas, desde la evolución.",
+    size: "small",
+    theme: "sky",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M21 12a8.5 8.5 0 01-12.6 7.4L3.5 20.5l1.1-4.6A8.5 8.5 0 1121 12z" />
+        <path d="M8.5 10h7M8.5 13.5h4.5" />
+      </svg>
+    ),
+  },
+  {
+    title: "Descuento por efectivo o transferencia",
+    blurb: "Un porcentaje para cada medio, que se propone solo al cobrar.",
+    size: "small",
+    theme: "navy",
+    icon: (
+      <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M19 5L5 19" />
+        <circle cx="7" cy="7" r="2.5" />
+        <circle cx="17" cy="17" r="2.5" />
+      </svg>
+    ),
+  },
   {
     title: "Evoluciones vinculadas al odontograma",
     size: "small",
@@ -342,7 +421,7 @@ const inclusos: IncluyeItem[] = [
   },
   {
     title: "Roles y permisos",
-    blurb: "Administrador, profesional, recepción — cada uno ve lo que tiene que ver.",
+    blurb: "Administrador, profesional, recepción, y qué secciones ve cada persona.",
     size: "small",
     theme: "sky",
     icon: (

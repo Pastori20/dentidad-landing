@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
 
       <p style="font-size: 16px; line-height: 1.6;">Gracias por interesarte en Dentidad. En las próximas <strong>24 horas</strong> te vamos a estar creando tu cuenta en el sistema y enviándote por mail (y WhatsApp si dejaste número) las credenciales para entrar.</p>
 
-      <p style="font-size: 16px; line-height: 1.6;">Apenas entres, tu trial de <strong>14 días gratis</strong> arranca automáticamente. Sin tarjeta, sin permanencia.</p>
+      <p style="font-size: 16px; line-height: 1.6;">Apenas entres, tu trial de <strong>14 días gratis</strong> arranca automáticamente. Sin permanencia.</p>
 
       <div style="margin: 24px 0; padding: 20px; background: #F4F6F8; border-radius: 12px;">
         <p style="font-size: 14px; font-weight: 700; color: #00A085; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px;">⏱ Qué viene ahora</p>

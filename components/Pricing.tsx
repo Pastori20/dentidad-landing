@@ -5,7 +5,16 @@ import FadeInSection from "./FadeInSection";
 import MobileCarousel from "./MobileCarousel";
 import PromoBanner from "./PromoBanner";
 import { REGISTER_URL } from "@/lib/config";
-import { plans, sharedFeatures, type Plan, type PlanTheme } from "@/lib/plans-data";
+import {
+  formatPlanPrice,
+  LAUNCH_PROMO,
+  plans,
+  promoPriceArs,
+  sharedFeatures,
+  TRIAL_DAYS,
+  type Plan,
+  type PlanTheme,
+} from "@/lib/plans-data";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 
@@ -32,9 +41,6 @@ const planThemeStyles: Record<PlanTheme, { bg: string; border: string; cta: stri
     cta: "bg-mint text-navy hover:bg-mint-soft",
   },
 };
-
-const formatArs = (n: number) =>
-  new Intl.NumberFormat("es-AR", { maximumFractionDigits: 0 }).format(n);
 
 export default function Pricing() {
   return (
@@ -239,18 +245,18 @@ function PricingCard({ plan }: { plan: Plan }) {
           {/* Big promo price */}
           <div className="flex items-baseline gap-2">
             <span className={`text-3xl md:text-4xl font-extrabold ${titleColor}`}>
-              ${formatArs(plan.priceArs / 2)}
+              {formatPlanPrice(promoPriceArs(plan.priceArs))}
             </span>
             <span className={`text-sm ${taglineColor}`}>/mes</span>
           </div>
           {/* Solo badge promo, sin mostrar el precio regular */}
           <div className="mt-1.5">
             <span className={`text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${isNavyTheme ? "bg-mint/20 text-mint" : "bg-mint/15 text-mint-deep"}`}>
-              50% OFF · 3 meses
+              {LAUNCH_PROMO.percentOff}% OFF · {LAUNCH_PROMO.months} meses
             </span>
           </div>
           <p className={`mt-2 text-[12px] ${taglineColor}`}>
-            14 días gratis para arrancar · sin tarjeta
+            {TRIAL_DAYS} días gratis para arrancar · sin permanencia
           </p>
         </div>
 

@@ -2,7 +2,16 @@ import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import Logo from "@/components/Logo";
 import { faqs } from "@/lib/faq-data";
-import { formatPlanPrice, plans, sharedFeatures } from "@/lib/plans-data";
+import {
+  formatPlanPrice,
+  LAUNCH_PROMO,
+  plans,
+  PROMO_SENTENCE,
+  PROMO_SHORT,
+  promoPriceArs,
+  sharedFeatures,
+  TRIAL_DAYS,
+} from "@/lib/plans-data";
 import {
   audiences,
   COMPANY,
@@ -129,9 +138,9 @@ export default function SobreDentidadPage() {
           <section id="planes" className="mt-14 scroll-mt-6">
             <h2 className="text-2xl font-extrabold text-navy tracking-tight">Planes y precios</h2>
             <p className="mt-3 text-ink-2 leading-relaxed">
-              Precios en pesos argentinos por mes, con IVA incluido. Todos los planes tienen 14 días
-              gratis sin tarjeta y no tienen permanencia. Promo de lanzamiento vigente: 50% de
-              descuento los primeros 3 meses.
+              Precios en pesos argentinos por mes, con IVA incluido. Todos los planes tienen{" "}
+              {TRIAL_DAYS} días gratis y no tienen permanencia.{" "}
+              <strong className="text-navy">{PROMO_SENTENCE}</strong>
             </p>
             <div className="mt-6 space-y-4">
               {plans.map((plan) => (
@@ -142,6 +151,10 @@ export default function SobreDentidadPage() {
                       {formatPlanPrice(plan.priceArs)} <span className="text-sm font-normal text-ink-3">por mes</span>
                     </p>
                   </div>
+                  <p className="mt-1 text-sm font-semibold text-mint-deep">
+                    Con la promo: {formatPlanPrice(promoPriceArs(plan.priceArs))} por mes los primeros{" "}
+                    {LAUNCH_PROMO.months} meses
+                  </p>
                   <p className="mt-1 text-sm text-ink-3">{plan.tagline}</p>
                   <p className="mt-3 text-ink-2 leading-relaxed">{plan.highlights.join(" · ")}</p>
                 </div>
@@ -165,8 +178,10 @@ export default function SobreDentidadPage() {
           </section>
 
           <section className="mt-14 rounded-2xl border border-mint/40 bg-mint-soft/30 p-6">
-            <h2 className="text-xl font-extrabold text-navy">Probá Dentidad 14 días gratis</h2>
-            <p className="mt-2 text-ink-2">Sin tarjeta, sin permanencia y con migración asistida.</p>
+            <h2 className="text-xl font-extrabold text-navy">Probá Dentidad {TRIAL_DAYS} días gratis</h2>
+            <p className="mt-2 text-ink-2">
+              Después, {PROMO_SHORT}. Sin permanencia y con migración asistida.
+            </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <a href={COMPANY.register} className="btn-primary-deep">Crear cuenta gratis</a>
               <a

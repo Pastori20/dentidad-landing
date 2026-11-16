@@ -11,8 +11,21 @@
  */
 
 import { faqs } from "@/lib/faq-data";
+import {
+  formatPlanPrice,
+  plans,
+  PROMO_SENTENCE,
+  promoPriceArs,
+} from "@/lib/plans-data";
 
 const SITE_URL = "https://www.dentidad.com";
+
+/** La descripción de cada plan en el schema (el precio sale de plans-data). */
+const OFFER_DESCRIPTIONS: Record<string, string> = {
+  esencial: "Plan para arrancar a digitalizar el consultorio (1 dentista).",
+  clinica: "Plan para consultorios con equipo (hasta 3 dentistas + recepción).",
+  multisede: "Plan para cadenas multi-sucursal (sedes ilimitadas, hasta 10 dentistas).",
+};
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -61,6 +74,9 @@ const softwareApplicationSchema = {
   */
   featureList: [
     "Reserva de turnos online con link público para pacientes",
+    "Horario propio de cada profesional y agenda con una columna por profesional",
+    "Días cerrados para feriados y vacaciones en la reserva online",
+    "Bloqueo de la reserva online a un paciente puntual",
     "Seña del turno con Mercado Pago, a la cuenta del consultorio",
     "Recordatorios automáticos por WhatsApp y por email, con confirmación del paciente",
     "El horario se libera cuando el paciente avisa que no puede asistir",
@@ -68,79 +84,47 @@ const softwareApplicationSchema = {
     "Odontograma digital con doble vista inicial/actual, exportable a PDF",
     "Evoluciones ancladas a la pieza y la cara tratadas",
     "Galería de fotos, radiografías e informes por paciente",
+    "Alertas en la ficha del paciente",
+    "Indicaciones post tratamiento por WhatsApp, email o impresas",
     "Caja diaria con desglose por medio de pago e historial por día",
     "Presupuestos por tratamiento con precio de contado y planes de cuotas",
+    "Plan de tratamiento por etapas: solo lo aceptado cuenta como deuda",
+    "Deudores y tratamientos pendientes de cobrar",
+    "Descuento por pago en efectivo y por transferencia",
     "Nomenclador de tratamientos con honorarios y comisiones a derivadores",
     "Facturación electrónica ARCA (ex AFIP): Factura C con CAE y PDF con QR",
     "Portal del paciente con turnos, comprobantes y ficha previa por QR",
     "Consentimientos informados digitales, editables por el consultorio",
     "Importación de pacientes desde Excel o CSV",
     "Reportes financieros y clínicos",
-    "Roles y permisos para profesional, recepción y administrador",
+    "Roles y permisos para profesional, recepción y administrador, y permisos por persona",
     "Notificaciones al celular y app instalable desde el navegador",
     "Obras sociales argentinas precargadas",
     "Acceso desde computadora, tablet y celular, con backup automático en la nube",
     "Multi-sede para cadenas odontológicas",
     "Sin permanencia, migración asistida",
   ],
-  offers: [
-    {
-      "@type": "Offer",
-      name: "Esencial",
-      description: "Plan para arrancar a digitalizar el consultorio (1 dentista).",
-      price: "50000",
+  /*
+    Precios y promo leídos de lib/plans-data.ts: antes estaban escritos a mano
+    acá y eran una segunda fuente del mismo dato.
+  */
+  offers: plans.map((plan) => ({
+    "@type": "Offer",
+    name: plan.name,
+    description: OFFER_DESCRIPTIONS[plan.id] ?? plan.tagline,
+    price: String(plan.priceArs),
+    priceCurrency: "ARS",
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: String(plan.priceArs),
       priceCurrency: "ARS",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: "50000",
-        priceCurrency: "ARS",
-        billingDuration: "P1M",
-        valueAddedTaxIncluded: true,
-        description:
-          "Precio de lista. Promo de lanzamiento vigente: 50% OFF los primeros 3 meses ($25.000/mes). Incluye 14 días gratis sin tarjeta.",
-      },
-      availability: "https://schema.org/InStock",
-      eligibleRegion: { "@type": "Country", name: "AR" },
+      billingDuration: "P1M",
+      valueAddedTaxIncluded: true,
+      description: `Precio de lista. ${PROMO_SENTENCE} Con la promo: ${formatPlanPrice(promoPriceArs(plan.priceArs))} por mes.`,
     },
-    {
-      "@type": "Offer",
-      name: "Clínica",
-      description:
-        "Plan para consultorios con equipo (hasta 3 dentistas + recepción).",
-      price: "85000",
-      priceCurrency: "ARS",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: "85000",
-        priceCurrency: "ARS",
-        billingDuration: "P1M",
-        valueAddedTaxIncluded: true,
-        description:
-          "Precio de lista. Promo de lanzamiento vigente: 50% OFF los primeros 3 meses ($42.500/mes). Incluye 14 días gratis sin tarjeta.",
-      },
-      availability: "https://schema.org/InStock",
-      eligibleRegion: { "@type": "Country", name: "AR" },
-    },
-    {
-      "@type": "Offer",
-      name: "Multi-sede",
-      description:
-        "Plan para cadenas multi-sucursal (sedes ilimitadas, hasta 10 dentistas).",
-      price: "300000",
-      priceCurrency: "ARS",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: "300000",
-        priceCurrency: "ARS",
-        billingDuration: "P1M",
-        valueAddedTaxIncluded: true,
-        description:
-          "Precio de lista. Promo de lanzamiento vigente: 50% OFF los primeros 3 meses ($150.000/mes). Incluye 14 días gratis sin tarjeta.",
-      },
-      availability: "https://schema.org/InStock",
-      eligibleRegion: { "@type": "Country", name: "AR" },
-    },
-  ],
+    availability: "https://schema.org/InStock",
+    eligibleRegion: { "@type": "Country", name: "AR" },
+  })),
   publisher: {
     "@type": "Organization",
     name: "Dentidad",

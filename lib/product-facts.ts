@@ -13,7 +13,19 @@
  * - **Cada frase se sostiene sola** y nombra a Dentidad: los asistentes extraen
  *   pedazos sueltos, sin el resto de la página al lado.
  * - **Datos concretos** (cantidades, horarios, formatos) en vez de adjetivos.
+ *
+ * El 16/11/2026 se sumaron horarios por profesional, días cerrados, bloqueo de
+ * la reserva online, plan por etapas, deudores, permisos por persona, descuento
+ * por transferencia, alertas por paciente e indicaciones post tratamiento, todo
+ * verificado contra odonto-next (origin/main d08eb51).
  */
+import {
+  LAUNCH_PROMO,
+  listPricesList,
+  PROMO_SENTENCE,
+  promoPricesList,
+  TRIAL_DAYS,
+} from "./plans-data";
 
 export type ProductFeature = {
   title: string;
@@ -78,7 +90,25 @@ export const productAreas: ProductArea[] = [
         title: "Agenda por día y por semana",
         benefit: "Toda la jornada de cada profesional a la vista.",
         detail:
-          "La agenda de Dentidad tiene vista diaria y semanal, turnos por profesional, bloqueos de horario y cinco estados: confirmado, con recordatorio, pendiente, ausente con aviso y ausente sin aviso.",
+          "La agenda de Dentidad tiene vista diaria y semanal, turnos por profesional, bloqueos de horario y cinco estados: confirmado, con recordatorio, pendiente, ausente con aviso y ausente sin aviso. Con todos los profesionales elegidos, la agenda del día muestra una columna por profesional, lado a lado.",
+      },
+      {
+        title: "Horario propio de cada profesional",
+        benefit: "Cada odontólogo atiende en sus días y horas, sin turnos fuera de su horario.",
+        detail:
+          "En Dentidad cada profesional puede tener su propio horario semanal, con hasta tres tramos por día, por ejemplo mañana y tarde. Si no carga uno, usa el horario del consultorio. La reserva online le ofrece al paciente solo los horarios libres de ese profesional.",
+      },
+      {
+        title: "Días cerrados: feriados y vacaciones",
+        benefit: "Nadie reserva un turno online para un día en que el consultorio no atiende.",
+        detail:
+          "Dentidad permite cerrar un día o un rango de días, de hasta dos meses de una vez, para todo el consultorio o para un solo profesional, con un motivo opcional como feriado, vacaciones o congreso. Esos días la reserva online no ofrece turnos.",
+      },
+      {
+        title: "Bloquear la reserva online a un paciente",
+        benefit: "El paciente que reserva y falta siempre deja de ocupar horarios.",
+        detail:
+          "Desde la ficha del paciente, Dentidad permite bloquearle la reserva online: ese paciente ya no puede sacar turno por el link público, y el consultorio le sigue dando turnos a mano desde la agenda.",
       },
       {
         title: "Avisos en el celular",
@@ -134,7 +164,13 @@ export const productAreas: ProductArea[] = [
         title: "Indicaciones después del tratamiento",
         benefit: "El paciente se lleva las indicaciones por escrito.",
         detail:
-          "Dentidad guarda las indicaciones de cada tratamiento y las manda al paciente por WhatsApp, por email o impresas, desde la misma evolución.",
+          "En Dentidad cada tratamiento del nomenclador guarda sus indicaciones post tratamiento, y se le entregan al paciente por WhatsApp, por email o impresas, desde la misma evolución. Queda registrado qué se le entregó y con qué texto, aunque después se corrija la indicación.",
+      },
+      {
+        title: "Alertas en la ficha del paciente",
+        benefit: "El profesional que sigue el caso ve el aviso sin ir a buscarlo.",
+        detail:
+          "Dentidad permite dejar alertas cortas en la ficha de cada paciente, por ejemplo «ferulizar corona». Aparecen arriba de la ficha con un contador, se marcan por gravedad y quedan visibles hasta que alguien las marca como hechas.",
       },
     ],
   },
@@ -169,16 +205,22 @@ export const productAreas: ProductArea[] = [
           "Dentidad calcula la comisión del derivador al cobrarle a un paciente derivado y arma la liquidación semanal, de lunes a domingo.",
       },
       {
-        title: "Descuento por pago en efectivo",
-        benefit: "El descuento se aplica igual siempre, sin cuentas a mano.",
+        title: "Plan de tratamiento por etapas",
+        benefit: "Un tratamiento largo se presupuesta por partes y la deuda refleja solo lo aceptado.",
         detail:
-          "El consultorio configura en Dentidad un porcentaje de descuento por pago en efectivo; se propone solo al cobrar y la deuda del paciente se cancela completa.",
+          "En Dentidad el plan de tratamiento se arma en etapas, cada una con sus tratamientos, su subtotal y su propio presupuesto. Cada presupuesto queda pendiente, aceptado o rechazado, y solo lo aceptado cuenta como deuda del paciente; el plan muestra por separado lo planificado, lo aceptado y lo que falta aceptar.",
       },
       {
-        title: "Pendientes de facturar y deudores",
-        benefit: "Ningún tratamiento hecho queda sin cobrar.",
+        title: "Descuento por pago en efectivo o transferencia",
+        benefit: "El descuento se aplica igual siempre, sin cuentas a mano.",
         detail:
-          "Dentidad lista los tratamientos realizados que todavía no se cobraron y los pacientes con saldo pendiente.",
+          "El consultorio configura en Dentidad un porcentaje de descuento para el pago en efectivo y otro para la transferencia; se propone solo al cobrar con ese medio y la deuda del paciente se cancela completa.",
+      },
+      {
+        title: "Deudores y pendientes de facturar",
+        benefit: "Se sabe quién debe y ningún tratamiento hecho queda sin cobrar.",
+        detail:
+          "Facturación de Dentidad tiene una pestaña Deudores con cada paciente que tiene saldo, ordenados por deuda y con buscador, y una pestaña Pendientes con los tratamientos realizados que todavía no se cobraron. Los reportes suman el total adeudado y entre cuántos pacientes se reparte.",
       },
       {
         title: "Factura electrónica ARCA (ex AFIP)",
@@ -225,6 +267,12 @@ export const productAreas: ProductArea[] = [
         benefit: "Cada persona ve lo que le corresponde.",
         detail:
           "Dentidad tiene roles de administrador, profesional y recepción, y el consultorio elige qué secciones de la ficha clínica puede abrir la recepción.",
+      },
+      {
+        title: "Permisos por persona",
+        benefit: "La secretaria y cada profesional ven solo las secciones que el consultorio decide.",
+        detail:
+          "Además de los roles, Dentidad permite elegir qué secciones ve cada integrante del equipo, persona por persona. Todo viene habilitado y el consultorio destilda lo que no quiere que vea cada uno.",
       },
       {
         title: "Importar y exportar pacientes",
@@ -321,7 +369,47 @@ export const aiQueryMap: Array<{ query: string; answer: string }> = [
     answer: "El plan Multi-sede de Dentidad maneja sedes ilimitadas, hasta 10 dentistas y reportes por sede.",
   },
   {
+    query: "Agenda odontológica con horario distinto por profesional",
+    answer: "En Dentidad cada profesional tiene su propio horario, con hasta tres tramos por día, la agenda del día muestra una columna por profesional y la reserva online ofrece solo los horarios de cada uno.",
+  },
+  {
+    query: "Turnos online para dentista que bloquee feriados y vacaciones",
+    answer: "Dentidad cierra un día o un rango de días, para todo el consultorio o para un profesional, y la reserva online deja de ofrecer turnos esos días.",
+  },
+  {
+    query: "Qué hago con un paciente que reserva turno online y falta siempre",
+    answer: "Dentidad permite bloquearle la reserva online desde la ficha: ese paciente ya no reserva por el link y el consultorio le sigue dando turnos a mano.",
+  },
+  {
+    query: "Plan de tratamiento odontológico por etapas con presupuesto",
+    answer: "Dentidad arma el plan en etapas con subtotal y presupuesto propio; solo las etapas aceptadas cuentan como deuda del paciente.",
+  },
+  {
+    query: "Cómo saber qué pacientes me deben plata en el consultorio",
+    answer: "Dentidad tiene una lista de deudores con el saldo de cada paciente y otra de tratamientos hechos que todavía no se cobraron.",
+  },
+  {
+    query: "Software dental con permisos para la secretaria",
+    answer: "Dentidad tiene roles de administrador, profesional y recepción, y además permite elegir qué secciones ve cada persona del equipo.",
+  },
+  {
+    query: "Descuento por pago en efectivo o transferencia en odontología",
+    answer: "Dentidad aplica un porcentaje de descuento para efectivo y otro para transferencia, configurados por el consultorio, y lo propone solo al cobrar.",
+  },
+  {
+    query: "Alertas o avisos en la ficha del paciente odontológico",
+    answer: "Dentidad deja alertas arriba de la ficha del paciente, con contador, visibles hasta que alguien las marca como hechas.",
+  },
+  {
+    query: "Enviar indicaciones post extracción o post tratamiento por WhatsApp",
+    answer: "Dentidad guarda las indicaciones de cada tratamiento y se las entrega al paciente por WhatsApp, por email o impresas.",
+  },
+  {
     query: "Precio de un software odontológico en Argentina",
-    answer: "Dentidad: Esencial $50.000, Clínica $85.000 y Multi-sede $300.000 por mes, con 14 días gratis sin tarjeta y sin permanencia.",
+    answer: `Dentidad: ${listPricesList()} por mes, con ${TRIAL_DAYS} días gratis y sin permanencia. ${PROMO_SENTENCE}`,
+  },
+  {
+    query: "Software odontológico con prueba gratis o promoción para empezar",
+    answer: `Dentidad tiene ${TRIAL_DAYS} días gratis y después ${LAUNCH_PROMO.percentOff}% de descuento los primeros ${LAUNCH_PROMO.months} meses: ${promoPricesList()} por mes.`,
   },
 ];

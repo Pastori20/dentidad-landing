@@ -108,3 +108,41 @@ export const plans: Plan[] = [
 export function formatPlanPrice(priceArs: number): string {
   return `$${new Intl.NumberFormat("es-AR", { maximumFractionDigits: 0 }).format(priceArs)}`;
 }
+
+/*
+  La prueba gratis y la promo de lanzamiento, en un solo lugar.
+
+  Las leen las superficies para buscadores y asistentes de IA: el JSON-LD,
+  los llms.txt, /sobre-dentidad y la pregunta de la promo en la FAQ. La sección
+  de precios y el banner de la home todavía tienen el texto escrito a mano: si
+  la promo cambia o termina, se cambia acá y también ahí.
+*/
+export const TRIAL_DAYS = 14;
+
+export const LAUNCH_PROMO = {
+  percentOff: 50,
+  months: 3,
+} as const;
+
+/** Precio mensual durante la promo de lanzamiento. */
+export function promoPriceArs(priceArs: number): number {
+  return Math.round((priceArs * (100 - LAUNCH_PROMO.percentOff)) / 100);
+}
+
+/** La promo en una oración que se sostiene sola (FAQ, schema, llms.txt). */
+export const PROMO_SENTENCE = `Promo de lanzamiento vigente: ${LAUNCH_PROMO.percentOff}% de descuento los primeros ${LAUNCH_PROMO.months} meses en cualquier plan, después de los ${TRIAL_DAYS} días gratis.`;
+
+function joinPlanPrices(priceOf: (plan: Plan) => number): string {
+  const items = plans.map((plan) => `${plan.name} ${formatPlanPrice(priceOf(plan))}`);
+  return `${items.slice(0, -1).join(", ")} y ${items[items.length - 1]}`;
+}
+
+/** "Esencial $50.000, Clínica $85.000 y Multi-sede $300.000" */
+export function listPricesList(): string {
+  return joinPlanPrices((plan) => plan.priceArs);
+}
+
+/** "Esencial $25.000, Clínica $42.500 y Multi-sede $150.000" */
+export function promoPricesList(): string {
+  return joinPlanPrices((plan) => promoPriceArs(plan.priceArs));
+}

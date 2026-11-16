@@ -15,6 +15,8 @@
  * - **Nada que no exista.** Todo lo de acá está funcionando en producción.
  */
 
+import { LAUNCH_PROMO, promoPricesList, TRIAL_DAYS } from "./plans-data";
+
 export type FaqItem = { q: string; a: string };
 
 export const faqs: FaqItem[] = [
@@ -27,12 +29,24 @@ export const faqs: FaqItem[] = [
     a: "Dentidad tiene tres planes en pesos argentinos, con IVA incluido y sin permanencia: Esencial $50.000 por mes para un dentista, Clínica $85.000 por mes para hasta tres dentistas más recepción, y Multi-sede $300.000 por mes para cadenas. Todos incluyen 14 días gratis sin tarjeta y, por la promo de lanzamiento, 50% de descuento los primeros 3 meses.",
   },
   {
+    q: "¿Dentidad tiene alguna promoción para empezar?",
+    a: `Sí. Dentidad tiene una promo de lanzamiento vigente: después de los ${TRIAL_DAYS} días gratis, cualquier plan se paga con ${LAUNCH_PROMO.percentOff}% de descuento los primeros ${LAUNCH_PROMO.months} meses. Queda en ${promoPricesList()} por mes, con IVA incluido. Pasados esos ${LAUNCH_PROMO.months} meses se paga el precio de lista, mes a mes y sin permanencia.`,
+  },
+  {
     q: "¿Los pacientes pueden sacar turno solos por internet?",
     a: "Sí. Dentidad le da a cada consultorio un link público de reserva de turnos online: el paciente elige profesional, día y horario, deja sus datos y el turno entra a la agenda como pendiente. El consultorio define su horario de atención y con cuánta anticipación mínima se puede reservar.",
   },
   {
     q: "¿Se puede cobrar una seña al reservar el turno?",
     a: "Sí. Dentidad se integra con Mercado Pago para cobrar una seña al momento de reservar el turno online. El consultorio conecta su propia cuenta de Mercado Pago, define qué servicios llevan seña y por cuánto, y el dinero entra directo a esa cuenta. Sirve para reducir ausencias.",
+  },
+  {
+    q: "¿Cada profesional puede tener su propio horario?",
+    a: "Sí. En Dentidad cada profesional puede tener su propio horario semanal, con hasta tres tramos por día, por ejemplo mañana y tarde. Si no carga uno, usa el horario del consultorio. La reserva online le ofrece al paciente solo los horarios libres de ese profesional, y la agenda del día muestra una columna por profesional, lado a lado.",
+  },
+  {
+    q: "¿Qué pasa con la reserva online en feriados o vacaciones?",
+    a: "Dentidad permite cerrar un día o un rango de días, de hasta dos meses de una vez, para todo el consultorio o para un solo profesional, con un motivo como feriado, vacaciones o congreso. Esos días la reserva online de Dentidad deja de ofrecer turnos, así ningún paciente reserva cuando el consultorio no atiende.",
   },
   {
     q: "¿Cómo manda los recordatorios de turnos?",

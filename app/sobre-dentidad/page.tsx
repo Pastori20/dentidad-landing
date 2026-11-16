@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import Logo from "@/components/Logo";
 import { faqs } from "@/lib/faq-data";
-import { formatPlanPrice, plans, sharedFeatures } from "@/lib/plans-data";
+import {
+  formatPlanPrice,
+  LAUNCH_PROMO,
+  plans,
+  promoPriceArs,
+  sharedFeatures,
+} from "@/lib/plans-data";
 import {
   audiences,
   COMPANY,
@@ -142,6 +148,10 @@ export default function SobreDentidadPage() {
                       {formatPlanPrice(plan.priceArs)} <span className="text-sm font-normal text-ink-3">por mes</span>
                     </p>
                   </div>
+                  <p className="mt-1 text-sm font-semibold text-mint-deep">
+                    Con la promo: {formatPlanPrice(promoPriceArs(plan.priceArs))} por mes los primeros{" "}
+                    {LAUNCH_PROMO.months} meses
+                  </p>
                   <p className="mt-1 text-sm text-ink-3">{plan.tagline}</p>
                   <p className="mt-3 text-ink-2 leading-relaxed">{plan.highlights.join(" · ")}</p>
                 </div>

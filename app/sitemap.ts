@@ -9,7 +9,7 @@ const SITE_URL = "https://www.dentidad.com";
  * aunque no hubiera cambiado nada. Google aprendió a ignorar esa señal, así que
  * una fecha automática no suma y una fecha de verdad sí.
  */
-const LAST_CONTENT_UPDATE = new Date("2026-09-22T00:00:00.000Z");
+const LAST_CONTENT_UPDATE = new Date("2026-11-16T00:00:00.000Z");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = LAST_CONTENT_UPDATE;
